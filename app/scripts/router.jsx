@@ -4,11 +4,11 @@ var Route = Router.Route;
 var DefaultRoute = Router.DefaultRoute;
 
 var Layout = require('./components/layout');
-var Home = require('./components/home');
+var Main = require('./components/main');
 
 var routes = (
 	<Route name="layout" path="/" handler={Layout}>
-		<DefaultRoute handler={Home} />
+		<DefaultRoute handler={Main} />
 	</Route>
 );
 

@@ -1,19 +1,15 @@
 var React = require('react');
 
-var Home = React.createClass({
-
+var Landing = React.createClass({
+  // create me
   render: function() {
-
     return (
       <div className="hero-unit">
         <h1>'Allo, 'Allo!</h1>
-        <p>You now have</p>
-        <ul>
-            <li>ReactJS Reflux Boilerplate</li>
-        </ul>
+        <p>You need to log in!</p>
       </div>
     );
   }
 });
 
-module.exports = Home;
+module.exports = Landing;
