@@ -1,0 +1,26 @@
+{
+  "name": "waypointweb",
+  "version": "0.0.0",
+  "description": "Waypoint web application ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/unexpectedParmesan/waypointWeb.git"
+  },
+  "author": "Danielle Knudson, Josh Turner, Colin Parons, Tamara Woodson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/unexpectedParmesan/waypointWeb/issues"
+  },
+  "homepage": "https://github.com/unexpectedParmesan/waypointWeb#readme",
+  "dependencies": {
+    "babel": "^5.6.23",
+    "gulp": "^3.9.0",
+    "react": "^0.13.3",
+    "react-router": "^0.13.3",
+    "reflux": "^0.2.9"
+  }
+}
