@@ -3,13 +3,13 @@ var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
 
-var Landing = React.createClass({
+var Home = React.createClass({
 
   render: function(){
     return (
-      <div>You need to log in!</div>
+      <div>Welcome home!</div>
     );
   },
 });
 
-module.exports = Landing;
+module.exports = Home;
