@@ -5,45 +5,30 @@ var Actions = require('../actions/actions');
 var userStore = Reflux.createStore({
   listenables: [Actions],
 
-  init: function() {
-    this.userId = null;
-    this.buttonText = 'Log in';
-  },
-
-  getDefaultData: function(){
-    return {
-      userId: this.userId,
-      buttonText: this.buttonText,
-    }
-  },
-
   checkUser: function(id) {
   },
 
-  onLogin: function(callback){
+  onLogin: function(){
     var store = this;
     FB.login(function(response){
-      console.log(response);
       FB.api('/me', function(response) {
         console.log('Hi, ' + response.name + '.');
       });
-      store.userId = response.authResponse.userID;
       store.accessToken = response.authResponse.accessToken;
       store.trigger({
-        userId: store.userId, 
+        userId: response.authResponse.userID, 
         buttonText: 'Log out',
+        loggedIn: true,
       }); 
-      console.log('callback', callback);
-      callback();
     }, {scope:'public_profile,email,user_friends'});
   },
 
-  onLogout: function(callback){
-    console.log('callback', callback);
-    FB.logout(callback);
+  onLogout: function(){
+
     this.trigger({
       userId: null, 
       buttonText: 'Log in',
+      loggedIn: false,
     }); 
 
   },

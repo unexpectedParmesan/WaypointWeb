@@ -2,13 +2,17 @@ var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
-var Home = require('./home');
+var Content = require('./content');
 
 var Login = React.createClass({
   mixins: [Reflux.connect(User)],
 
-  getInitialState: function() {
-    return User.getDefaultData();
+  setInitialState: function(){
+    return {
+      loggedIn: false,
+      buttonText: "Log in",
+      userId: null,
+    };
   },
 
   componentWillMount: function(){
@@ -24,15 +28,20 @@ var Login = React.createClass({
       FB.getLoginStatus(function(response) {
         
         if (response.status === 'connected') { // logged into facebook and app
-          console.log('logged in');
-          Actions.login(response.authResponse.userID); // trigger login action with user's facebook id
 
-        } else if (response.status === 'not_authorized') { // logged into facebook, but hasn't authorized waypoint
-          console.log('logged in, but has not authorized waypoint');
+          this.setState({
+            loggedIn: true,
+            buttonText: "Log out",
+            userId: response.authResponse.userID,
+          });
 
-        } else { // not logged into facebook
-          console.log('not logged in');
-        }
+        } else { 
+          this.setState({
+            loggedIn: false,
+            buttonText: "Log in",
+            userId: null,
+          });
+        } 
       }.bind(this)); // bind this react component to getLoginStatus()
     }.bind(this); // bind this react component to fbAsyncInit()
 
@@ -46,25 +55,19 @@ var Login = React.createClass({
   },
 
   handleClick: function(){
-    if (this.state.userId) {
-      Actions.logout((function(){
-        this.props.onLoginUpdate('log_out');
-      }).bind(this));
+    if (this.state.loggedIn) {
+      Actions.logout();
     } else {
-      Actions.login((function(){
-        this.props.onLoginUpdate('log_in');  
-      }).bind(this));
+      Actions.login();
     }
-
   },
 
   render: function() {
-    console.log(this.props.onLoginUpdate);
     return(
       <div>
         <button onClick={this.handleClick}>{this.state.buttonText}</button>
+        <Content loggedIn={this.state.loggedIn} />
       </div>
-
     );
   }
 });
