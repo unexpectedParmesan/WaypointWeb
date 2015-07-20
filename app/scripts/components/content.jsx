@@ -7,12 +7,7 @@ var Home = require('./home');
 
 var Content = React.createClass({
 
-  componentWillMount: function(){
-    console.log('in Content', this.props);
-  },
-
   render: function(){
-    console.log("rendering Content. this.props.loggedIn: ", this.props.loggedIn);
     if (this.props.loggedIn){
       return <Home />;
     } else {

@@ -7,16 +7,13 @@ var Content = require('./content');
 var Login = React.createClass({
   mixins: [Reflux.connect(User)],
 
-  setInitialState: function(){
-    return {
-      loggedIn: false,
-      buttonText: "Log in",
-      userId: null,
-    };
+  getInitialState: function(){
+    console.log('setInitialState', User.getDefaultData())
+    return User.getDefaultData();
   },
 
   componentWillMount: function(){
-    
+    console.log('componentWillMount')
     window.fbAsyncInit = function() {
       FB.init({
         appId      : '943850322345964',
@@ -28,20 +25,18 @@ var Login = React.createClass({
       FB.getLoginStatus(function(response) {
         
         if (response.status === 'connected') { // logged into facebook and app
-
           this.setState({
-            loggedIn: true,
-            buttonText: "Log out",
-            userId: response.authResponse.userID,
+            fbLoginStatus: 'connected'
           });
-
-        } else { 
+        } else if (response.status === "not_authorized") {
           this.setState({
-            loggedIn: false,
-            buttonText: "Log in",
-            userId: null,
+            fbLoginStatus: 'not_authorized'
           });
-        } 
+        } else {
+          this.setState({
+            fbLoginStatus: 'unknown'
+          });
+        }
       }.bind(this)); // bind this react component to getLoginStatus()
     }.bind(this); // bind this react component to fbAsyncInit()
 
@@ -55,10 +50,18 @@ var Login = React.createClass({
   },
 
   handleClick: function(){
-    if (this.state.loggedIn) {
-      Actions.logout();
-    } else {
-      Actions.login();
+    console.log(this.state.loggedIn, this.state.fbLoginStatus);
+
+    // not logged into FB or Waypoint
+    if (!this.state.loggedIn && this.state.fbLoginStatus === 'unknown'){
+      Actions.authenticate(); // want to authenticate with FB
+    // logged into FB but not Waypoint
+    } else if (!this.state.loggedIn && this.state.fbLoginStatus === 'connected'){
+      Actions.login(); // want to log you in
+    // logged into FB and Waypoint
+    } else if (this.state.loggedIn && this.state.fbLoginStatus === 'connected') {
+      console.log('a;lskdjf')
+      Actions.logout(); // log out user
     }
   },
 

@@ -5,22 +5,37 @@ var Actions = require('../actions/actions');
 var userStore = Reflux.createStore({
   listenables: [Actions],
 
+  getDefaultData: function(){
+    return {
+      userId: null, 
+      buttonText: 'Log in',
+      loggedIn: false,
+    };
+  },
+
   checkUser: function(id) {
   },
 
-  onLogin: function(){
+  onAuthenticate: function(){
     var store = this;
     FB.login(function(response){
       FB.api('/me', function(response) {
         console.log('Hi, ' + response.name + '.');
       });
+      store.userId = response.authResponse.userID;
       store.accessToken = response.authResponse.accessToken;
-      store.trigger({
-        userId: response.authResponse.userID, 
-        buttonText: 'Log out',
-        loggedIn: true,
-      }); 
+      console.log('this in onAuthenticate', this);
+      store.onLogin();
     }, {scope:'public_profile,email,user_friends'});
+  },
+
+  onLogin: function(){
+    this.trigger({
+      userId: this.userId, 
+      buttonText: 'Log out',
+      loggedIn: true,
+      fbLoginStatus: 'connected',
+    }); 
   },
 
   onLogout: function(){
@@ -29,6 +44,7 @@ var userStore = Reflux.createStore({
       userId: null, 
       buttonText: 'Log in',
       loggedIn: false,
+      fbStatus: 'unknown',
     }); 
 
   },
