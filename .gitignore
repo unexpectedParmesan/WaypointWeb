@@ -6,3 +6,4 @@ app/vendor
 .tmp
 test/scripts/
 ./secrets.js
+./public/app.js
