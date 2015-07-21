@@ -7,3 +7,4 @@ app/vendor
 test/scripts/
 ./secrets.js
 ./public/app.js
+.DS_Store
