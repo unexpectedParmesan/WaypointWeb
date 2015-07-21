@@ -58,7 +58,21 @@ var server = app.listen(app.get('port'), function() {
 /////////////
 
 app.get('/', function(req, res){
-  res.send('/index.html');
+  if (!req.body.user) {
+    res.redirect('/login');
+  } else {
+    res.redirect('/home');
+  }
+});
+
+app.get('/login', function(req, res){
+  res.location('/login');
+  res.sendFile(__dirname + '/public/login.html');
+});
+
+app.get('/home', function(req, res){
+  res.location('/home');
+  res.sendFile(__dirname + '/public/home.html');
 });
 
 app.get('/quests', function(req, res) {
