@@ -1,158 +1,71 @@
-var gulp          = require('gulp');
+var source = require('vinyl-source-stream');
+var gulp = require('gulp');
+var gutil = require('gulp-util');
+var browserify = require('browserify');
+var reactify = require('reactify');
+var watchify = require('watchify');
+var notify = require("gulp-notify");
+var shell = require('gulp-shell');
+var dbTask = require('gulp-db');
 
-var $             = require('gulp-load-plugins')();
-var del           = require('del');
-var source        = require('vinyl-source-stream');
-var browserify    = require('browserify');
-var preprocessify = require('preprocessify');
-var runSequence   = require('run-sequence');
-var domain        = require('domain');
+var scriptsDir = './client/scripts';
+var buildDir = './public';
 
-var env           = 'dev';
-var webserver     = false;
-
-log = function(task, start) {
-  if (!start) {
-    setTimeout(function() {
-      $.util.log('Starting', '\'' + $.util.colors.cyan(task) + '\'...');
-    }, 1);
-  } else {
-    var time = ((new Date() - start) / 1000).toFixed(2) + ' s';
-    $.util.log('Finished', '\'' + $.util.colors.cyan(task) + '\'', 'after', $.util.colors.magenta(time));
-  }
-};
-
-gulp.task('clean:dev', function() {
-  return del(['.tmp']);
+var dbManager = dbTask({
+  //Comment out below and use bottom credentials for Heroku
+  host: '127.0.0.1',
+  user: 'root',
+  password: '',
+  database: 'waypointdb',
+  dialect: 'mysql'
+  // Comment out above and use above for local server
+  // host: 'us-cdbr-iron-east-02.cleardb.net',
+  // user: 'b220d94c2be53d',
+  // password: 'bd11f9e8',
+  // database: 'heroku_49f978646a3ea6c'
 });
 
-gulp.task('clean:dist', function() {
-  return del(['dist']);
+gulp.task('drop', dbManager.drop('waypointdb'));
+gulp.task('create', dbManager.create('waypointdb'));
+// gulp.task('drop', dbManager.drop('heroku_49f978646a3ea6c'));
+// gulp.task('create', dbManager.create('heroku_49f978646a3ea6c'));
+
+gulp.task('reset', ['drop', 'create'], shell.task([
+  'echo database test running',
+  'node server.js'
+]));
+
+gulp.task('populate', shell.task([
+  'node db/populate.js'
+]));
+
+gulp.task('serve', ['browserify'], shell.task([
+  'echo Starting server...',
+  'nodemon server.js'
+]));
+
+gulp.task('browserify', function() {
+    var bundler = browserify({
+        entries: ['./client/scripts/app.js'], // Only need initial file, browserify finds the deps
+        transform: [reactify], // We want to convert JSX to normal javascript
+        debug: true, // Gives us sourcemapping
+        cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
+    });
+    var watcher  = watchify(bundler);
+
+    return watcher
+    .on('update', function () { // When any files update
+        var updateStart = Date.now();
+        console.log('Updating!');
+        watcher.bundle() // Create new bundle that uses the cache for high performance
+        .pipe(source('app.js'))
+    // This is where you add uglifying etc.
+        .pipe(gulp.dest('./public/'));
+        console.log('Updated!', (Date.now() - updateStart) + 'ms');
+    })
+    .bundle() // Create the initial bundle when starting the task
+    .pipe(source('app.js'))
+    .pipe(gulp.dest('./public/'));
 });
 
-gulp.task('scripts', function() {
-  var dev = env === 'dev';
-  var filePath = './app/scripts/app.js';
-  var extensions = ['.jsx'];
-
-  var bundle = function() {
-    if (dev) {
-      var start = new Date();
-      log('scripts:bundle');
-    }
-    browserify({
-      entries: [filePath],
-      extensions: extensions,
-      debug: env === 'dev'
-    }).transform(preprocessify({
-      env: env
-    }, {
-      includeExtensions: extensions
-    })).transform('reactify')
-    .bundle()
-      .pipe(source('app.js'))
-      .pipe(gulp.dest('.tmp/scripts/bundle'))
-      .pipe($.if(dev, $.tap(function() {
-        log('scripts:bundle', start);
-        if (!webserver) {
-          runSequence('webserver');
-        }
-      })));
-  }
-
-  if (dev) {
-    gulp.src(filePath)
-      .pipe($.plumber())
-      .pipe($.tap(function(file) {
-        var d = domain.create();
-
-        d.on('error', function(err) {
-          $.util.log($.util.colors.red('Browserify compile error:'), err.message, '\n\t', $.util.colors.cyan('in file'), file.path);
-          $.util.beep();
-        });
-
-        d.run(bundle);
-      }));
-  } else {
-    bundle();
-  }
-});
-
-
-gulp.task('imagemin', function() {
-  return gulp.src('app/images/*')
-    .pipe($.imagemin({
-      progressive: true,
-      svgoPlugins: [{removeViewBox: false}]
-    }))
-    .pipe(gulp.dest('dist/images'));
-});
-
-gulp.task('copy', function() {
-  return gulp.src(['app/*.txt', 'app/*.ico'])
-    .pipe(gulp.dest('dist'));
-})
-
-gulp.task('bundle', function () {
-  var assets = $.useref.assets();
-  var revAll = new $.revAll({dontRenameFile: [/^\/favicon.ico$/g, '.html']});
-  var jsFilter = $.filter(['**/*.js']);
-  var cssFilter = $.filter(['**/*.css']);
-  var htmlFilter = $.filter(['*.html']);
-
-  return gulp.src('app/index.html')
-    .pipe($.preprocess())
-    .pipe(assets)
-    .pipe(assets.restore())
-    .pipe($.useref())
-    .pipe(jsFilter)
-    .pipe($.uglify())
-    .pipe(jsFilter.restore())
-    .pipe(cssFilter)
-    .pipe($.autoprefixer({
-      browsers: ['last 5 versions']
-    }))
-    .pipe($.minifyCss())
-    .pipe(cssFilter.restore())
-    .pipe(htmlFilter)
-    .pipe($.htmlmin({collapseWhitespace: true}))
-    .pipe(htmlFilter.restore())
-    .pipe(revAll.revision())
-    .pipe(gulp.dest('dist'))
-    .pipe($.size());
-});
-
-gulp.task('webserver', function() {
-  webserver = gulp.src(['.tmp', 'app'])
-    .pipe($.webserver({
-      host: '0.0.0.0', //change to 'localhost' to disable outside connections
-      livereload: {
-        enable: true,
-        filter: function(filePath) {
-          if (/app\\(?=scripts)/.test(filePath)) {
-            $.util.log('Ignoring', $.util.colors.magenta(filePath));
-            return false;
-          } else {
-            return true;
-          }
-        }
-      },
-      open: true
-    }));
-});
-
-gulp.task('serve', function() {
-  runSequence('clean:dev', ['scripts']);
-  gulp.watch('app/*.html');
-  gulp.watch('app/scripts/**/*.js', ['scripts']);
-  gulp.watch('app/scripts/**/*.jsx', ['scripts']);
-});
-
-gulp.task('build', function() {
-  env = 'prod';
-  runSequence(['clean:dev', 'clean:dist'],
-              ['scripts', 'imagemin'],
-              'bundle', 'copy');
-});
-
-gulp.task('default', ['build']);
+gulp.task('default', ['serve']);
