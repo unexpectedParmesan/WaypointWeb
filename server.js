@@ -30,13 +30,10 @@ app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
-  console.log('serializeUser');
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done){
-  console.log('deserializeUser');
-  console.log(obj)
   done(null, obj);
 });
 
@@ -54,10 +51,7 @@ passport.use(new FacebookStrategy({
       new User({
         facebook_id: profile.id
         }).fetch().then(function(user) {
-          console.log('user found', user);
           if (!user) {
-            console.log('in function to create new user');
-
             var newUser = new User({
               facebook_id: profile.id,
               name: profile.displayName,
@@ -65,7 +59,6 @@ passport.use(new FacebookStrategy({
             });
 
             newUser.save().then(function(user) {
-              console.log('user saved', user);
               return done(null, user);
             });
           } else {
@@ -118,6 +111,8 @@ app.get('/login', function(req, res){
 
 app.get('/home', authCheck, function(req, res){
   res.location('/home');
+  console.log('in get /home')
+  console.log(req.session);
   res.sendFile(__dirname + '/public/home.html');
 });
 
