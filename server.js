@@ -1,10 +1,14 @@
 var express             = require('express');
 var bodyParser          = require('body-parser');
+var cookieParser        = require('cookie-parser');
+var session             = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
 var questController     = require('./controllers/questController.js');
 var waypointController  = require('./controllers/waypointController.js');
 var userController      = require('./controllers/userController.js');
+var User                = require('./db/models/user.js');
+
 
 var db                  = require('./db/config.js');
 var app                 = express();
@@ -14,7 +18,15 @@ var FB_APP_SECRET       = '2ec70a44be83edce3db4cbf4d25d959f';
 
 // MIDDLEWARE
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(session({ 
+  secret: 'keyboard cat',
+  resave: false, 
+  saveUninitialized: false
+ }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
@@ -22,28 +34,59 @@ passport.serializeUser(function(user, done){
 });
 
 passport.deserializeUser(function(obj, done){
-  return done(null, obj);
+  done(null, obj);
 });
 
 // configure passport-facebook auth strategy 
 passport.use(new FacebookStrategy({
     clientID: FB_APP_ID,
     clientSecret: FB_APP_SECRET,
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
+    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'photos']
   }, 
   function(accessToken, refreshToken, profile, done){
     process.nextTick(function(){
     // associate profile returned with a user in DB
     // return user from DB
 
+      return new User({
+        facebook_id: profile.id
+        }).fetch().then(function(user) {
+          if (user) {
+            return done(null, user);
+          } else {
+            var newUser = new User({
+              facebook_id: profile.id,
+              name: profile.displayName,
+              profile_pic: ''
+            });
+            newUser.save().then(function(user) {
+              return done(null, user);
+            });
+          }
+        });
     });
   }
 ))
 
 // handle auth request
-app.get('/auth/facebook/callback', function(req, res){
-  // authenticate with passport
-  passport.authenticate();
+app.get('/auth/facebook', 
+  passport.authenticate('facebook', {scope: ['public_profile', 'email', 'user_friends']}), 
+  function(req, res){
+    // request is redirected to facebook--this function is not called.
+  });
+
+// successRedirect: '/home'
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', {failureRedirect: '/login'}), 
+  function(req, res){
+    res.send('Welcome home, dude!');
+    res.end();
+  });
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 // APP SETTINGS
@@ -58,6 +101,7 @@ var server = app.listen(app.get('port'), function() {
 /////////////
 
 app.get('/', function(req, res){
+  console.log(req.body);
   if (!req.body.user) {
     res.redirect('/login');
   } else {
@@ -70,7 +114,7 @@ app.get('/login', function(req, res){
   res.sendFile(__dirname + '/public/login.html');
 });
 
-app.get('/home', function(req, res){
+app.get('/home', authCheck, function(req, res){
   res.location('/home');
   res.sendFile(__dirname + '/public/home.html');
 });
@@ -153,8 +197,11 @@ app.delete('/users/:facebookId/activeQuests/:questId', function(req, res) {
 });
 
 // AUTH CHECK
-function authCheck(){
-
+function authCheck(req, res, next){
+  if (req.isAuthenticated()) {
+    next();
+  }
+  res.redirect('/login');
 }
 
 // app.use('/', router);
