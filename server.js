@@ -1,5 +1,7 @@
 var express             = require('express');
 var bodyParser          = require('body-parser');
+var cookieParser        = require('cookie-parser');
+var session            = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
 var questController     = require('./controllers/questController.js');
@@ -14,7 +16,15 @@ var FB_APP_SECRET       = '2ec70a44be83edce3db4cbf4d25d959f';
 
 // MIDDLEWARE
 app.use(express.static(__dirname + '/public'));
+app.use(cookieParser());
 app.use(bodyParser.json());
+app.use(session({ 
+  secret: 'keyboard cat',
+  resave: false, 
+  saveUninitialized: false
+ }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
@@ -29,27 +39,33 @@ passport.deserializeUser(function(obj, done){
 passport.use(new FacebookStrategy({
     clientID: FB_APP_ID,
     clientSecret: FB_APP_SECRET,
-    callbackURL: 'http://localhost:3000/auth/facebook/callback'
+    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'photos']
   }, 
   function(accessToken, refreshToken, profile, done){
     process.nextTick(function(){
     // associate profile returned with a user in DB
     // return user from DB
-
+    console.log(profile);
+      return done(null, profile);
     });
   }
 ))
 
 // handle auth request
-app.get('/auth/facebook', passport.authenticate('facebook'), function(req, res){
-  // authenticate with passport
-  console.log('in auth/facebook')
-});
+app.get('/auth/facebook', 
+  passport.authenticate('facebook', {scope: ['public_profile', 'email', 'user_friends']}), 
+  function(req, res){
+    // authenticate with passport
+    console.log('in auth/facebook')
+  });
 
-app.get('/auth/facebook/callback', function(req, res){
-  console.log('in facebook callback')
-  res.send("hello, dude!")
-})
+app.get('/auth/facebook/callback', 
+  passport.authenticate('facebook', 
+  {failureRedirect: '/'}), function(req, res){
+    console.log('in facebook callback')
+    res.send("hello, dude!")
+  })
 
 app.get('/logout', function(req, res){
   req.logout();
