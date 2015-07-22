@@ -41,9 +41,19 @@ passport.use(new FacebookStrategy({
 ))
 
 // handle auth request
-app.get('/auth/facebook/callback', function(req, res){
+app.get('/auth/facebook', passport.authenticate('facebook'), function(req, res){
   // authenticate with passport
-  passport.authenticate();
+  console.log('in auth/facebook')
+});
+
+app.get('/auth/facebook/callback', function(req, res){
+  console.log('in facebook callback')
+  res.send("hello, dude!")
+})
+
+app.get('/logout', function(req, res){
+  req.logout();
+  res.redirect('/');
 });
 
 // APP SETTINGS
