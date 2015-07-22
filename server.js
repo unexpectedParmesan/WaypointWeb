@@ -1,12 +1,14 @@
 var express             = require('express');
 var bodyParser          = require('body-parser');
 var cookieParser        = require('cookie-parser');
-var session            = require('express-session');
+var session             = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
 var questController     = require('./controllers/questController.js');
 var waypointController  = require('./controllers/waypointController.js');
 var userController      = require('./controllers/userController.js');
+var User                = require('./db/models/user.js');
+
 
 var db                  = require('./db/config.js');
 var app                 = express();
@@ -50,8 +52,30 @@ passport.use(new FacebookStrategy({
     process.nextTick(function(){
     // associate profile returned with a user in DB
     // return user from DB
-    console.log(profile);
-      return done(null, profile);
+    console.log('profile id', profile.id);
+    console.log('profile name', profile.displayName);
+    console.log('profile pic', profile.picture);
+
+      var user = new User({
+        facebook_id: profile.id
+        }).fetch().then(function(user) {
+          if (user) {
+            return user;
+          } else {
+            var newUser = new User({
+              facebook_id: profile.id,
+              name: profile.displayName,
+              profile_pic: ''
+            });
+            newUser.save().then(function(user) {
+              return user;
+            });
+          }
+        });
+
+        console.log('user!!!');
+        console.log(user);
+        return done(null, user);
     });
   }
 ))
