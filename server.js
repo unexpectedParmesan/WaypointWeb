@@ -96,8 +96,8 @@ var server = app.listen(app.get('port'), function() {
 /////////////
 
 app.get('/', function(req, res){
-  console.log(req.body);
-  if (!req.body.user) {
+  console.log('in / seeing if there\'s a session', req.session);
+  if (!req.session.passport.user) {
     res.redirect('/login');
   } else {
     res.redirect('/home');
@@ -111,8 +111,6 @@ app.get('/login', function(req, res){
 
 app.get('/home', authCheck, function(req, res){
   res.location('/home');
-  console.log('in get /home')
-  console.log(req.session);
   res.sendFile(__dirname + '/public/home.html');
 });
 
