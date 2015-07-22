@@ -30,10 +30,13 @@ app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
+  console.log('serializeUser');
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done){
+  console.log('deserializeUser');
+  console.log(obj)
   done(null, obj);
 });
 
@@ -48,26 +51,29 @@ passport.use(new FacebookStrategy({
     process.nextTick(function(){
     // associate profile returned with a user in DB
     // return user from DB
-
-      return new User({
+      new User({
         facebook_id: profile.id
         }).fetch().then(function(user) {
-          if (user) {
-            return done(null, user);
-          } else {
+          console.log('user found', user);
+          if (!user) {
+            console.log('in function to create new user');
+
             var newUser = new User({
               facebook_id: profile.id,
               name: profile.displayName,
               profile_pic: ''
             });
+
             newUser.save().then(function(user) {
+              console.log('user saved', user);
               return done(null, user);
             });
+          } else {
+            return done(null, user);
           }
         });
     });
-  }
-))
+  }));
 
 // handle auth request
 app.get('/auth/facebook', 
@@ -78,11 +84,7 @@ app.get('/auth/facebook',
 
 // successRedirect: '/home'
 app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', {failureRedirect: '/login'}), 
-  function(req, res){
-    res.send('Welcome home, dude!');
-    res.end();
-  });
+  passport.authenticate('facebook', {failureRedirect: '/login', successRedirect: '/home'}));
 
 app.get('/logout', function(req, res){
   req.logout();
@@ -200,8 +202,9 @@ app.delete('/users/:facebookId/activeQuests/:questId', function(req, res) {
 function authCheck(req, res, next){
   if (req.isAuthenticated()) {
     next();
+  } else {
+    res.redirect('/login');
   }
-  res.redirect('/login');
 }
 
 // app.use('/', router);

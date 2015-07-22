@@ -8,3 +8,4 @@ test/scripts/
 ./secrets.js
 ./public/app.js
 .DS_Store
+/.DS_Store
