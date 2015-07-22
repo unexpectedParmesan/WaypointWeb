@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 dist
 test/temp
 .sass-cache
@@ -6,6 +6,6 @@ app/vendor
 .tmp
 test/scripts/
 ./secrets.js
-public/app.js
+public/scripts
 .DS_Store
 /.DS_Store
