@@ -28,10 +28,14 @@ app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
+  console.log('serializeUser');
+  console.log(user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done){
+  console.log('deserializeUser');
+  console.log(obj);
   return done(null, obj);
 });
 
@@ -56,13 +60,12 @@ passport.use(new FacebookStrategy({
 app.get('/auth/facebook', 
   passport.authenticate('facebook', {scope: ['public_profile', 'email', 'user_friends']}), 
   function(req, res){
-    // authenticate with passport
-    console.log('in auth/facebook')
+    // request is redirected to facebook--this function is not called.
   });
 
 app.get('/auth/facebook/callback', 
-  passport.authenticate('facebook', 
-  {failureRedirect: '/'}), function(req, res){
+  passport.authenticate('facebook', {failureRedirect: '/login'}), 
+  function(req, res){
     console.log('in facebook callback')
     res.send("hello, dude!")
   })
@@ -96,7 +99,7 @@ app.get('/login', function(req, res){
   res.sendFile(__dirname + '/public/login.html');
 });
 
-app.get('/home', function(req, res){
+app.get('/home', authCheck, function(req, res){
   res.location('/home');
   res.sendFile(__dirname + '/public/home.html');
 });
@@ -179,8 +182,11 @@ app.delete('/users/:facebookId/activeQuests/:questId', function(req, res) {
 });
 
 // AUTH CHECK
-function authCheck(){
-
+function authCheck(req, res, next){
+  if (req.isAuthenticated()) {
+    next();
+  }
+  res.redirect('/login');
 }
 
 // app.use('/', router);
