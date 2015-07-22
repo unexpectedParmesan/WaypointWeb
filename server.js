@@ -30,15 +30,11 @@ app.use(passport.session());
 
 // Establish sessions
 passport.serializeUser(function(user, done){
-  console.log('serializeUser');
-  console.log(user);
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done){
-  console.log('deserializeUser');
-  console.log(obj);
-  return done(null, obj);
+  done(null, obj);
 });
 
 // configure passport-facebook auth strategy 
@@ -52,15 +48,12 @@ passport.use(new FacebookStrategy({
     process.nextTick(function(){
     // associate profile returned with a user in DB
     // return user from DB
-    console.log('profile id', profile.id);
-    console.log('profile name', profile.displayName);
-    console.log('profile pic', profile.picture);
 
-      var user = new User({
+      return new User({
         facebook_id: profile.id
         }).fetch().then(function(user) {
           if (user) {
-            return user;
+            return done(null, user);
           } else {
             var newUser = new User({
               facebook_id: profile.id,
@@ -68,14 +61,10 @@ passport.use(new FacebookStrategy({
               profile_pic: ''
             });
             newUser.save().then(function(user) {
-              return user;
+              return done(null, user);
             });
           }
         });
-
-        console.log('user!!!');
-        console.log(user);
-        return done(null, user);
     });
   }
 ))
@@ -87,12 +76,13 @@ app.get('/auth/facebook',
     // request is redirected to facebook--this function is not called.
   });
 
+// successRedirect: '/home'
 app.get('/auth/facebook/callback', 
   passport.authenticate('facebook', {failureRedirect: '/login'}), 
   function(req, res){
-    console.log('in facebook callback')
-    res.send("hello, dude!")
-  })
+    res.send('Welcome home, dude!');
+    res.end();
+  });
 
 app.get('/logout', function(req, res){
   req.logout();
@@ -111,6 +101,7 @@ var server = app.listen(app.get('port'), function() {
 /////////////
 
 app.get('/', function(req, res){
+  console.log(req.body);
   if (!req.body.user) {
     res.redirect('/login');
   } else {
