@@ -11,5 +11,10 @@
   <h2>Welcome home!</h2>
   <div id="content"></div>
   <script src="scripts/app.js"></script>
+  <script>
+    if (window.location.hash && window.location.hash === "#_=_") {
+      window.location.hash = "";
+    }
+  </script>
 </body>
 </html>
