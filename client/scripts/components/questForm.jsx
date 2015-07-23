@@ -1,10 +1,11 @@
+var QuestFormStore = require('../stores/questForm.store.js');
 var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
+
 var FormView = tform.form.Form;
-var QuestFormStore = require('../stores/questForm.store.jsx');
 
 
 var Quest = tform.struct({
