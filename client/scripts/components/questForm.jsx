@@ -2,11 +2,36 @@ var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
+var tform = require('tcomb-form');
+var FormView = tform.form.Form;
+
+var Quest = tform.struct({
+	title: tform.Str,
+	length: tform.Str,
+	description: tform.Str,
+	estimated_time: tform.Str
+});
 
 var QuestForm = React.createClass({
+  
+  save: function() {
+  	var value = this.refs.form.getValue();
 
+  	if (value) {
+  		console.log(value);
+  	}
+  },
+  
   render: function() {
     return(
+    	<div>
+    	<FormView
+    	  ref="form"
+    	  type={Quest}
+        />
+        <button onClick={this.save}>Save</button>
+      </div>
+
     );
   }
 });

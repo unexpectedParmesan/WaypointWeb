@@ -22,6 +22,7 @@
     "react": "^0.13.3",
     "react-router": "^0.13.3",
     "reflux": "~0.2.7",
+    "tcomb-form": "^0.6.3",
     "watchify": "^3.3.0"
   },
   "devDependencies": {
