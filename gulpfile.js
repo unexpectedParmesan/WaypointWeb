@@ -68,4 +68,8 @@ gulp.task('browserify', function() {
     .pipe(gulp.dest('./public/scripts/'));
 });
 
+gulp.task('test', shell.task([
+    'mocha tests/*.js',
+  ]));
+
 gulp.task('default', ['serve']);
