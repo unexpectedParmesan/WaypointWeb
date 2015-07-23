@@ -60,8 +60,33 @@ var API = {
           return res;
         });
     },
-    // saveQuest(questObj, action) - saves a quest to database, actions should be POST/PUT
-    saveQuest: function(questObj, action) {},
+    // saveQuest(questObj, httpMethod) - saves a quest to database, actions should be POST/PUT
+    saveQuest: function(questObj, httpMethod) {
+
+      if (!questObj || !action) {
+        throw new Error("Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT");
+      } else if (httpMethod !== "POST" || httpMethod !== "PUT") {
+        throw new Error("Provided httpMethod must be POST or PUT");
+      }
+
+      return $.ajax({
+        url: 'http://localhost:3000/quests',
+        method: httpMethod,
+        data: JSON.stringify(questObj),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+        .done(function (res) {
+          console.log('saveQuest success: ')
+          console.log(res);
+          return res;
+        })
+        .fail(function (res) {
+          console.log('saveQuest fail: ')
+          console.log(res);
+          return res;
+        });
+    },
     // saveWaypoint(waypointObj, action) - saves a waypoint to database, actions should be POST/PUT
     saveWaypoint: function (waypointObj, action) {},
     // deleteQuest(questId) - deletes a quest from database

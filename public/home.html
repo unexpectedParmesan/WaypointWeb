@@ -17,22 +17,53 @@
       window.location.hash = "";
     }
 
-    var getQuest = function(questId) {
+    // var getQuest = function(questId) {
 
-        return $.ajax({
-            url: 'http://localhost:3000/quests/' + questId
-          })
-            .done(function (res) {
-              console.log(res);
-              return res;
-            })
-            .fail(function (res) {
-              console.log(res);
-              return res;
-            });
-      };
+    //     return $.ajax({
+    //         url: 'http://localhost:3000/quests/' + questId
+    //       })
+    //         .done(function (res) {
+    //           console.log(res);
+    //           return res;
+    //         })
+    //         .fail(function (res) {
+    //           console.log(res);
+    //           return res;
+    //         });
+    //   };
 
-    getQuest(2);
+    var saveQuest = function(questObj, httpMethod) {
+
+      return $.ajax({
+        url: 'http://localhost:3000/quests',
+        method: httpMethod,
+        data: JSON.stringify(questObj),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+        .done(function (res) {
+          console.log('saveQuest success: ')
+          console.log(res);
+          return res;
+        })
+        .fail(function (res) {
+          console.log('saveQuest fail: ')
+          console.log(res);
+          return res;
+        });
+    };
+
+    var obj = {
+      facebookId: "1443251312650114",
+      title: "Trail Run Fun Fun",
+      length: "4 miles",
+      description: "Trail run up to Mt. Tam",
+      estimatedTime: "50 minutes",
+    };
+
+    saveQuest(obj, 'POST');
+
+    // getQuest(2);
   </script>
 </body>
 </html>
