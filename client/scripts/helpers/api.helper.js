@@ -63,7 +63,7 @@ var API = {
     // saveQuest(questObj, httpMethod) - saves a quest to database, actions should be POST/PUT
     saveQuest: function(questObj, httpMethod) {
 
-      if (!questObj || !action) {
+      if (!questObj || !httpMethod) {
         throw new Error("Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT");
       } else if (httpMethod !== "POST" || httpMethod !== "PUT") {
         throw new Error("Provided httpMethod must be POST or PUT");
@@ -87,8 +87,33 @@ var API = {
           return res;
         });
     },
-    // saveWaypoint(waypointObj, action) - saves a waypoint to database, actions should be POST/PUT
-    saveWaypoint: function (waypointObj, action) {},
+    // saveWaypoint(waypointObj, httpMethod) - saves a waypoint to database, actions should be POST/PUT
+    saveWaypoint: function (waypointObj, httpMethod) {
+      if (!waypointObj || !httpMethod) {
+        throw new Error("Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT");
+      } else if (!(httpMethod === "POST" || httpMethod === "PUT")) {
+
+        throw new Error("Provided httpMethod must be POST or PUT");
+      }
+
+      return $.ajax({
+        url: 'http://localhost:3000/quests/' + waypointObj.questId +'/waypoints',
+        method: httpMethod,
+        data: JSON.stringify(waypointObj),
+        dataType: 'json',
+        contentType: 'application/json'
+      })
+        .done(function (res) {
+          console.log('saveQuest success: ')
+          console.log(res);
+          return res;
+        })
+        .fail(function (res) {
+          console.log('saveQuest fail: ')
+          console.log(res);
+          return res;
+        });
+    },
     // deleteQuest(questId) - deletes a quest from database
     deleteQuest: function (questId) {},
     // deleteWaypoint(waypointId) - deletes a waypoint from database

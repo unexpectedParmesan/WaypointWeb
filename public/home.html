@@ -32,12 +32,21 @@
     //         });
     //   };
 
-    var saveQuest = function(questObj, httpMethod) {
+    var saveWaypoint = function(waypointObj, httpMethod) {
+      console.log('waypointObj passed in: ', waypointObj);
+      console.log('httpMethod passed in: ', httpMethod);
+      
+      if (!waypointObj || !httpMethod) {
+        throw new Error("Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT");
+      } else if (!(httpMethod === "POST" || httpMethod === "PUT")) {
+
+        throw new Error("Provided httpMethod must be POST or PUT");
+      }
 
       return $.ajax({
-        url: 'http://localhost:3000/quests',
+        url: 'http://localhost:3000/quests/' + waypointObj.questId +'/waypoints',
         method: httpMethod,
-        data: JSON.stringify(questObj),
+        data: JSON.stringify(waypointObj),
         dataType: 'json',
         contentType: 'application/json'
       })
@@ -54,14 +63,15 @@
     };
 
     var obj = {
-      facebookId: "1443251312650114",
-      title: "Trail Run Fun Fun",
-      length: "4 miles",
-      description: "Trail run up to Mt. Tam",
-      estimatedTime: "50 minutes",
+      questId: 18,
+      indexInQuest: 0,
+      latitude: 123,
+      longitude: 123,
+      title: 'Big Tree',
+      description: 'My favorite tree to sniff. Try sniffing the tree.',
     };
 
-    saveQuest(obj, 'POST');
+    saveWaypoint(obj, 'POST');
 
     // getQuest(2);
   </script>
