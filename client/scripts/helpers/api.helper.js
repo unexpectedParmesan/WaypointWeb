@@ -132,7 +132,22 @@ var API = {
         });
     },
     // deleteWaypoint(waypointId) - deletes a waypoint from database
-    deleteWaypoint: function (waypointId) {},
+    deleteWaypoint: function (questId, waypointId) {
+      if (!waypointId || !questId) {
+        throw new Error("Did not provide quest and/or waypoint ids. Provide questId and waypointId to deleteWaypoint()");
+      }
+
+      return $.ajax({
+        url: 'http://localhost:3000/quests/' + questId + '/waypoints/' + waypointId,
+        method: 'DELETE'
+      })
+        .done(function () {
+          return true;
+        })
+        .fail(function () {
+          return false;
+        });
+    },
     // goHome() - brings the user to /home
     goHome: function () {},
     // logout() - logs out the user

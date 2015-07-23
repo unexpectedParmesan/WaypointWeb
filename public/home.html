@@ -15,41 +15,7 @@
   <script>
     if (window.location.hash && window.location.hash === "#/_=_") {
       window.location.hash = "";
-    }
-
-    var deleteQuest = function (questId) {
-      if (!questId) {
-        throw new Error("No questId argument provided. Provide quest id to deleteQuest()");
-      }
-
-      return $.ajax({
-        url: 'http://localhost:3000/quests/' + questId,
-        method: 'DELETE'
-      })
-        .done(function () {
-          return true;
-        })
-        .fail(function () {
-          return false;
-        });
-    };
-
-    deleteQuest(5);
-    deleteQuest(6);
-    deleteQuest(7);
-    deleteQuest(8);
-    deleteQuest(9);
-    deleteQuest(10);
-    deleteQuest(11);
-    deleteQuest(12);
-    deleteQuest(13);
-    deleteQuest(14);
-    deleteQuest(15);
-    deleteQuest(16);
-    deleteQuest(17);
-    
-
-    // getQuest(2);
+    }    
   </script>
 </body>
 </html>
