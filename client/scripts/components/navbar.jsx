@@ -11,7 +11,9 @@ class Nav extends React.Component {
   render() {
     return (
       <div className='navbar'>
-        ======= {this.props.user.name} ====== <a href='/logout'>Logout</a>
+        ======= {this.props.user.name}
+        <img src={this.props.user.profile_pic} />
+        ======= <a href='/logout'>Logout</a>
       </div>
     );
   }

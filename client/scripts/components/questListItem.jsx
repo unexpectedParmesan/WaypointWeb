@@ -11,17 +11,21 @@ class QuestListItem extends React.Component {
 
   render() {
 
-  var title = 'Zombie Escape 9: Computers';
-  var description = 'Gastropub lumbersexual Pitchfork before they sold out minim, kale chips DIY Banksy Tumblr listicle taxidermy tattooed.';
+    this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
-    // console.log(props);
     return (
-      <div>
-        <div>{title}</div>
+      <li key={this.props.index}>
         <div>
-          {description}
+          <h3>{this.props.quest.title}</h3>
+          <p>{this.props.quest.description}</p>
+          <div>
+            <span>waypoints: <b>{this.props.quest.waypoints.length}</b> - </span>
+            <span>length: <b>{this.props.quest.length}</b> - </span>
+            <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
+            <br />
+          </div>
         </div>
-      </div>
+      </li>
     );
   }
 }
