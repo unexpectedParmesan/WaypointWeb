@@ -36,8 +36,8 @@ module.exports = {
           title: req.body.title,
           length: req.body.length,
           description: req.body.description,
-          estimated_time: req.body.estimated_time,
-          creator_facebook_id: req.params.facebookId
+          estimated_time: req.body.estimatedTime,
+          creator_facebook_id: req.body.facebookId,
       	});
       	newQuest.save().then(function(quest){
       		res.status(200).send(quest);
