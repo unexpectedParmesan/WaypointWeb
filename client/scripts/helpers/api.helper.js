@@ -115,7 +115,22 @@ var API = {
         });
     },
     // deleteQuest(questId) - deletes a quest from database
-    deleteQuest: function (questId) {},
+    deleteQuest: function (questId) {
+      if (!questId) {
+        throw new Error("No questId argument provided. Provide quest id to deleteQuest()");
+      }
+
+      return $.ajax({
+        url: 'http://localhost:3000/quests/' + questId,
+        method: 'DELETE'
+      })
+        .done(function () {
+          return true;
+        })
+        .fail(function () {
+          return false;
+        });
+    },
     // deleteWaypoint(waypointId) - deletes a waypoint from database
     deleteWaypoint: function (waypointId) {},
     // goHome() - brings the user to /home
