@@ -1,7 +1,6 @@
 var React = require('react');
 var Reflux = require('reflux');
 var Actions = require('../actions/actions');
-$ = require('jquery');
 
 var userStore = Reflux.createStore({
   listenables: [Actions],
