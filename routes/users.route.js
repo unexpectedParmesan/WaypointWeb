@@ -5,14 +5,14 @@ var usersRouter    = express.Router();
 
 usersRouter.get('/', function(req, res) {
   userController.getAllUsers(req, res);
+  console.log(typeof res)
 });
 
 usersRouter.get('/me', function(req, res) {
   if (!req.session.passport.user) {
     res.redirect('/login');
   } else {
-    var user = JSON.stringify(req.session.passport.user);
-    console.log('All up in userRouter');
+    var user = req.session.passport.user;
     res.status(200).send(user);
   }  
 });
