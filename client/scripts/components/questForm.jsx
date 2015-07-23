@@ -4,6 +4,7 @@ var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
+var WaypointForm = require('./waypointForm.jsx');
 
 var FormView = tform.form.Form;
 
@@ -26,8 +27,9 @@ var QuestForm = React.createClass({
   },
 
   save: function() {
-  	var value = this.refs.form.getValue();
+  	var value = this.refs.questForm.getValue();
     var user = this.props.user;
+    var questId = 5;
 
   	if (value) {
       var newQuest = {
@@ -54,11 +56,12 @@ var QuestForm = React.createClass({
     return(
     	<div>
     	<FormView
-    	  ref="form"
+    	  ref="questForm"
     	  type={Quest}
         value={this.state.value}
         />
         <button onClick={this.save}>Save</button>
+        {this.state.isSubmitted ? <WaypointForm /> : <div></div>}
       </div>
 
     );

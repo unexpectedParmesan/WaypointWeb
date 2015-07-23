@@ -42,7 +42,7 @@ var WaypointForm = React.createClass({
     }
       var newWaypoint = {
         questId: value.questId,
-				indexInQuest: 0,
+				indexInQuest: value.indexInQuest,
 				latitude: value.latitude,
 				longitude: value.longitude,
 				title: value.title,
