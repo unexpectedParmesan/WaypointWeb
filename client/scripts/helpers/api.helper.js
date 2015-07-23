@@ -47,7 +47,19 @@ var API = {
         });
     }, // end of getQuest()
     // getWaypointsForQuest(questId) - returns waypoints for given quest id
-    getWaypointsForQuest: function (questId) {},
+    getWaypoints: function (questId) {
+      if (!questId) { throw new Error("Must provide questId as an argument to getWaypoints()"); }
+      
+      return $.ajax({
+        url: 'http://localhost:3000/quests/' + questId + '/waypoints'
+      })
+        .done(function (res) {
+          return res;
+        })
+        .fail(function (res) {
+          return res;
+        });
+    },
     // saveQuest(questObj, action) - saves a quest to database, actions should be POST/PUT
     saveQuest: function(questObj, action) {},
     // saveWaypoint(waypointObj, action) - saves a waypoint to database, actions should be POST/PUT
