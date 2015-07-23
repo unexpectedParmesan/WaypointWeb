@@ -6,7 +6,6 @@ var Nav = require('./navbar.jsx');
 
 class Main extends React.Component {
   render() {
-    this.newFunction();
     return (
       <div>
         <Nav />
