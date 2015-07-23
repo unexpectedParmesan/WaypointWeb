@@ -8,7 +8,7 @@ var questFormStore = Reflux.createStore({
 
   onGetUserData: function(){
   	console.log("All up in getUserData function");
-  	$.get('http://127.0.0.1:3000/users/me', function(result){
+  	$.get('localhost:3000/users/me', function(result){
   		console.log('Here be result:', result);
 
   	});
@@ -16,7 +16,10 @@ var questFormStore = Reflux.createStore({
 
   getDefaultData: function(){
   	this.user = 'testUser';
-  	return this.user;
+  	console.log('in getDefaultData');
+    return {
+      user: this.user
+    }
   }
 
 });

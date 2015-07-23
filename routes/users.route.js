@@ -12,6 +12,7 @@ usersRouter.get('/me', function(req, res) {
     res.redirect('/login');
   } else {
     var user = JSON.stringify(req.session.passport.user);
+    console.log('All up in userRouter');
     res.status(200).send(user);
   }  
 });

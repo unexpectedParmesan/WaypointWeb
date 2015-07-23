@@ -27,6 +27,7 @@ var QuestForm = React.createClass({
 
   	if (value) {
   		console.log(value);
+      console.log(this.state);
   	}
   },
 
