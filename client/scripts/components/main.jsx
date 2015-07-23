@@ -36,8 +36,8 @@ class Main extends React.Component {
     return (
       <div>
         <Nav user={this.state.user} />
-        {questList}
-    	  <QuestForm />
+        <QuestListItem quest={this.state.quests}/>
+    	  <QuestForm user={this.state.user} />
       </div>
     );
   }
