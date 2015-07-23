@@ -39,7 +39,7 @@ var QuestForm = React.createClass({
         estimatedTime: value.estimatedTime,
         facebookId: user.facebook_id
       }
-
+      console.log("Quest saved: ", newQuest);
       //POST newQuest to db
       this.setState({value: null});
       this.setState({isSubmitted: true});
@@ -48,7 +48,6 @@ var QuestForm = React.createClass({
   },
 
   componentDidMount: function(){
-  	console.log("All up in componentDidMount");
     Actions.getUserData();
   },
 
