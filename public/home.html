@@ -15,6 +15,23 @@
     if (window.location.hash && window.location.hash === "#/_=_") {
       window.location.hash = "";
     }
+
+    var getMe = function () {
+
+      return $.ajax({
+        url: 'http://localhost:3000/users/me'
+      })
+        .done(function(res){ 
+          console.log(res);
+          return res;
+        })
+        .fail(function(res){
+          console.log(res);
+          return res;
+        });
+
+    };
+    getMe();
   </script>
 </body>
 </html>

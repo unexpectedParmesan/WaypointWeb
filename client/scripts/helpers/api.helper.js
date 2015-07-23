@@ -5,29 +5,17 @@ var API = {
   getMe: function () {
 
     return $.ajax({
-      url: 'http://localhost:3000/users/me',
-      method: 'GET',
-    })
-      .done(function () {
-        console.log('SUCCESS: ');
-        console.log(response);
-        console.log(status);
+             url: 'http://localhost:3000/users/me'
+           })
+            .done(function(res){ 
+              console.log(res);
+              return res;
+            })
+            .fail(function(res){
+              console.log(res);
+              return res;
+            });
 
-        return {
-          status: status, 
-          data: response
-        };
-
-      })
-      .fail(function () {
-        console.log('ERROR: ');
-        console.log(status, errorMessage);
-        result.status = status;
-        return {
-          status: status, 
-          message: errorMessage
-        };
-      });
   }, // end of getMe()
   // getQuests(userID) - optionally takes a user_id and returns all quests for that user, otherwise returns all quests
   // getQuest(questID) - returns quest with specified id
