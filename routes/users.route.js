@@ -12,8 +12,7 @@ usersRouter.get('/me', function(req, res) {
   if (!req.session.passport.user) {
     res.redirect('/login');
   } else {
-    var user = req.session.passport.user;
-    res.status(200).send(user);
+    userController.getMe(req, res);
   }  
 });
 
