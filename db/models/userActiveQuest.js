@@ -6,13 +6,13 @@ var Waypoint = require('./waypoint.js')
 
 var UserActiveQuest = db.Model.extend({
 	tableName: 'user_active_quests',
-	user: function(){
-		return this.belongsTo(User);
+	user: function() {
+		return this.belongsTo('User', 'facebook_id');
 	},
-	quest: function(){
+	quest: function() {
 		return this.belongsTo(Quest);
 	},
-	waypoint: function() {
+	waypoints: function() {
 		return this.hasMany(Waypoint);
 	},
 	hasTimestamps: true
