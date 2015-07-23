@@ -4,6 +4,8 @@ var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
 var FormView = tform.form.Form;
+var QuestFormStore = require('../stores/questForm.store.jsx');
+
 
 var Quest = tform.struct({
 	title: tform.Str,
@@ -13,7 +15,12 @@ var Quest = tform.struct({
 });
 
 var QuestForm = React.createClass({
-  
+	mixins: [Reflux.connect(QuestFormStore)],
+
+	getIntialState: function(){
+    return QuestFormStore.getDefaultData();
+	},
+
   save: function() {
   	var value = this.refs.form.getValue();
 
@@ -21,7 +28,12 @@ var QuestForm = React.createClass({
   		console.log(value);
   	}
   },
-  
+
+  componentDidMount: function(){
+  	console.log("All up in componentDidMount");
+    Actions.getUserData();
+  },
+
   render: function() {
     return(
     	<div>
