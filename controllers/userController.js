@@ -37,7 +37,7 @@ module.exports = {
 
  getCreatedQuests: function(req, res) {
    new Quest().query({where: {creator_facebook_id: req.params.facebookId}})
-    .fetch({
+    .fetchAll({
       withRelated: 'waypoints'
     }).then(function(quests) {
     if (!quests){
@@ -110,7 +110,7 @@ module.exports = {
           } else {
             res.status(204).send();
           }
-        })
+        });
       }
     });
   },
