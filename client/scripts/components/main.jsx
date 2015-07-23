@@ -33,9 +33,7 @@ class Main extends React.Component {
       </div>
     );
   }
-
 }
-
 
 // React.render(<Main />, document.getElementById("content"));
 
