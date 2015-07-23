@@ -21,6 +21,8 @@ class QuestList extends React.Component {
     }.bind(this));
   }
 
+
+
   render() {
 
     var questList;
@@ -29,9 +31,12 @@ class QuestList extends React.Component {
     } else {
       questList = this.state.quests.map(function(quest, index) {
         return (
-          <QuestListItem key={index} quest={quest} />  
+          <QuestListItem
+            key={index}
+            quest={quest}
+          />
         );
-      });
+      }.bind(this));
     }
 
     return (
