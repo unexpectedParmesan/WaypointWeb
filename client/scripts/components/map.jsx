@@ -52,6 +52,7 @@ class WaypointMap extends React.Component {
     var marker = new GoogleMaps.Marker({
       position: new GoogleMaps.LatLng(lat, lng),
       map: this.state.map,
+      animation: GoogleMaps.Animation.DROP,
       draggable: true,
     });
 
