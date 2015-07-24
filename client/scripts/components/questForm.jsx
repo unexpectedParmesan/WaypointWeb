@@ -1,7 +1,5 @@
-var QuestFormStore = require('../stores/questForm.store.js');
 var React = require('react');
-var Reflux = require('reflux');
-var Actions = require('../actions/actions');
+var Utils = require('../helpers/api.helper.js');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
 var WaypointForm = require('./waypointForm.jsx');
@@ -17,7 +15,6 @@ var Quest = tform.struct({
 });
 
 var QuestForm = React.createClass({
-	mixins: [Reflux.connect(QuestFormStore)],
   
   getInitialState: function(){
     return {
@@ -29,7 +26,6 @@ var QuestForm = React.createClass({
   save: function() {
   	var value = this.refs.questForm.getValue();
     var user = this.props.user;
-    var questId = 5;
 
   	if (value) {
       var newQuest = {
