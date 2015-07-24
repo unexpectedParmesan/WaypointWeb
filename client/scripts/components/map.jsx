@@ -18,7 +18,6 @@ class WaypointMap extends React.Component {
   }
 
   componentDidMount () {
-    // create map
     this.createMap();
   }
 
@@ -26,9 +25,7 @@ class WaypointMap extends React.Component {
 
     return (
       <div className='googleMap'>
-        <div style={styles.markerStyles}>{this.state.markers}</div>
         <div ref="mapCanvas" style={styles.mapStyles} ></div>
-        }
       </div>
     )
   }
@@ -60,25 +57,16 @@ class WaypointMap extends React.Component {
       content: lat + ', ' + lng + ''
     });
 
-    GoogleMaps.event.addListener(marker, 'click', function(event) {
-      console.log(event);
-      console.log('marker clicked');
-      context.displayInfo(event)
+    GoogleMaps.event.addListener(marker, 'click', function(event) {      
       infoBox.open(context.state.map, marker);
     })
 
     GoogleMaps.event.addListener(marker, 'dblclick', function(event) {
-      console.log('dblclick');
       marker.setMap(null);
       marker = null;
     })
 
     this.state.markers.push(marker);
-    console.log(this.state.markers);
-  }
-
-  displayInfo (event) {
-    console.log('marker clicked, display some info');
   }
 }
 
