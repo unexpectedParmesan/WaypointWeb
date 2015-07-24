@@ -1,7 +1,5 @@
-var QuestFormStore = require('../stores/questForm.store.js');
 var React = require('react');
-var Reflux = require('reflux');
-var Actions = require('../actions/actions');
+var Utils = require('../helpers/api.helper.js');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
 var WaypointForm = require('./waypointForm.jsx');
@@ -17,19 +15,19 @@ var Quest = tform.struct({
 });
 
 var QuestForm = React.createClass({
-	mixins: [Reflux.connect(QuestFormStore)],
   
   getInitialState: function(){
     return {
       value: null,
-      isSubmitted: false
+      isSubmitted: false,
+      questId: null
     }
   },
 
   save: function() {
   	var value = this.refs.questForm.getValue();
     var user = this.props.user;
-    var questId = 5;
+    var context = this;
 
   	if (value) {
       var newQuest = {
@@ -39,17 +37,20 @@ var QuestForm = React.createClass({
         estimatedTime: value.estimatedTime,
         facebookId: user.facebook_id
       }
-      console.log("Quest saved: ", newQuest);
-      //POST newQuest to db
+      Utils.saveQuest(newQuest, "POST").then(function(response){
+        console.log("Post request successful: ", response);
+        // context.setState({questId: response.id});
+      });
+
       this.setState({value: null});
       this.setState({isSubmitted: true});
   	}
 
   },
 
-  componentDidMount: function(){
-    Actions.getUserData();
-  },
+  // componentDidMount: function(){
+  //   Actions.getUserData();
+  // },
 
   render: function() {
     return(
@@ -60,7 +61,7 @@ var QuestForm = React.createClass({
         value={this.state.value}
         />
         <button onClick={this.save}>Save</button>
-        {this.state.isSubmitted ? <WaypointForm /> : <div></div>}
+        {this.state.isSubmitted ? <WaypointForm questId={this.state.questId} /> : <div></div>}
       </div>
 
     );
