@@ -37,10 +37,22 @@ class Main extends React.Component {
     }.bind(this));
   }
 
+///////////////////////////////
+// REEEEENNNNNDDEEERRRRRRR
+//////////////////////////////
+
   render() {
     var questList;
     if (this.state.user.facebook_id) {
-      questList = <QuestList userId={this.state.user.facebook_id} />;
+      questList = (
+        <QuestList
+          userId={this.state.user.facebook_id}
+          quests={this.state.quests}
+          currentQuest={this.state.currentQuest}
+          setCurrentQuest={this.setCurrentQuest.bind(this)}
+          newQuest={this.newQuest.bind(this)}
+        />
+      );
     } else {
       questList = <div />;
     }
@@ -48,18 +60,40 @@ class Main extends React.Component {
       <div>
         <Nav user={this.state.user} />
         {questList}
-    	  <QuestForm user={this.state.user} />
+    	  <QuestForm
+          userId={this.state.user.facebook_id}
+          quest={this.state.quests[this.indexOfCurrentQuest()]}
+          updateQuest={this.updateCurrentQuest.bind(this)}
+          deleteQuest={this.deleteCurrentQuest.bind(this)}
+        />
+
       </div>
     );
   }
 
   setCurrentQuest(id) {
-    this.setState({currentQuest: id});
+    this.setState({currentQuest: id}, function() {
+      console.log('the current selected quest is', this.state.currentQuest);
+    });
   }
 
-  newQuest(quest) {
-    api.saveQuest(quest, 'POST').then(function(quest) {
-      var quests = this.state.quests.push(quest);
+  newQuest() {
+
+    // default values
+    var newQuest = {
+      title: 'Untitled Quest',
+      description: 'Add a description here',
+      length: '0 mi',
+      timeEstimate: '99 hrs',
+      facebookId: this.state.user.facebook_id
+    };
+
+    // var context = this;
+    // console.log(this);
+
+    api.saveQuest(newQuest, 'POST').then((quest) => {
+      // debugger;
+      var quests = this.state.quests.concat([quest]);
       this.setState({
         quests,
         currentQuest: quest.id
@@ -69,7 +103,7 @@ class Main extends React.Component {
   }
 
   updateCurrentQuest(quest) {
-    api.saveQuest(quest, 'PUT').then(function(quest) {
+    api.saveQuest(quest, 'PUT').then((quest) => {
       var quests = this.state.quests.map((item, index) => {
         if (index === this.indexOfCurrentQuest()) {
           return quest;
@@ -82,7 +116,7 @@ class Main extends React.Component {
   }
 
   deleteCurrentQuest() {
-    api.deleteQuest(this.state.currentQuest).then(function() {
+    api.deleteQuest(this.state.currentQuest).then(() => {
       var quests = this.state.quests.splice(this.indexOfCurrentQuest(), 1);
       this.setState({ quests });
     });
@@ -94,7 +128,7 @@ class Main extends React.Component {
   }
 
   newWaypoint(waypoint) {
-    api.saveWaypoint(waypoint, 'POST').then(function(waypoint) {
+    api.saveWaypoint(waypoint, 'POST').then((waypoint) => {
       var quests = this.state.quests[this.indexOfCurrentQuest()].waypoints.push(waypoint);
       this.setState({
         quests,
@@ -104,7 +138,7 @@ class Main extends React.Component {
   }
 
   updateCurrentWaypoint(waypoint) {
-    api.saveWaypoint(waypoint, 'PUT').then(function(waypoint) {
+    api.saveWaypoint(waypoint, 'PUT').then((waypoint) => {
       var quests = this.state.quests.map((quest, index) => {
         if (index === this.indexOfCurrentQuest()) {
           quest.map((item, index, array) => {
@@ -119,7 +153,7 @@ class Main extends React.Component {
   }
 
   deleteCurrentWaypoint() {
-    api.deleteWaypoint(this.state.currentWaypoint).then(function() {
+    api.deleteWaypoint(this.state.currentWaypoint).then(() => {
       var questIndex = this.indexOfCurrentQuest();
       var waypointIndex = indexOfProperty(
         this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint

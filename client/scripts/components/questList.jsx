@@ -34,15 +34,19 @@ class QuestList extends React.Component {
           <QuestListItem
             key={index}
             quest={quest}
+            setCurrentQuest={this.props.setCurrentQuest}
           />
         );
       }.bind(this));
     }
 
     return (
-      <ul>
-        {questList}
-      </ul>
+      <div>
+        <ul>
+          {questList}
+        </ul>
+        <button onClick={this.props.newQuest}>new quest</button>
+      </div>
     );
   }
 }

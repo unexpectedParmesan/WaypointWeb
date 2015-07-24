@@ -29,7 +29,7 @@ db.knex.schema.hasTable('quests').then(function(exists) {
 		db.knex.schema.createTable('quests', function(quest) {
 			quest.increments('id').primary();
 			quest.string('creator_facebook_id', 100);
-			quest.string('title', 100).unique();
+			quest.string('title', 100);
 			quest.string('length', 100);
 			quest.string('description', 5000);
 			quest.string('estimated_time', 100);

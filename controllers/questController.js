@@ -26,25 +26,17 @@ module.exports = {
   },
 
   makeQuest: function(req, res) {
-    new Quest({
-      title: req.body.title
-    }).fetch().then(function(found) {
-      if (found) {
-        res.status(422).send('Sorry, there\'s already a quest with that title!');
-      } else {
-      	var newQuest = new Quest({
-          title: req.body.title,
-          length: req.body.length,
-          description: req.body.description,
-          estimated_time: req.body.estimatedTime,
-          creator_facebook_id: req.body.facebookId,
-      	});
-      	newQuest.save().then(function(quest){
-          console.log(quest);
-      		res.status(200).send(quest);
-      	});
-      }
-    });
+  	var newQuest = new Quest({
+      title: req.body.title,
+      length: req.body.length,
+      description: req.body.description,
+      estimated_time: req.body.estimatedTime,
+      creator_facebook_id: req.body.facebookId,
+  	});
+  	newQuest.save().then(function(quest){
+      console.log(quest);
+  		res.status(200).send(quest);
+  	});
   },
 
   updateQuest: function(req, res) {

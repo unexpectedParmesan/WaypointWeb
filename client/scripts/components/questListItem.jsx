@@ -10,10 +10,6 @@ class QuestListItem extends React.Component {
     super(props);
   }
 
-  updateSelectedQuest(id) {
-    console.log('selected quest', id);
-  }
-
   render() {
 
     this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
@@ -21,7 +17,7 @@ class QuestListItem extends React.Component {
     return (
       <li
         onClick={() => {
-          this.updateSelectedQuest(this.props.quest.id);
+          this.props.setCurrentQuest(this.props.quest.id);
         }}
         >
         <div>
