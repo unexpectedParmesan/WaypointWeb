@@ -1,5 +1,5 @@
 /*
-** Users Test
+** Users Tests
 */
 var chai      = require('chai');
 var spies     = require('chai-spies');
@@ -10,7 +10,7 @@ var expect    = require('chai').expect;
 var supertest = require('supertest');
 var api       = supertest('http://localhost:3000');
 
-describe('Users', function () {
+describe('GET /users', function () {
 
   it('should return a 200 response', function (done) {
     api.get('/users')
