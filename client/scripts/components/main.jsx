@@ -6,6 +6,7 @@ var React = require('react');
 // var User = require('../stores/user.store');
 var QuestForm = require('./questForm.jsx');
 var QuestList = require('./questList.jsx');
+var QuestListItem = require('./questListItem.jsx');
 var Nav = require('./navbar.jsx');
 var api = require('../helpers/api.helper');
 

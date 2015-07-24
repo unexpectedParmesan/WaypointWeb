@@ -36,7 +36,9 @@ var QuestForm = React.createClass({
         facebookId: user.facebook_id
       }
       console.log("Quest saved: ", newQuest);
-      //POST newQuest to db
+      Utils.saveQuest(newQuest, "POST").then(function(response){
+        console.log(response);
+      });
       this.setState({value: null});
       this.setState({isSubmitted: true});
   	}
