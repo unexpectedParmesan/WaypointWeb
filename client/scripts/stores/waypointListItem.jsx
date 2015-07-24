@@ -1,1 +1,0 @@
-waypointListItem.jsx
