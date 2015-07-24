@@ -8,8 +8,7 @@ module.exports = {
   getMe: function (req, res) {
     new User({
       facebook_id: req.session.passport.user.facebook_id
-    }).fetch().then(function (user){
-      console.log('in userController', user);
+    }).fetch().then(function (user) {
       if (user) {
         res.status(200).send(user);
       } else {
