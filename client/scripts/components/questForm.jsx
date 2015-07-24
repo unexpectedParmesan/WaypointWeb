@@ -39,11 +39,11 @@ var QuestForm = React.createClass({
       }
       Utils.saveQuest(newQuest, "POST").then(function(response){
         console.log("Post request successful: ", response);
-        // context.setState({questId: response.id});
+        context.setState({questId: response.id});
+        context.setState({isSubmitted: true});
       });
 
       this.setState({value: null});
-      this.setState({isSubmitted: true});
   	}
 
   },

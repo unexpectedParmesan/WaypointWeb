@@ -154,7 +154,7 @@ var API = {
 
         throw new Error("Provided httpMethod must be POST or PUT");
       }
-
+      console.log("waypoint object: ", waypointObj);
       return $.ajax({
         url: 'http://localhost:3000/quests/' + waypointObj.questId +'/waypoints',
         method: httpMethod,
