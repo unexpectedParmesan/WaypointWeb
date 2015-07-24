@@ -12,6 +12,8 @@ var supertest = require('supertest');
 var api       = supertest('http://localhost:3000');
 
 describe('GET /quests', function () {
+  var rand, title, questId;
+
   it('should return a 200 response', function (done) {
     api.get('/quests')
       .set('Accept', 'application/json')
@@ -36,5 +38,51 @@ describe('GET /quests', function () {
         (res.body).should.all.have.property('updated_at');
         done();
       });
+  });
+
+  beforeEach(function (){
+    rand = Math.floor(Math.random() * 100);
+    title = "Quest Random Number: " + rand.toString();
+  });
+
+  it('should be updated with a new quest', function (done) {
+    
+    api.post('/quests')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send({
+        facebookId: '1',
+        title: title,
+        length: 'Quest length',
+        description: 'Quest description',
+        estimatedTime: '3 hours'
+      })
+      .expect(200)
+      .end(function (err, res) {
+
+        questId = res.body.id;
+
+        expect(res.body.title).to.equal(title);
+        expect(res.body.length).to.equal('Quest length');
+        expect(res.body.description).to.equal('Quest description');
+        expect(res.body.estimated_time).to.equal('3 hours');
+        expect(res.body.creator_facebook_id).to.equal('1');
+        done();
+      });
+  });
+
+  it('should be able to delete a quest', function (done) {
+    
+    api.delete('/quests/' + questId)
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send()
+      .expect(200)
+      .end(function (err, res) {
+
+        api.get('/quests/' + questId)
+          .set('Accept', 'application/x-www-form-urlencoded')
+          .expect(404)
+          .end(function (err, res){}); 
+        done();
+      });      
   });
 });

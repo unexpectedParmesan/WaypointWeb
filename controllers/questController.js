@@ -40,6 +40,7 @@ module.exports = {
           creator_facebook_id: req.body.facebookId,
       	});
       	newQuest.save().then(function(quest){
+          console.log(quest);
       		res.status(200).send(quest);
       	});
       }
