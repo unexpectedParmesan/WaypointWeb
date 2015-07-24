@@ -53,13 +53,22 @@ class WaypointMap extends React.Component {
     var marker = new GoogleMaps.Marker({
       position: new GoogleMaps.LatLng(lat, lng),
       map: this.state.map,
-      title: this.position,
+      draggable: true,
+    });
+
+    var infoBox = new GoogleMaps.InfoWindow({
+      content: lat + ', ' + lng + ''
     });
 
     GoogleMaps.event.addListener(marker, 'click', function(event) {
       console.log(event);
       console.log('marker clicked');
       context.displayInfo(event)
+      infoBox.open(context.state.map, marker);
+    })
+
+    GoogleMaps.event.addListener(marker, 'dblclick', function(event) {
+      console.log('dblclick');
       marker.setMap(null);
       marker = null;
     })
