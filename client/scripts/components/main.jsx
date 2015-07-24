@@ -22,7 +22,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     api.getMe().then(function(user) {
-      this.setState({ user: JSON.parse(user) });
+      this.setState({ user });
     }.bind(this));
   }
 
@@ -36,7 +36,7 @@ class Main extends React.Component {
     return (
       <div>
         <Nav user={this.state.user} />
-        <QuestListItem quest={this.state.quests}/>
+        {questList}
     	  <QuestForm user={this.state.user} />
       </div>
     );
