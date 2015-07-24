@@ -4,16 +4,15 @@ var Reflux = require('reflux');
 var Actions = require('../actions/actions');
 var User = require('../stores/user.store');
 var tform = require('tcomb-form');
+var Utils = require('../helpers/api.helper.js');
 
 var FormView = tform.form.Form;
 
 var Waypoint = tform.struct({
-	questId: tform.Str,
-	indexInQuest: tform.Str,
-	latitude: tform.Num,
-	longitude: tform.Num,
 	title: tform.Str,
-	description: tform.Str
+	description: tform.Str,
+  latitude: tform.Num,
+  longitude: tform.Num
 });
 
 var WaypointForm = React.createClass({
@@ -28,34 +27,40 @@ var WaypointForm = React.createClass({
 
   onChange: function(val){
     this.setState({
-    	value: val
+    	value: val,
+      indexInQuest: 0
     })
   },
 
   save: function() {
 	  var value = this.state.value;
     var user = this.props.user;
+    var context = this;
+
 	  if (value) {
     var validation = this.refs.waypointForm.validate();
     if (validation.errors.length > 0){
       console.log("Error: ", validation.errors[0].message);
     }
       var newWaypoint = {
-        questId: value.questId,
-				indexInQuest: 0,
+        questId: this.props.questId,
+				indexInQuest: this.state.indexInQuest,
 				latitude: value.latitude,
 				longitude: value.longitude,
 				title: value.title,
 				description: value.description
       };
       console.log("Waypoint saved: ", newWaypoint);
-      //Save to DB
+      Utils.saveWaypoint(newWaypoint, "POST").then(function(response){
+        console.log("Post was successful: ", response);
+        context.setState({indexInQuest: context.state.indexInQuest++});
+      });
+
       this.setState({value: null});
     }
   },
 
 	render: function(){
-    console.log(this.props);
     return(
     	<div>
     	<FormView
