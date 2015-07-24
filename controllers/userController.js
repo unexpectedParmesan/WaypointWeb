@@ -51,7 +51,7 @@ module.exports = {
       where: {
         creator_facebook_id: req.params.facebookId
       }
-    }).fetch({
+    }).fetchAll({
         withRelated: 'waypoints'
     }).then(function (quests) {
       if (!quests) {
