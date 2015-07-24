@@ -11,9 +11,11 @@ var GoogleMaps = window.google.maps;
 class WaypointMap extends React.Component {
   constructor(props) {
     super(props);
+    var markers = (!this.props.waypoints) ? [] : this.props.waypoints;
+
     this.state = {
       map: null,
-      markers: [],
+      markers: markers,
     };
   }
 
