@@ -28,11 +28,11 @@ class Main extends React.Component {
       quests: null,
       currentQuest: null,
       currentWaypoint: null,
-      waypoints: [{
-          title: 'St. Patrick Churck', 
-          latitude: 37.7855876, 
-          longitude: -122.4035084 
-        }]
+      // waypoints: [{
+      //     title: 'St. Patrick Churck', 
+      //     latitude: 37.7855876, 
+      //     longitude: -122.4035084 
+      //   }]
     };
   }
 

@@ -33,26 +33,7 @@ class WaypointMap extends React.Component {
     )
   }
 
-  // checkForPassedWaypoints () {
-
-  //   if (this.props.waypoints) {
-  //     var waypoints = this.props.waypoints;
-
-  //     var markers = _.map(waypoints, function (waypointObj) {
-  //       return GoogleMaps.Marker({
-  //         position: new GoogleMaps.LatLng(waypointObj.latitude, waypointObj.longitude),
-  //         animation: GoogleMaps.Animation.DROP,
-  //         draggable: true,
-  //       });
-  //     });
-
-  //     this.state.markers = markers;
-  //   }
-  // }
-
   createMap () {
-    
-    console.log('waypoints passed as props', this.props.waypoints);    
 
     var mapOptions = {
       minZoom: 9,
