@@ -39,6 +39,7 @@ class Main extends React.Component {
   componentDidMount() {
     api.getMe().then((user) => {
       this.setState({ user }, () => {
+        console.log(user);
         api.getQuests(this.state.user.facebook_id).then((quests) => {
           this.setState({ quests });
         });
@@ -126,6 +127,8 @@ class Main extends React.Component {
       var quests = this.state.quests.map((item, index) => {
         if (index === this.indexOfCurrentQuest()) {
           return quest;
+        } else {
+          return item;
         }
       });
       this.setState({ quests });
@@ -136,7 +139,8 @@ class Main extends React.Component {
 
   deleteCurrentQuest() {
     api.deleteQuest(this.state.currentQuest).then(() => {
-      var quests = this.state.quests.splice(this.indexOfCurrentQuest(), 1);
+      var quests = this.state.quests;
+      quests.splice(this.indexOfCurrentQuest(), 1);
       this.setState({ quests });
     });
 
@@ -145,6 +149,7 @@ class Main extends React.Component {
   setCurrentWaypoint(id) {
     this.setState({currentWaypoint: id});
   }
+
 
   newWaypoint(waypoint) {
     api.saveWaypoint(waypoint, 'POST').then((waypoint) => {
@@ -163,6 +168,8 @@ class Main extends React.Component {
           quest.map((item, index, array) => {
             if (index === indexOfProperty(array, 'id', waypoint)) {
               return waypoint;
+            } else {
+              return item;
             }
           });
         }

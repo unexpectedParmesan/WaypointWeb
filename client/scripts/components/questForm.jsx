@@ -26,9 +26,6 @@ class QuestForm extends React.Component {
 		};
   }
 
-	componentWillMount() {
-
-	}
 
   save() {
 
@@ -48,8 +45,12 @@ class QuestForm extends React.Component {
 
   }
 
+  destroy() {
+    this.props.deleteQuest();
+  }
+
   render() {
-    return(
+    return (
     	<div>
 	    	<FormView
 	    	  ref="questForm"
@@ -57,10 +58,11 @@ class QuestForm extends React.Component {
 	        value={this.state.quest}
 	      />
 			<button onClick={this.save.bind(this)}>Save</button>
-      </div>
-
-    );
+      <button onClick={this.destroy.bind(this)}>Delete</button>
+    </div>
+  );
   }
+
 }
 
 module.exports = QuestForm;

@@ -12,30 +12,37 @@ class QuestListItem extends React.Component {
 
   render() {
 
-    this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
+    if (this.props.quest) {
+      this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
-    return (
-      <li
-        onClick={() => {
-          this.props.setCurrentQuest(this.props.quest.id);
-        }}
-        >
-        <div>
-          <h3>{this.props.quest.title}</h3>
-          <p>{this.props.quest.description}</p>
+      return (
+        <li
+          onClick={() => {
+            this.props.setCurrentQuest(this.props.quest.id);
+          }}
+          >
           <div>
-            <span>waypoints: <b>{this.props.quest.waypoints.length}</b> - </span>
-            <span>length: <b>{this.props.quest.length}</b> - </span>
-            <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
-            <br />
+            <h3>{this.props.quest.title}</h3>
+            <p>{this.props.quest.description}</p>
+            <div>
+              <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
+              <span>length: <b>{this.props.quest.length}</b> - </span>
+              <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
+              <br />
 
-            <WaypointList quest={this.props.quest} />
+              <WaypointList quest={this.props.quest} />
 
-            <br />
+              <br />
+            </div>
           </div>
-        </div>
-      </li>
-    );
+        </li>
+      );
+      
+    } else {
+      return (
+        <div></div>
+      )
+    }
   }
 }
 
