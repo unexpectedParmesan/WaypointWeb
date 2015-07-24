@@ -7,13 +7,19 @@
 
 var $ = require('jquery');
 
+if (process.env.NODE_ENV === 'production') {
+  var baseUrl = 'waypointserver.herokuapp.com'
+} else {
+  var baseUrl = 'http://localhost:3000'
+}
+
 var API = {
-    
-    /* 
+
+    /*
     ** Method: getMe
     **
     ** Description: Returns the current user logged into Waypoint
-    ** 
+    **
     ** Example: var thisUser = getMe();
     **          console.log(thisUser);
     **          // {
@@ -38,7 +44,7 @@ var API = {
 
     },
 
-    /* 
+    /*
     ** Method: getQuests
     **
     ** Description: Returns all quests created by user. Returns all quests created in app if no userId is provided.
@@ -58,14 +64,14 @@ var API = {
         });
     },
 
-    /* 
+    /*
     ** Method: getQuest
     **
     ** Description: Returns quest object for the questId supplied.
     */
     getQuest: function (questId) {
       if (!questId) { throw new Error("Must provide questId as an argument to getQuest()"); }
-      
+
       return $.ajax({
         url: 'http://localhost:3000/quests/' + questId
       })
@@ -75,16 +81,16 @@ var API = {
         .fail(function (res) {
           return res;
         });
-    }, 
-    
-    /* 
+    },
+
+    /*
     ** Method: getWaypoints
     **
     ** Description: Returns all quest waypoints for the supplied questId
     */
     getWaypoints: function (questId) {
       if (!questId) { throw new Error("Must provide questId as an argument to getWaypoints()"); }
-      
+
       return $.ajax({
         url: 'http://localhost:3000/quests/' + questId + '/waypoints'
       })
@@ -96,11 +102,11 @@ var API = {
         });
     },
 
-    /* 
+    /*
     ** Method: saveQuest
     **
     ** Description: Creates or updates a quest. Requires the full quest object and the corresponding http method POST or PUT.
-    ** Example: 
+    ** Example:
     ** questObj = {
     **   title: "Quest Title",
     **   length: "6 miles",
@@ -113,13 +119,21 @@ var API = {
     saveQuest: function(questObj, httpMethod) {
 
       if (!questObj || !httpMethod) {
-        throw new Error("Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT");
-      } else if (!(httpMethod !== "POST" || httpMethod !== "PUT")) {
-        throw new Error("Provided httpMethod must be POST or PUT");
+        throw new Error('Missing argument(s) to saveQuest(). Provide quest object and http method POST or PUT');
+      } else if (!(httpMethod === 'POST' || httpMethod === 'PUT')) {
+        throw new Error('Provided httpMethod must be POST or PUT');
       }
 
+      console.log(questObj);
+
+      var url = baseUrl + '/quests/';
+      if (httpMethod === 'PUT') {
+        url += questObj.id;
+      }
+
+
       return $.ajax({
-        url: 'http://localhost:3000/quests',
+        url: url,
         method: httpMethod,
         data: JSON.stringify(questObj),
         dataType: 'json',
@@ -133,11 +147,11 @@ var API = {
         });
     },
 
-    /* 
+    /*
     ** Method: saveWaypoint
     **
     ** Description: Creates or updates a waypoint for a given quest. Requires the full waypoint object and the corresponding http method POST or PUT.
-    ** Example: 
+    ** Example:
     ** waypointObj = {
     **   questId: 16,
     **   indexInQuest: 0,
@@ -173,8 +187,8 @@ var API = {
           return res;
         });
     },
-    
-    /* 
+
+    /*
     ** Method: deleteQuest
     **
     ** Description: Deletes quest from the database
@@ -195,8 +209,8 @@ var API = {
           return false;
         });
     },
-    
-    /* 
+
+    /*
     ** Method: deleteWaypoint
     **
     ** Description: Deletes waypoint from given quest in the database

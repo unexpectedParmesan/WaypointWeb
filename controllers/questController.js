@@ -1,6 +1,4 @@
-var url = require('url');
 var Quest = require('../db/models/quest.js');
-var Quests = require('../db/collections/quests.js');
 
 module.exports = {
 
@@ -50,6 +48,7 @@ module.exports = {
           quest.set(key, req.body[key]);
         }
         quest.save().then(function(quest) {
+          console.log('==========> saved quest', quest);
           if (!quest) {
             res.status(500).send('Internal server error');
           } else {

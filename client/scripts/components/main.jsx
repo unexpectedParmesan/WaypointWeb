@@ -11,6 +11,7 @@ var api = require('../helpers/api.helper');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
+  console.log('calling indexOfProperty');
   for (var i = 0; i < array.length; i++) {
     if (array[i][key] === targetVal) {
       return i;
@@ -25,16 +26,24 @@ class Main extends React.Component {
       user: {
         facebook_id: null
       },
-      quests: [],
+      quests: null,
       currentQuest: null,
       currentWaypoint: null,
     };
   }
 
   componentDidMount() {
-    api.getMe().then(function(user) {
-      this.setState({ user });
-    }.bind(this));
+    api.getMe().then((user) => {
+      this.setState({ user }, () => {
+        api.getQuests(this.state.user.facebook_id).then((quests) => {
+          this.setState({ quests });
+        });
+      });
+    });
+
+
+
+
   }
 
 ///////////////////////////////
@@ -43,7 +52,8 @@ class Main extends React.Component {
 
   render() {
     var questList;
-    if (this.state.user.facebook_id) {
+    var questForm;
+    if (this.state.quests) {
       questList = (
         <QuestList
           userId={this.state.user.facebook_id}
@@ -53,20 +63,28 @@ class Main extends React.Component {
           newQuest={this.newQuest.bind(this)}
         />
       );
-    } else {
-      questList = <div />;
-    }
-    return (
-      <div>
-        <Nav user={this.state.user} />
-        {questList}
-    	  <QuestForm
+
+      questForm = (
+        <QuestForm
           userId={this.state.user.facebook_id}
           quest={this.state.quests[this.indexOfCurrentQuest()]}
           updateQuest={this.updateCurrentQuest.bind(this)}
           deleteQuest={this.deleteCurrentQuest.bind(this)}
         />
+    );
 
+    } else {
+      questList = <div />;
+      questForm = <div />;
+    }
+
+
+
+    return (
+      <div>
+        <Nav user={this.state.user} />
+        {questList}
+        {questForm}
       </div>
     );
   }
@@ -84,15 +102,11 @@ class Main extends React.Component {
       title: 'Untitled Quest',
       description: 'Add a description here',
       length: '0 mi',
-      timeEstimate: '99 hrs',
+      estimatedTime: '99 hrs',
       facebookId: this.state.user.facebook_id
     };
 
-    // var context = this;
-    // console.log(this);
-
     api.saveQuest(newQuest, 'POST').then((quest) => {
-      // debugger;
       var quests = this.state.quests.concat([quest]);
       this.setState({
         quests,
@@ -104,6 +118,7 @@ class Main extends React.Component {
 
   updateCurrentQuest(quest) {
     api.saveQuest(quest, 'PUT').then((quest) => {
+      console.log('we just updated this quest!', quest);
       var quests = this.state.quests.map((item, index) => {
         if (index === this.indexOfCurrentQuest()) {
           return quest;
@@ -164,7 +179,12 @@ class Main extends React.Component {
   }
 
   indexOfCurrentQuest() {
-    return indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
+    if (this.state.currentQuest === null) {
+      return 0;
+    } else {
+      return indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
+    }
+
   }
 }
 
