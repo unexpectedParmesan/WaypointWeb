@@ -23,11 +23,12 @@ class WaypointList extends React.Component {
     if (!this.props.quest.waypoints) {
       waypointList = <div></div>;
     } else {
-      waypointList = this.props.quest.waypoints.map(function(waypoint, index) {
+      waypointList = this.props.quest.waypoints.map((waypoint, index) => {
         return (
           <WaypointListItem
             key={index}
             waypoint={waypoint}
+            setCurrentWaypoint={this.props.setCurrentWaypoint}
           />
         );
       });

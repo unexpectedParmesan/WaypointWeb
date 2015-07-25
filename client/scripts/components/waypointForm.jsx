@@ -1,7 +1,5 @@
 var React = require('react');
-var Reflux = require('reflux');
 var tform = require('tcomb-form');
-var Utils = require('../helpers/api.helper.js');
 
 var FormView = tform.form.Form;
 
@@ -12,65 +10,86 @@ var Waypoint = tform.struct({
   longitude: tform.Num
 });
 
-var WaypointForm = React.createClass({
+class WaypointForm extends React.Component {
 	// mixins: [Reflux.connect(QuestFormStore)],
-  
-  getInitialState: function(){
-    return {
-    	value: null,
-    	isSubmitted: false
-    }
-  },
 
-  onChange: function(val){
+  constructor(props) {
+    super(props);
+		console.log(props);
+		this.state = {
+			waypoint: {
+				title: props.waypoint.title,
+				description: props.waypoint.description,
+				latitude: props.waypoint.latitude,
+				longitude: props.waypoint.longitude,
+				// indexInQuest: props.waypoint.indexInQuest,
+			}
+		};
+  }
+
+	componentWillReceiveProps(nextProps) {
+    // console.log('nextProps: ', nextProps);
     this.setState({
-    	value: val,
-      indexInQuest: 0
-    })
-  },
+      waypoint: {
+        title: nextProps.waypoint.title,
+        description: nextProps.waypoint.description,
+        latitude: nextProps.waypoint.latitude,
+        longitude: nextProps.waypoint.longitude,
+        // indexInQuest: nextProps.waypoint.indexInQuest,
+      }
+    });
+  }
 
-  save: function() {
-	  var value = this.state.value;
-    var user = this.props.user;
-    var context = this;
+	// onChange(val) {
+	// 	this.setState({
+	// 		value: val,
+	// 		// indexInQuest: 0
+	// 	});
+	// }
 
-	  if (value) {
-    var validation = this.refs.waypointForm.validate();
-    if (validation.errors.length > 0){
-      console.log("Error: ", validation.errors[0].message);
+  save() {
+
+		var value = this.refs.waypointForm.getValue();
+
+	  if (this.state.waypoint) {
+	    var validation = this.refs.waypointForm.validate();
+	    if (validation.errors.length > 0) {
+	      console.log('Error: ', validation.errors[0].message);
+	    } else {
+				console.log('this.props.waypoint:', this.props.waypoint);
+	      var newWaypoint = {
+	        quest_id: this.props.waypoint.quest_id,
+					title: value.title,
+					description: value.description,
+					latitude: value.latitude,
+					longitude: value.longitude,
+					// index_in_quest: this.props.waypoint.index_in_quest,
+					id: this.props.waypoint.id,
+	      };
+				this.props.updateWaypoint(newWaypoint);
+			}
     }
-      var newWaypoint = {
-        questId: this.props.questId,
-				indexInQuest: this.state.indexInQuest,
-				latitude: value.latitude,
-				longitude: value.longitude,
-				title: value.title,
-				description: value.description
-      };
-      console.log("Waypoint saved: ", newWaypoint);
-      Utils.saveWaypoint(newWaypoint, "POST").then(function(response){
-        console.log("Post was successful: ", response);
-        context.setState({indexInQuest: context.state.indexInQuest++});
-      });
+  }
 
-      this.setState({value: null});
-    }
-  },
-
-	render: function(){
-    return(
-    	<div>
-    	<FormView
-    	  ref="waypointForm"
-    	  type={Waypoint}
-        value={this.state.value}
-        onChange = {this.onChange}
-        />
-        <button onClick={this.save}>Save</button>
-      </div>
-    )
+	destroy() {
+		this.props.deleteWaypoint();
 	}
 
-});
+	render() {
+    return (
+    	<div>
+	    	<FormView
+	    	  ref="waypointForm"
+	    	  type={Waypoint}
+	        value={this.state.waypoint}
+	      />
+				<button onClick={this.save.bind(this)}>Save</button>
+				<button onClick={this.destroy.bind(this)}>Delete</button>
+      </div>
+    );
+					// onChange={this.onChange.bind(this, this.state.waypoint)}
+	}
+
+}
 
 module.exports = WaypointForm;
