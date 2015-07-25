@@ -12,7 +12,7 @@ var Map = require('./map.jsx');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
-  console.log('calling indexOfProperty');
+  // console.log('calling indexOfProperty');
   for (var i = 0; i < array.length; i++) {
     if (array[i][key] === targetVal) {
       return i;
@@ -75,20 +75,29 @@ class Main extends React.Component {
       );
 
       waypointList = (
-         <WaypointList 
+         <WaypointList
            quest={this.state.quests[this.indexOfCurrentQuest()]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
            newWaypoint={this.newWaypoint.bind(this)}
         />
       );
 
-      waypointForm = (
-        <WaypointForm
-          updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-          deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
-          waypoint={this.state.quests[this.state.index].waypoints[this.indexOfCurrentWaypoint()]}
-        />
-      );
+      if (this.state.quests[this.state.index].waypoints.length > 0) {
+        console.log('waypoint list for selected quest:', this.state.quests[this.state.index].waypoints);
+        console.log('index of current waypoint:', this.indexOfCurrentWaypoint());
+        waypointForm = (
+          <WaypointForm
+            waypoint={this.state.quests[this.state.index].waypoints[this.indexOfCurrentWaypoint() || 0]}
+            updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+            deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
+          />
+        );
+      } else {
+        waypointForm = (
+          <div />
+        );
+      }
+
 
 
     } else {
@@ -169,7 +178,9 @@ class Main extends React.Component {
   }
 
   setCurrentWaypoint(id) {
-    this.setState({currentWaypoint: id});
+    this.setState({currentWaypoint: id}, () => {
+      console.log('the current selected waypoint is', this.state.currentWaypoint);
+    });
   }
 
 
@@ -185,29 +196,54 @@ class Main extends React.Component {
 
   updateCurrentWaypoint(waypoint) {
     api.saveWaypoint(waypoint, 'PUT').then((waypoint) => {
-      var quests = this.state.quests.map((quest, index) => {
-        if (index === this.indexOfCurrentQuest()) {
-          quest.map((item, index, array) => {
-            if (index === indexOfProperty(array, 'id', waypoint)) {
-              return waypoint;
-            } else {
-              return item;
-            }
-          });
-        }
-      });
+      var quests = this.state.quests.slice();
+      var quest = quests[this.state.index];
+      if (quest.waypoints && quest.waypoints.length > 0) {
+        quests[this.state.index] = quest.waypoints.map((item, index, array) => {
+          if (index === indexOfProperty(array, 'id', waypoint)) {
+            return waypoint;
+          } else {
+            return item;
+          }
+        });
+      }
       this.setState({ quests });
     });
+
+
+    //
+    //   var quests = this.state.quests.map((quest, index) => {
+    //     if (index === this.indexOfCurrentQuest() && quest.waypoints.length > 0) {
+    //       return quest.waypoints.map((item, index, array) => {
+    //         if (index === indexOfProperty(array, 'id', waypoint)) {
+    //           return waypoint;
+    //         } else {
+    //           return item;
+    //         }
+    //       });
+    //     } else {
+    //       quest.waypoints = [];
+    //       return quest;
+    //     }
+    //   });
+    //   this.setState({ quests });
+    // });
   }
 
   deleteCurrentWaypoint() {
-    api.deleteWaypoint(this.state.currentWaypoint).then(() => {
+    api.deleteWaypoint(this.state.currentQuest, this.state.currentWaypoint).then(() => {
       var questIndex = this.indexOfCurrentQuest();
       var waypointIndex = indexOfProperty(
         this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint
       );
       var quests = this.state.quests[questIndex].waypoints.splice(waypointIndex, 1);
       this.setState({ quests });
+      if (this.state.quests[questIndex].waypoints) {
+        this.setCurrentWaypoint(this.state.quests[questIndex].waypoints[0].id);
+      } else {
+        this.setCurrentWaypoint(null);
+      }
+      this.setState({waypointIndex: 0});
     });
   }
 
@@ -221,10 +257,13 @@ class Main extends React.Component {
   }
 
   indexOfCurrentWaypoint() {
-    if (this.state.currentQuest === null || !this.state.currentQuest.waypoints) {
+    if (this.state.currentQuest === null || !this.state.quests[this.state.index].waypoints) {
+      console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.state.index].waypoints);
       return null;
     } else {
       var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
+      console.log('waypoints at quest index:', this.state.quests[questIndex].waypoints);
+      console.log('current waypoint id:', this.state.currentWaypoint);
       return indexOfProperty(this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint);
     }
 

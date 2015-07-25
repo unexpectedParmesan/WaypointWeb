@@ -16,7 +16,6 @@ class QuestListItem extends React.Component {
       return (
         <li
           onClick={() => {
-            console.log('setting current quest in questListItem: ', this.props.quest.id);
             this.props.setCurrentQuest(this.props.quest.id);
           }}
           >
@@ -32,11 +31,11 @@ class QuestListItem extends React.Component {
           </div>
         </li>
       );
-      
+
     } else {
       return (
         <div></div>
-      )
+      );
     }
   }
 }

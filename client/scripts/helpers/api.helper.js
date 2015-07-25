@@ -170,19 +170,19 @@ var API = {
       }
       console.log("waypoint object: ", waypointObj);
       return $.ajax({
-        url: 'http://localhost:3000/quests/' + waypointObj.questId +'/waypoints',
+        url: 'http://localhost:3000/quests/' + waypointObj.quest_id + '/waypoints/' + waypointObj.id,
         method: httpMethod,
         data: JSON.stringify(waypointObj),
         dataType: 'json',
         contentType: 'application/json'
       })
         .done(function (res) {
-          console.log('saveQuest success: ')
+          console.log('saveQuest success: ');
           console.log(res);
           return res;
         })
         .fail(function (res) {
-          console.log('saveQuest fail: ')
+          console.log('saveQuest fail: ');
           console.log(res);
           return res;
         });

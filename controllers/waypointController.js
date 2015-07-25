@@ -37,6 +37,9 @@ module.exports = {
   },
 
   updateWaypoint: function(req, res) {
+
+    console.log('request body:', req.body);
+
     new Waypoint({
       id: req.params.waypointId
     }).fetch().then(function(waypoint) {

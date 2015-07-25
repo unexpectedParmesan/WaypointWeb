@@ -18,9 +18,9 @@ class WaypointListItem extends React.Component {
     return (
       <li
         onClick={() => {
-          this.updateSelectedWaypoint(this.props.waypoint.id);
+          this.props.setCurrentWaypoint(this.props.waypoint.id);
         }}
-        >
+      >
         <div>
           <h4>{this.props.waypoint.title}</h4>
           <p>{this.props.waypoint.description}</p>

@@ -1,9 +1,7 @@
 var React = require('react');
-var Utils = require('../helpers/api.helper.js');
 var tform = require('tcomb-form');
 
 var FormView = tform.form.Form;
-
 
 var Quest = tform.struct({
 	title: tform.Str,
@@ -27,15 +25,15 @@ class QuestForm extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log('nextProps: ', nextProps);
-    this.setState( {
+    // console.log('nextProps: ', nextProps);
+    this.setState({
       quest: {
         title: nextProps.quest.title,
         description: nextProps.quest.description,
         length: nextProps.quest.length,
         estimatedTime: nextProps.quest.estimated_time,
       }
-    })
+    });
   }
 
 
@@ -69,10 +67,10 @@ class QuestForm extends React.Component {
 	    	  type={Quest}
 	        value={this.state.quest}
 	      />
-			<button onClick={this.save.bind(this)}>Save</button>
-      <button onClick={this.destroy.bind(this)}>Delete</button>
-    </div>
-  );
+				<button onClick={this.save.bind(this)}>Save</button>
+      	<button onClick={this.destroy.bind(this)}>Delete</button>
+    	</div>
+  	);
   }
 
 }
