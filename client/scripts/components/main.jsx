@@ -2,7 +2,9 @@
 
 var React = require('react');
 var QuestForm = require('./questForm.jsx');
+var WaypointForm = require('./waypointForm.jsx');
 var QuestList = require('./questList.jsx');
+var WaypointList = require('./waypointList.jsx');
 var Nav = require('./navbar.jsx');
 var api = require('../helpers/api.helper');
 
@@ -28,11 +30,7 @@ class Main extends React.Component {
       quests: null,
       currentQuest: null,
       currentWaypoint: null,
-      // waypoints: [{
-      //     title: 'St. Patrick Churck', 
-      //     latitude: 37.7855876, 
-      //     longitude: -122.4035084 
-      //   }]
+      index: 0
     };
   }
 
@@ -46,9 +44,6 @@ class Main extends React.Component {
       });
     });
 
-
-
-
   }
 
 ///////////////////////////////
@@ -58,6 +53,8 @@ class Main extends React.Component {
   render() {
     var questList;
     var questForm;
+    var waypointList;
+    var waypointForm;
     if (this.state.quests) {
       questList = (
         <QuestList
@@ -72,31 +69,47 @@ class Main extends React.Component {
       questForm = (
         <QuestForm
           userId={this.state.user.facebook_id}
-          quest={this.state.quests[this.indexOfCurrentQuest()]}
+          quest={this.state.quests[this.state.index]}
           updateQuest={this.updateCurrentQuest.bind(this)}
           deleteQuest={this.deleteCurrentQuest.bind(this)}
         />
-    );
+      );
+
+      waypointList = (
+         <WaypointList quest={this.state.quests[this.indexOfCurrentQuest()]} />
+      );
+
+      waypointForm = (
+        <div></div>
+      );
+
 
     } else {
       questList = <div />;
       questForm = <div />;
+      waypointList = <div />;
+      waypointForm = <div />;
     }
 
-
-
     return (
-      <div>
+      <div className="container-fluid">
         <Nav user={this.state.user} />
-        {questList}
-        {questForm}
+        <div className="col-md-6">
+          {questList}
+          {questForm}
+        </div>
+        <div className = "col-md-6">
+          {waypointList}
+          {waypointForm}
+        </div>
       </div>
     );
   }
 
   setCurrentQuest(id) {
-    this.setState({currentQuest: id}, function() {
+    this.setState({currentQuest: id}, () => {
       console.log('the current selected quest is', this.state.currentQuest);
+      this.setState({index: this.indexOfCurrentQuest()});
     });
   }
 
@@ -142,6 +155,8 @@ class Main extends React.Component {
       var quests = this.state.quests;
       quests.splice(this.indexOfCurrentQuest(), 1);
       this.setState({ quests });
+      this.setCurrentQuest(this.state.quests[0].id);
+      this.setState({index: 0});
     });
 
   }

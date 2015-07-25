@@ -1,8 +1,6 @@
 'use strict';
 
 var React = require('react');
-var WaypointList = require('./waypointList.jsx');
-
 
 class QuestListItem extends React.Component {
 
@@ -18,6 +16,7 @@ class QuestListItem extends React.Component {
       return (
         <li
           onClick={() => {
+            console.log('setting current quest in questListItem: ', this.props.quest.id);
             this.props.setCurrentQuest(this.props.quest.id);
           }}
           >
@@ -28,10 +27,6 @@ class QuestListItem extends React.Component {
               <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
               <span>length: <b>{this.props.quest.length}</b> - </span>
               <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
-              <br />
-
-              <WaypointList quest={this.props.quest} />
-
               <br />
             </div>
           </div>

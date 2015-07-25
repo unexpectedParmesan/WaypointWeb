@@ -21,9 +21,21 @@ class QuestForm extends React.Component {
 				title: props.quest.title,
 				description: props.quest.description,
 				length: props.quest.length,
-				estimatedTime: props.quest.estimatedTime,
+				estimatedTime: props.quest.estimated_time,
 			}
 		};
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('nextProps: ', nextProps);
+    this.setState( {
+      quest: {
+        title: nextProps.quest.title,
+        description: nextProps.quest.description,
+        length: nextProps.quest.length,
+        estimatedTime: nextProps.quest.estimated_time,
+      }
+    })
   }
 
 
