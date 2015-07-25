@@ -19,16 +19,19 @@ class WaypointList extends React.Component {
 
   render() {
 
-
-
-  var waypointList = this.props.quest.waypoints.map(function(waypoint, index) {
-    return (
-      <WaypointListItem
-        key={index}
-        waypoint={waypoint}
-      />
-    );
-  }.bind(this));
+    var waypointList;
+    if (!this.props.quest.waypoints) {
+      waypointList = <div></div>;
+    } else {
+      waypointList = this.props.quest.waypoints.map(function(waypoint, index) {
+        return (
+          <WaypointListItem
+            key={index}
+            waypoint={waypoint}
+          />
+        );
+      });
+    }
 
 
     return (

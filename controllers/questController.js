@@ -52,7 +52,13 @@ module.exports = {
           if (!quest) {
             res.status(500).send('Internal server error');
           } else {
-            res.status(201).send(quest);
+            new Quest({
+              id: quest.id
+            }).fetch({
+              withRelated: 'waypoints'
+            }).then(function(questWithWaypoints) {
+             res.status(201).send(questWithWaypoints);  
+            })
           }
         });
       }
