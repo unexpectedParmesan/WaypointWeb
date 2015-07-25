@@ -19,6 +19,7 @@ class WaypointMap extends React.Component {
     };
   }
 
+
   componentDidMount () {
     this.createMap();
   }
@@ -32,7 +33,27 @@ class WaypointMap extends React.Component {
     )
   }
 
+  // checkForPassedWaypoints () {
+
+  //   if (this.props.waypoints) {
+  //     var waypoints = this.props.waypoints;
+
+  //     var markers = _.map(waypoints, function (waypointObj) {
+  //       return GoogleMaps.Marker({
+  //         position: new GoogleMaps.LatLng(waypointObj.latitude, waypointObj.longitude),
+  //         animation: GoogleMaps.Animation.DROP,
+  //         draggable: true,
+  //       });
+  //     });
+
+  //     this.state.markers = markers;
+  //   }
+  // }
+
   createMap () {
+    
+    console.log('waypoints passed as props', this.props.waypoints);    
+
     var mapOptions = {
       minZoom: 9,
       zoom: 16, 
@@ -44,6 +65,13 @@ class WaypointMap extends React.Component {
     GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
       context.createMarker(event.latLng.A, event.latLng.F);
     });
+
+    if (this.props.waypoints) {
+      _.each(this.props.waypoints, function(obj){
+        this.createMarker(obj.latitude, obj.longitude);
+      }, this)
+    }
+
     return this.map;
   }
 
@@ -70,6 +98,7 @@ class WaypointMap extends React.Component {
     })
 
     this.state.markers.push(marker);
+    marker.setMap(this.state.map);
   }
 }
 
