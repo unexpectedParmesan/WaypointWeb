@@ -6,34 +6,19 @@
   <meta name="viewport" content="width=device-width">
 <!--   <link rel="stylesheet" href="styles/main.css">
  -->
+ <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDU7GdO_cm_qryUISMwk9C2hgxOdqF6-k">
+    </script>
 </head>
 <body>
   <!-- <h2>Welcome home!</h2> -->
   <div id="content"></div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
   <script src="scripts/app.js"></script>
   <script>
     // Removes #/_=_ hash Facebook appends to URL
     if (window.location.hash && window.location.hash === "#/_=_") {
       window.location.hash = "";
     }
-
-    // var getQuest = function(questId) {
-    //
-    //     return $.ajax({
-    //         url: 'http://localhost:3000/quests/' + questId
-    //       })
-    //         .done(function (res) {
-    //           console.log(res);
-    //           return res;
-    //         })
-    //         .fail(function (res) {
-    //           console.log(res);
-    //           return res;
-    //         });
-    //   };
-    //
-    // getQuest(2);
   </script>
 </body>
 </html>

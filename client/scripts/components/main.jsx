@@ -1,13 +1,12 @@
 'use strict';
 
 var React = require('react');
-// var Reflux = require('reflux');
-// var Actions = require('../actions/actions');
-// var User = require('../stores/user.store');
 var QuestForm = require('./questForm.jsx');
 var QuestList = require('./questList.jsx');
 var Nav = require('./navbar.jsx');
 var api = require('../helpers/api.helper');
+
+var Map = require('./map.jsx');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
@@ -29,6 +28,11 @@ class Main extends React.Component {
       quests: null,
       currentQuest: null,
       currentWaypoint: null,
+      // waypoints: [{
+      //     title: 'St. Patrick Churck', 
+      //     latitude: 37.7855876, 
+      //     longitude: -122.4035084 
+      //   }]
     };
   }
 

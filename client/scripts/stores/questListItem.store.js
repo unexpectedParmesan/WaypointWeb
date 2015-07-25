@@ -1,1 +1,0 @@
-questListItem.store.js
