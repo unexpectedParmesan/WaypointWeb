@@ -60,7 +60,6 @@ class Main extends React.Component {
         <QuestList
           userId={this.state.user.facebook_id}
           quests={this.state.quests}
-          currentQuest={this.state.currentQuest}
           setCurrentQuest={this.setCurrentQuest.bind(this)}
           newQuest={this.newQuest.bind(this)}
         />
@@ -76,11 +75,19 @@ class Main extends React.Component {
       );
 
       waypointList = (
-         <WaypointList quest={this.state.quests[this.indexOfCurrentQuest()]} />
+         <WaypointList 
+           quest={this.state.quests[this.indexOfCurrentQuest()]}
+           setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+           newWaypoint={this.newWaypoint.bind(this)}
+        />
       );
 
       waypointForm = (
-        <div></div>
+        <WaypointForm
+          updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+          deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
+          waypoint={this.state.quests[this.state.index].waypoints[this.indexOfCurrentWaypoint()]}
+        />
       );
 
 
@@ -212,6 +219,17 @@ class Main extends React.Component {
     }
 
   }
+
+  indexOfCurrentWaypoint() {
+    if (this.state.currentQuest === null || !this.state.currentQuest.waypoints) {
+      return null;
+    } else {
+      var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
+      return indexOfProperty(this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint);
+    }
+
+  }
+
 }
 
 module.exports = Main;

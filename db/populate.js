@@ -80,7 +80,7 @@ var waypoint6 = new Waypoint({
 var user1 = new User({
 	facebook_id: '10101794099292433',
 	name: 'bo diddley',
-	profile_pic: 'fake url'
+	profile_pic: 'http://a.deviantart.net/avatars/s/_/s-shy-kitten.jpg?1'
 });
 
 var activeQuest1 = new userActiveQuest({
