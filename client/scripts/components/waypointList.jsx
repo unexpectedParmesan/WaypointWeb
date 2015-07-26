@@ -36,9 +36,12 @@ class WaypointList extends React.Component {
 
 
     return (
-      <ul>
-        {waypointList}
-      </ul>
+      <div>
+        <ul>
+          {waypointList}
+        </ul>
+        <button onClick={this.props.newWaypoint}>new waypoint</button>
+      </div>
     );
   }
 }
