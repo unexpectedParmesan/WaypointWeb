@@ -58,6 +58,6 @@ authRouter.get('/facebook',
 
 // successRedirect: '/home'
 authRouter.get('/facebook/callback', 
-  passport.authenticate('facebook', {failureRedirect: '/login', successRedirect: '/home'}));
+  passport.authenticate('facebook', {failureRedirect: '/', successRedirect: '/home'}));
 
 module.exports = authRouter;
