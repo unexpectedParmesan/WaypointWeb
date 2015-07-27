@@ -4,6 +4,7 @@ var passport          = require('passport');
 var FacebookStrategy  = require('passport-facebook').Strategy;
 var authRouter        = express.Router();
 var User              = require('../db/models/user.js');
+var baseURL           = require('../environment');
 
 var FB_APP_ID         = '943850322345964';
 var FB_APP_SECRET     = '2ec70a44be83edce3db4cbf4d25d959f';
@@ -21,7 +22,7 @@ passport.deserializeUser(function(obj, done){
 passport.use(new FacebookStrategy({
     clientID: FB_APP_ID,
     clientSecret: FB_APP_SECRET,
-    callbackURL: 'http://localhost:3000/auth/facebook/callback',
+    callbackURL: baseURL + '/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'photos']
   }, 
   function(accessToken, refreshToken, profile, done){
