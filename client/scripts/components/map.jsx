@@ -134,7 +134,6 @@ class WaypointMap extends React.Component {
   }
 }
 
-
 var styles = {
   searchInput: {
     backgroundColor: '#ffffff',

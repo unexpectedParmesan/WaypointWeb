@@ -30,7 +30,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/login', loginRouter);
+// app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/quests', questsRouter);
 app.use('/users', usersRouter);
