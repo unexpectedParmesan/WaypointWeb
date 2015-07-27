@@ -6,7 +6,7 @@
 'use strict';
 
 var $ = require('jquery');
-var baseURL = require('../../../baseURLironment');
+var baseURL = require('../../../environment');
 
 var API = {
 
