@@ -39,7 +39,20 @@ class Main extends React.Component {
       this.setState({ user }, () => {
         console.log(user);
         api.getQuests(this.state.user.facebook_id).then((quests) => {
-          this.setState({ quests });
+          quests.forEach( (quest) => {
+            if (!quest.waypoints) {
+              quest.waypoints = [];
+            }
+          });
+          this.setState({ quests }, () => {
+            if (quests.length) {
+              this.setState({
+                currentQuest: quests[0].id
+              })
+            } else {
+
+            }
+          });
         });
       });
     });
@@ -76,7 +89,7 @@ class Main extends React.Component {
 
       waypointList = (
          <WaypointList
-           quest={this.state.quests[this.indexOfCurrentQuest()]}
+           quest={this.state.quests[this.state.index]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
            newWaypoint={this.newWaypoint.bind(this)}
         />
@@ -123,6 +136,7 @@ class Main extends React.Component {
   }
 
   setCurrentQuest(id) {
+    console.log('quests now: ', this.state.quests);
     this.setState({currentQuest: id}, () => {
       console.log('the current selected quest is', this.state.currentQuest);
       this.setState({index: this.indexOfCurrentQuest()});
@@ -137,7 +151,8 @@ class Main extends React.Component {
       description: 'Add a description here',
       length: '0 mi',
       estimatedTime: '99 hrs',
-      facebookId: this.state.user.facebook_id
+      facebookId: this.state.user.facebook_id,
+      waypoints: []
     };
 
     api.saveQuest(newQuest, 'POST').then((quest) => {
@@ -184,23 +199,32 @@ class Main extends React.Component {
   }
 
 
-  newWaypoint(waypoint) {
-    api.saveWaypoint(waypoint, 'POST').then((waypoint) => {
-      var quests = this.state.quests[this.indexOfCurrentQuest()].waypoints.push(waypoint);
-      this.setState({
-        quests,
-        currentQuest: waypoint.id
-      });
+  newWaypoint() {
+    var quests = this.state.quests.slice();
+    var targetQuest = quests[this.indexOfCurrentQuest()];
+    var defaultWaypoint = {
+        quest_id: this.state.currentQuest,
+        index_in_quest: targetQuest.waypoints.length,
+        title: 'untitled waypoint',
+        description: 'add a description',
+        latitude: 37.783932,
+        longitude: -122.409084
+    };
+    api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
+      targetQuest.waypoints.push(waypoint);
+      this.setState({quests});
     });
   }
 
   updateCurrentWaypoint(waypoint) {
+    var context = this;
     api.saveWaypoint(waypoint, 'PUT').then((waypoint) => {
-      var quests = this.state.quests.slice();
-      var quest = quests[this.state.index];
+      var quests = context.state.quests.slice();
+      var questIndex = context.indexOfCurrentQuest();
+      var quest = quests[questIndex];
       if (quest.waypoints && quest.waypoints.length > 0) {
-        quests[this.state.index] = quest.waypoints.map((item, index, array) => {
-          if (index === indexOfProperty(array, 'id', waypoint)) {
+        quests[questIndex].waypoints = quest.waypoints.map((item, index, array) => {
+          if (index === indexOfProperty(array, 'id', waypoint.id)) {
             return waypoint;
           } else {
             return item;
@@ -210,24 +234,6 @@ class Main extends React.Component {
       this.setState({ quests });
     });
 
-
-    //
-    //   var quests = this.state.quests.map((quest, index) => {
-    //     if (index === this.indexOfCurrentQuest() && quest.waypoints.length > 0) {
-    //       return quest.waypoints.map((item, index, array) => {
-    //         if (index === indexOfProperty(array, 'id', waypoint)) {
-    //           return waypoint;
-    //         } else {
-    //           return item;
-    //         }
-    //       });
-    //     } else {
-    //       quest.waypoints = [];
-    //       return quest;
-    //     }
-    //   });
-    //   this.setState({ quests });
-    // });
   }
 
   deleteCurrentWaypoint() {
@@ -243,22 +249,26 @@ class Main extends React.Component {
       } else {
         this.setCurrentWaypoint(null);
       }
-      this.setState({waypointIndex: 0});
     });
   }
 
-  indexOfCurrentQuest() {
-    if (this.state.currentQuest === null) {
-      return 0;
-    } else {
-      return indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
-    }
+  setCurrentQuestIndex(index) {
+    this.setState({index});
+  }
 
+  indexOfCurrentQuest() {
+    var index;
+    if (this.state.currentQuest === null) {
+      index = 0;
+    } else {
+      index = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
+    }
+    return index;
   }
 
   indexOfCurrentWaypoint() {
-    if (this.state.currentQuest === null || !this.state.quests[this.state.index].waypoints) {
-      console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.state.index].waypoints);
+    if (this.indexOfCurrentQuest() === null || this.state.currentQuest === null || !this.state.quests[this.indexOfCurrentQuest()].waypoints) {
+      // console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.indexOfCurrentQuest()].waypoints);
       return null;
     } else {
       var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);

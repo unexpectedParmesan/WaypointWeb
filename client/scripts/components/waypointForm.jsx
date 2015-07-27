@@ -28,17 +28,17 @@ class WaypointForm extends React.Component {
   }
 
 	componentWillReceiveProps(nextProps) {
-    // console.log('nextProps: ', nextProps);
-    this.setState({
-      waypoint: {
-        title: nextProps.waypoint.title,
-        description: nextProps.waypoint.description,
-        latitude: nextProps.waypoint.latitude,
-        longitude: nextProps.waypoint.longitude,
-        // indexInQuest: nextProps.waypoint.indexInQuest,
-      }
-    });
-  }
+	    console.log('waypoint form receiving new props: ', nextProps);
+	    this.setState({
+	      waypoint: {
+	        title: nextProps.waypoint.title,
+	        description: nextProps.waypoint.description,
+	        latitude: nextProps.waypoint.latitude,
+	        longitude: nextProps.waypoint.longitude,
+	        // indexInQuest: nextProps.waypoint.indexInQuest,
+	      }
+	    });
+}
 
 	// onChange(val) {
 	// 	this.setState({

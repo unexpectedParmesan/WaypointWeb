@@ -16,6 +16,7 @@ class QuestListItem extends React.Component {
       return (
         <li
           onClick={() => {
+            console.log('props on click: ', this.props);
             this.props.setCurrentQuest(this.props.quest.id);
           }}
           >
