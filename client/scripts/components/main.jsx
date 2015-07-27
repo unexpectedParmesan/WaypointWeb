@@ -156,6 +156,7 @@ class Main extends React.Component {
     };
 
     api.saveQuest(newQuest, 'POST').then((quest) => {
+      quest.waypoints = [];
       var quests = this.state.quests.concat([quest]);
       this.setState({
         quests,
@@ -186,9 +187,6 @@ class Main extends React.Component {
     api.deleteQuest(this.state.currentQuest).then(() => {
       var quests = context.state.quests;
       quests.splice(context.indexOfCurrentQuest(), 1);
-      // context.setState( {quests}, () => {
-      //   context.setCurrentQuest(context.state.quests[0].id);
-      // });
       context.setState( {currentQuest: context.state.quests[0].id, index: 0}, () => {
         context.setState({quests});
       })
@@ -212,8 +210,7 @@ class Main extends React.Component {
         title: 'untitled waypoint',
         description: 'add a description',
         latitude: 37.783932,
-        longitude: -122.409084,
-        waypoints: []
+        longitude: -122.409084
     };
     api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
       targetQuest.waypoints.push(waypoint);
