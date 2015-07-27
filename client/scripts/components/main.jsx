@@ -237,18 +237,19 @@ class Main extends React.Component {
   }
 
   deleteCurrentWaypoint() {
+    var context = this;
     api.deleteWaypoint(this.state.currentQuest, this.state.currentWaypoint).then(() => {
-      var questIndex = this.indexOfCurrentQuest();
-      var waypointIndex = indexOfProperty(
-        this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint
-      );
-      var quests = this.state.quests[questIndex].waypoints.splice(waypointIndex, 1);
-      this.setState({ quests });
-      if (this.state.quests[questIndex].waypoints) {
-        this.setCurrentWaypoint(this.state.quests[questIndex].waypoints[0].id);
-      } else {
-        this.setCurrentWaypoint(null);
-      }
+      var quests = context.state.quests.slice();
+      var questIndex = context.indexOfCurrentQuest();
+      var waypointIndex = indexOfProperty(quests[questIndex].waypoints, 'id', context.state.currentWaypoint);
+      quests[questIndex].waypoints.splice(waypointIndex, 1);
+      context.setState({ quests }, () => {
+        if (context.state.quests[questIndex].waypoints && context.state.quests[questIndex].waypoints.length) {
+          context.setCurrentWaypoint(context.state.quests[questIndex].waypoints[0].id);
+        } else {
+          context.setCurrentWaypoint(null);
+        }     
+      });
     });
   }
 
