@@ -42,7 +42,7 @@ gulp.task('populate', shell.task([
 
 gulp.task('serve', ['browserify'], shell.task([
   'echo Starting server...',
-  'nodemon server.js'
+  'node server.js'
 ]));
 
 gulp.task('browserify', function() {
@@ -73,4 +73,4 @@ gulp.task('test', shell.task([
     'mocha tests/*.js',
   ]));
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['browserify']);
