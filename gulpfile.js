@@ -2,11 +2,9 @@
 
 var source = require('vinyl-source-stream');
 var gulp = require('gulp');
-// var gutil = require('gulp-util');
+var gutil = require('gulp-util');
 var browserify = require('browserify');
-// var reactify = require('reactify');
 var watchify = require('watchify');
-// var notify = require('gulp-notify');
 var shell = require('gulp-shell');
 var dbTask = require('gulp-db');
 var babelify = require('babelify');
