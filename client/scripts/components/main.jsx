@@ -81,7 +81,7 @@ class Main extends React.Component {
       questForm = (
         <QuestForm
           userId={this.state.user.facebook_id}
-          quest={this.state.quests[this.state.index]}
+          quest={this.state.quests[this.indexOfCurrentQuest()]}
           updateQuest={this.updateCurrentQuest.bind(this)}
           deleteQuest={this.deleteCurrentQuest.bind(this)}
         />
@@ -89,18 +89,18 @@ class Main extends React.Component {
 
       waypointList = (
          <WaypointList
-           quest={this.state.quests[this.state.index]}
+           quest={this.state.quests[this.indexOfCurrentQuest()]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
            newWaypoint={this.newWaypoint.bind(this)}
         />
       );
 
-      if (this.state.quests[this.state.index].waypoints.length > 0) {
-        console.log('waypoint list for selected quest:', this.state.quests[this.state.index].waypoints);
-        console.log('index of current waypoint:', this.indexOfCurrentWaypoint());
+      var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints
+
+      if (currentWaypoints && currentWaypoints.length) {
         waypointForm = (
           <WaypointForm
-            waypoint={this.state.quests[this.state.index].waypoints[this.indexOfCurrentWaypoint() || 0]}
+            waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
             updateWaypoint={this.updateCurrentWaypoint.bind(this)}
             deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
           />
@@ -182,12 +182,16 @@ class Main extends React.Component {
   }
 
   deleteCurrentQuest() {
+    var context = this;
     api.deleteQuest(this.state.currentQuest).then(() => {
-      var quests = this.state.quests;
-      quests.splice(this.indexOfCurrentQuest(), 1);
-      this.setState({ quests });
-      this.setCurrentQuest(this.state.quests[0].id);
-      this.setState({index: 0});
+      var quests = context.state.quests;
+      quests.splice(context.indexOfCurrentQuest(), 1);
+      // context.setState( {quests}, () => {
+      //   context.setCurrentQuest(context.state.quests[0].id);
+      // });
+      context.setState( {currentQuest: context.state.quests[0].id, index: 0}, () => {
+        context.setState({quests});
+      })
     });
 
   }
@@ -208,7 +212,8 @@ class Main extends React.Component {
         title: 'untitled waypoint',
         description: 'add a description',
         latitude: 37.783932,
-        longitude: -122.409084
+        longitude: -122.409084,
+        waypoints: []
     };
     api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
       targetQuest.waypoints.push(waypoint);
