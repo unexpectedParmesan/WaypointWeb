@@ -4,7 +4,7 @@ var indexRouter = express.Router();
 
 indexRouter.get('/', function (req, res) {
   if (!req.session.passport.user) {
-    res.redirect('/login');
+    res.sendFile(path.resolve(__dirname + '/../public/index.html'));
   } else {
     res.redirect('/home');
   }
