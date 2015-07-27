@@ -81,7 +81,7 @@ class Main extends React.Component {
 
       waypointList = (
          <WaypointList
-           quest={this.state.quests[this.indexOfCurrentQuest()]}
+           quest={this.state.quests[this.state.index]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
            newWaypoint={this.newWaypoint.bind(this)}
         />
@@ -128,6 +128,7 @@ class Main extends React.Component {
   }
 
   setCurrentQuest(id) {
+    console.log('quests now: ', this.state.quests);
     this.setState({currentQuest: id}, () => {
       console.log('the current selected quest is', this.state.currentQuest);
       this.setState({index: this.indexOfCurrentQuest()});
@@ -264,7 +265,7 @@ class Main extends React.Component {
   }
 
   setCurrentQuestIndex(index) {
-    this.setState{index};
+    this.setState({index});
   }
 
   indexOfCurrentQuest() {
@@ -274,13 +275,12 @@ class Main extends React.Component {
     } else {
       index = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
     }
-    this.setCurrentQuestIndex(index);
-    
+    return index;
   }
 
   indexOfCurrentWaypoint() {
-    if (this.state.currentQuest === null || !this.state.quests[this.indexOfCurrentQuest()].waypoints) {
-      console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.indexOfCurrentQuest()].waypoints);
+    if (this.indexOfCurrentQuest() === null || this.state.currentQuest === null || !this.state.quests[this.indexOfCurrentQuest()].waypoints) {
+      // console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.indexOfCurrentQuest()].waypoints);
       return null;
     } else {
       var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
