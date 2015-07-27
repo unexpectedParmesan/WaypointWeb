@@ -28,7 +28,7 @@ class WaypointMap extends React.Component {
 
     return (
       <div className='googleMap'>
-        <input type="text" ref="search" />
+        <input type="text" ref="search" style={styles.searchInput} />
         <div ref="mapCanvas" style={styles.mapStyles} ></div>
       </div>
     )
@@ -136,6 +136,20 @@ class WaypointMap extends React.Component {
 
 
 var styles = {
+  searchInput: {
+    backgroundColor: '#ffffff',
+    height: 27, 
+    fontFamily: 'Roboto',
+    fontSize: 15,
+    fontWeight: 300,
+    marginTop: 10,
+    marginLeft: 12,
+    paddingTop: 0,
+    paddingRight: 11,
+    paddingBottom: 0,
+    paddingLeft: 13,
+    width: 400,
+  },
   markerStyles: {
     height: 30,
     margin: 10,
