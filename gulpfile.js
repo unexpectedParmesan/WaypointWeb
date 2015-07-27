@@ -2,11 +2,9 @@
 
 var source = require('vinyl-source-stream');
 var gulp = require('gulp');
-// var gutil = require('gulp-util');
+var gutil = require('gulp-util');
 var browserify = require('browserify');
-// var reactify = require('reactify');
 var watchify = require('watchify');
-// var notify = require('gulp-notify');
 var shell = require('gulp-shell');
 var dbTask = require('gulp-db');
 var babelify = require('babelify');
@@ -16,22 +14,22 @@ var babelify = require('babelify');
 
 var dbManager = dbTask({
   //Comment out below and use bottom credentials for Heroku
-  host: '127.0.0.1',
-  user: 'root',
-  password: '',
-  database: 'waypointdb',
-  dialect: 'mysql'
+  // host: '127.0.0.1',
+  // user: 'root',
+  // password: '',
+  // database: 'waypointdb',
+  // dialect: 'mysql'
   // Comment out above and use above for local server
-  // host: 'us-cdbr-iron-east-02.cleardb.net',
-  // user: 'b220d94c2be53d',
-  // password: 'bd11f9e8',
-  // database: 'heroku_49f978646a3ea6c'
+  host: 'us-cdbr-iron-east-02.cleardb.net',
+  user: 'bbaf82d9c58cfe',
+  password: 'ccebbb53',
+  database: 'heroku_b2cce461cdb238b'
 });
 
-gulp.task('drop', dbManager.drop('waypointdb'));
-gulp.task('create', dbManager.create('waypointdb'));
-// gulp.task('drop', dbManager.drop('heroku_49f978646a3ea6c'));
-// gulp.task('create', dbManager.create('heroku_49f978646a3ea6c'));
+// gulp.task('drop', dbManager.drop('waypointdb'));
+// gulp.task('create', dbManager.create('waypointdb'));
+gulp.task('drop', dbManager.drop('heroku_b2cce461cdb238b'));
+gulp.task('create', dbManager.create('heroku_b2cce461cdb238b'));
 
 gulp.task('reset', ['drop', 'create'], shell.task([
   'echo database test running',
@@ -44,7 +42,7 @@ gulp.task('populate', shell.task([
 
 gulp.task('serve', ['browserify'], shell.task([
   'echo Starting server...',
-  'nodemon server.js'
+  'node server.js'
 ]));
 
 gulp.task('browserify', function() {
@@ -75,4 +73,4 @@ gulp.task('test', shell.task([
     'mocha tests/*.js',
   ]));
 
-gulp.task('default', ['serve']);
+gulp.task('default', ['browserify']);
