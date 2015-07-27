@@ -10,7 +10,7 @@ usersRouter.get('/', function(req, res) {
 
 usersRouter.get('/me', function(req, res) {
   if (!req.session.passport.user) {
-    res.redirect('/login');
+    res.redirect('/');
   } else {
     userController.getMe(req, res);
   }  
