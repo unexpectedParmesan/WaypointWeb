@@ -6,12 +6,7 @@
 'use strict';
 
 var $ = require('jquery');
-
-if (process.env.NODE_ENV === 'production') {
-  var baseUrl = 'waypointserver.herokuapp.com'
-} else {
-  var baseUrl = 'http://localhost:3000'
-}
+var baseURL = require('../../../baseURLironment');
 
 var API = {
 
@@ -33,7 +28,7 @@ var API = {
     getMe: function () {
 
       return $.ajax({
-        url: 'http://localhost:3000/users/me'
+        url: baseURL + '/users/me'
       })
         .done(function (res) {
           return res;
@@ -51,8 +46,8 @@ var API = {
     */
     getQuests: function (userId) {
 
-      var url = userId ? 'http://localhost:3000/users/' + userId + '/createdQuests' : 'http://localhost:3000/quests';
-      console.log(url);
+      var url = userId ? baseURL + '/users/' + userId + '/createdQuests' : baseURL + '/quests';
+
       return $.ajax({
         url: url
       })
@@ -73,7 +68,7 @@ var API = {
       if (!questId) { throw new Error("Must provide questId as an argument to getQuest()"); }
 
       return $.ajax({
-        url: 'http://localhost:3000/quests/' + questId
+        url: baseURL + '/quests/' + questId
       })
         .done(function (res) {
           return res;
@@ -92,7 +87,7 @@ var API = {
       if (!questId) { throw new Error("Must provide questId as an argument to getWaypoints()"); }
 
       return $.ajax({
-        url: 'http://localhost:3000/quests/' + questId + '/waypoints'
+        url: baseURL + '/quests/' + questId + '/waypoints'
       })
         .done(function (res) {
           return res;
@@ -126,7 +121,7 @@ var API = {
 
       console.log(questObj);
 
-      var url = baseUrl + '/quests/';
+      var url = baseURL + '/quests/';
       if (httpMethod === 'PUT') {
         url += questObj.id;
       }
@@ -169,7 +164,7 @@ var API = {
         throw new Error("Provided httpMethod must be POST or PUT");
       }
 
-      var url = baseUrl + '/quests/' + waypointObj.quest_id + '/waypoints/';
+      var url = baseURL + '/quests/' + waypointObj.quest_id + '/waypoints/';
       if (httpMethod === 'PUT') {
         url += waypointObj.id;
       }
@@ -205,7 +200,7 @@ var API = {
       }
 
       return $.ajax({
-        url: 'http://localhost:3000/quests/' + questId,
+        url: baseURL + '/quests/' + questId,
         method: 'DELETE'
       })
         .done(function () {
@@ -227,7 +222,7 @@ var API = {
       }
 
       return $.ajax({
-        url: 'http://localhost:3000/quests/' + questId + '/waypoints/' + waypointId,
+        url: baseURL + '/quests/' + questId + '/waypoints/' + waypointId,
         method: 'DELETE'
       })
         .done(function () {

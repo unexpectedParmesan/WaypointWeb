@@ -8,7 +8,6 @@ var FacebookStrategy    = require('passport-facebook').Strategy;
 // ROUTERS
 var indexRouter         = require('./routes/index.route');
 var authRouter          = require('./routes/auth.route');
-var loginRouter         = require('./routes/login.route');
 var homeRouter          = require('./routes/home.route');
 var logoutRouter        = require('./routes/logout.route');
 var usersRouter         = require('./routes/users.route');
@@ -30,7 +29,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-// app.use('/login', loginRouter);
 app.use('/home', homeRouter);
 app.use('/quests', questsRouter);
 app.use('/users', usersRouter);
