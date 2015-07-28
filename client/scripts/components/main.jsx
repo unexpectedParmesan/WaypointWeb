@@ -12,7 +12,6 @@ var Map = require('./map.jsx');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
-  // console.log('calling indexOfProperty');
   for (var i = 0; i < array.length; i++) {
     if (array[i][key] === targetVal) {
       return i;
@@ -37,7 +36,6 @@ class Main extends React.Component {
   componentDidMount() {
     api.getMe().then((user) => {
       this.setState({ user }, () => {
-        console.log(user);
         api.getQuests(this.state.user.facebook_id).then((quests) => {
           quests.forEach( (quest) => {
             if (!quest.waypoints) {
@@ -68,6 +66,8 @@ class Main extends React.Component {
     var questForm;
     var waypointList;
     var waypointForm;
+    var map;
+
     if (this.state.quests) {
       questList = (
         <QuestList
@@ -105,8 +105,14 @@ class Main extends React.Component {
             deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
           />
         );
+        map = (
+          <Map waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints} />
+        );
       } else {
         waypointForm = (
+          <div />
+        );
+        map = ( 
           <div />
         );
       }
@@ -118,6 +124,7 @@ class Main extends React.Component {
       questForm = <div />;
       waypointList = <div />;
       waypointForm = <div />;
+      map = <div />;
     }
 
     return (
@@ -130,15 +137,14 @@ class Main extends React.Component {
         <div className = "col-md-6">
           {waypointList}
           {waypointForm}
+          {map}
         </div>
       </div>
     );
   }
 
   setCurrentQuest(id) {
-    console.log('quests now: ', this.state.quests);
     this.setState({currentQuest: id}, () => {
-      console.log('the current selected quest is', this.state.currentQuest);
       this.setState({index: this.indexOfCurrentQuest()});
     });
   }
@@ -168,7 +174,6 @@ class Main extends React.Component {
 
   updateCurrentQuest(quest) {
     api.saveQuest(quest, 'PUT').then((quest) => {
-      console.log('we just updated this quest!', quest);
       var quests = this.state.quests.map((item, index) => {
         if (index === this.indexOfCurrentQuest()) {
           return quest;
@@ -195,9 +200,7 @@ class Main extends React.Component {
   }
 
   setCurrentWaypoint(id) {
-    this.setState({currentWaypoint: id}, () => {
-      console.log('the current selected waypoint is', this.state.currentWaypoint);
-    });
+    this.setState({currentWaypoint: id});
   }
 
 
@@ -271,12 +274,9 @@ class Main extends React.Component {
 
   indexOfCurrentWaypoint() {
     if (this.indexOfCurrentQuest() === null || this.state.currentQuest === null || !this.state.quests[this.indexOfCurrentQuest()].waypoints) {
-      // console.log('this.state.quests[this.state.index].waypoints', this.state.quests[this.indexOfCurrentQuest()].waypoints);
       return null;
     } else {
       var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
-      console.log('waypoints at quest index:', this.state.quests[questIndex].waypoints);
-      console.log('current waypoint id:', this.state.currentWaypoint);
       return indexOfProperty(this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint);
     }
 

@@ -9,9 +9,6 @@ class WaypointListItem extends React.Component {
     super(props);
   }
 
-  updateSelectedWaypoint(id) {
-    console.log('selected waypoint', id);
-  }
 
   render() {
 

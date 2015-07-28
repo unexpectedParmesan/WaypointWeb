@@ -11,16 +11,22 @@ var GoogleMaps = window.google.maps;
 class WaypointMap extends React.Component {
   constructor(props) {
     super(props);
-    var markers = (!this.props.waypoints) ? [] : this.props.waypoints;
+    // var markers = (!this.props.waypoints) ? [] : this.props.waypoints;
 
     this.state = {
       map: null,
-      markers: markers,
+      markers: [],
     };
   }
 
 
   componentDidMount () {
+    this.createMap();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log('current markers: ', this.state.markers);
+    // this.updateMarkers(nextProps.waypoints);
     this.createMap();
   }
 
@@ -32,6 +38,20 @@ class WaypointMap extends React.Component {
         <div ref="mapCanvas" style={styles.mapStyles} ></div>
       </div>
     )
+  }
+
+  updateMarkers(newWaypoints) {
+    _.each(this.state.markers, function(marker) {
+      marker.setMap(null);
+    });
+    this.setState({markers: []}, () => {
+      if (this.props.waypoints) {
+        _.each(this.props.waypoints, function(obj, index){
+          // console.log('creating marker for this waypoint:', obj);
+          this.createMarker(obj.latitude, obj.longitude, obj.index);
+        }, this)
+      }   
+    });
   }
 
   createMap () {
@@ -46,13 +66,15 @@ class WaypointMap extends React.Component {
     };
 
     // add the map to the page
-    this.state.map = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
+    // this.state.map = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
+    var newMap = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
 
     // create the places searchBox 
     var searchBox = new GoogleMaps.places.SearchBox(this.refs.search.getDOMNode());
 
     // put the search box in the top left-hand corner
-    this.state.map.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
+    // this.state.map.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
+    newMap.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
     
     // add listener to search box
     GoogleMaps.event.addListener(searchBox, 'places_changed', function () {
@@ -67,19 +89,20 @@ class WaypointMap extends React.Component {
       })
     });
 
-    // listen for clicks on the map and add a marker for where the user clicks
-    GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
-      context.createMarker(event.latLng.A, event.latLng.F);
-    });
+    this.setState({ map: newMap }, () => {
+      // listen for clicks on the map and add a marker for where the user clicks
+      GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
+        context.createMarker(event.latLng.A, event.latLng.F);
+      });
 
-    // if there are already waypoints set for this quest, add them to the map when the page loads
-    if (this.props.waypoints) {
-      _.each(this.props.waypoints, function(obj, index){
-        this.createMarker(obj.latitude, obj.longitude, obj.index);
-      }, this)
-    }
-
-    return this.map;
+      // if there are already waypoints set for this quest, add them to the map when the page loads
+      if (this.props.waypoints) {
+        _.each(this.props.waypoints, function(obj, index){
+          // console.log('creating marker for this waypoint:', obj);
+          this.createMarker(obj.latitude, obj.longitude, obj.index);
+        }, this)
+      } 
+    })
   }
 
   createMarker (lat, lng, index) {
@@ -128,9 +151,9 @@ class WaypointMap extends React.Component {
     });
     var markers = _.clone(this.state.markers);
     markers.push(marker);
-    this.state.markers = markers;
-    marker.setMap(this.state.map);
-
+    this.setState({markers}, () => {
+      marker.setMap(this.state.map);
+    })
   }
 }
 
