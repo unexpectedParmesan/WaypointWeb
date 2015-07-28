@@ -1,6 +1,5 @@
 node_modules/
 dist
-semantic/
 test/temp
 .sass-cache
 app/vendor
