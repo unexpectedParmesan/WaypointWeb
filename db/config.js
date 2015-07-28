@@ -1,6 +1,6 @@
 var ENV = require ('../environment');
 
-if (ENV === 'production') {
+if (ENV === 'https://waypointbeta.herokuapp.com') {
 	var knex = require('knex')({
 		client: 'mysql',
 		connection: {

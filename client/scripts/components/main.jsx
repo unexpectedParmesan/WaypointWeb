@@ -35,6 +35,7 @@ class Main extends React.Component {
 
   componentDidMount() {
     api.getMe().then((user) => {
+      console.log(user);
       this.setState({ user }, () => {
         api.getQuests(this.state.user.facebook_id).then((quests) => {
           quests.forEach( (quest) => {
