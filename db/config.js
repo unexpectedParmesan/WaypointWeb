@@ -1,4 +1,6 @@
-if (process.env.NODE_ENV === 'production') {
+var ENV = require ('../environment');
+
+if (ENV === 'production') {
 	var knex = require('knex')({
 		client: 'mysql',
 		connection: {
