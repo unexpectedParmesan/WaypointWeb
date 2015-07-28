@@ -4,6 +4,7 @@ var cookieParser        = require('cookie-parser');
 var session             = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
+var baseURL             = require('./environment');
 
 // ROUTERS
 var indexRouter         = require('./routes/index.route');
@@ -20,11 +21,11 @@ var app                 = express();
 app.use(express.static(__dirname + '/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(session({ 
+app.use(session({
   secret: 'keyboard cat',
-  resave: false, 
+  resave: false,
   saveUninitialized: false
- }));
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/', indexRouter);
@@ -36,11 +37,10 @@ app.use('/logout', logoutRouter);
 
 
 // APP SETTINGS
+console.log(baseURL)
 app.set('port', process.env.PORT || 3000);
-var server = app.listen(app.get('port'), function() {
-  console.log('Server listening on port ' + app.get('port'));
+var server = app.listen(app.get('port'), 'localhost', null, function () {
+  console.log('Server hosted at ' + baseURL + ', and on port '  + app.get('port'));
 });
-
-// app.use('/', router);
 
 module.exports = app;
