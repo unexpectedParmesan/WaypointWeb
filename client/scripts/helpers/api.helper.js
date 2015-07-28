@@ -7,6 +7,7 @@
 
 var $ = require('jquery');
 var baseURL = require('../../../environment');
+baseURL += ':3000';
 
 var API = {
 
@@ -31,6 +32,7 @@ var API = {
         url: baseURL + '/users/me'
       })
         .done(function (res) {
+          console.log(res);
           return res;
         })
         .fail(function (res) {

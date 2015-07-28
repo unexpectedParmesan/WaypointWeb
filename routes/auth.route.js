@@ -25,12 +25,14 @@ passport.use(new FacebookStrategy({
   callbackURL: baseURL + ':3000' + '/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos']
 }, function (accessToken, refreshToken, profile, done) {
+  console.log(profile);
   process.nextTick(function () {
   // associate profile returned with a user in DB
   // return user from DB
     new User({
       facebook_id: profile.id
     }).fetch().then(function (user) {
+      console.log(user);
       if (!user) {
         var newUser = new User({
           facebook_id: profile.id,
