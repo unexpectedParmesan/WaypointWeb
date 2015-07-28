@@ -33,7 +33,7 @@ gulp.task('create', dbManager.create('heroku_b2cce461cdb238b'));
 
 gulp.task('reset', ['drop', 'create'], shell.task([
   'echo database test running',
-  'nodemon server.js'
+  'node server.js'
 ]));
 
 gulp.task('populate', shell.task([
@@ -42,7 +42,7 @@ gulp.task('populate', shell.task([
 
 gulp.task('serve', ['browserify'], shell.task([
   'echo Starting server...',
-  'node server.js'
+  'nodemon server.js'
 ]));
 
 gulp.task('browserify', function() {
