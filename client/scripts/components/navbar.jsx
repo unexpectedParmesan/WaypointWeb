@@ -15,7 +15,7 @@ class Nav extends React.Component {
         <div className="item" style={styles.quest}> Current Quest </div>
         <div className="item" style={styles.user}> {this.props.user.name}
           <img className="item" src={this.props.user.profile_pic} style={styles.pic} />
-           <a className="item"href='/logout'>Logout</a>
+           <button className="item ui blue button"href='/logout'>Logout</button>
         </div>
       </div>
     );
