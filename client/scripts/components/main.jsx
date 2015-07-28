@@ -129,17 +129,21 @@ class Main extends React.Component {
     }
 
     return (
-      <div className="container-fluid">
-        <Nav user={this.state.user} />
-        <div className="col-md-6">
-          {questList}
-          {questForm}
-        </div>
-        <div className = "col-md-6">
-          {waypointList}
-          {waypointForm}
-          {map}
-        </div>
+      <div className="ui grid container">
+            <div className="ui grid container">
+              <Nav className="sixteen wide column" user={this.state.user} />
+            </div>
+            <div className="four wide column" style={mainStyle}>
+              {questList}
+              {questForm}
+            </div>
+            <div className="eight wide column" style={mainStyle}>
+              {map}
+            </div>
+            <div className="four wide column" style={mainStyle}>
+              {waypointList}
+              {waypointForm}
+            </div>
       </div>
     );
   }
@@ -284,5 +288,8 @@ class Main extends React.Component {
   }
 
 }
+
+ var mainStyle = {
+  };
 
 module.exports = Main;
