@@ -35,7 +35,6 @@ app.use('/quests', questsRouter);
 app.use('/users', usersRouter);
 app.use('/logout', logoutRouter);
 
-
 // APP SETTINGS
 console.log(baseURL)
 app.set('port', process.env.PORT || 3000);

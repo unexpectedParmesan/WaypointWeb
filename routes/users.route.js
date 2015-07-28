@@ -5,7 +5,6 @@ var usersRouter    = express.Router();
 
 usersRouter.get('/', function(req, res) {
   userController.getAllUsers(req, res);
-  console.log(typeof res)
 });
 
 usersRouter.get('/me', function(req, res) {
