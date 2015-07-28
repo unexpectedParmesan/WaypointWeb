@@ -47,7 +47,7 @@ class Main extends React.Component {
             if (quests.length) {
               this.setState({
                 currentQuest: quests[0].id
-              })
+              });
             } else {
 
             }
@@ -96,7 +96,7 @@ class Main extends React.Component {
         />
       );
 
-      var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints
+      var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
 
       if (currentWaypoints && currentWaypoints.length) {
         waypointForm = (
@@ -107,13 +107,16 @@ class Main extends React.Component {
           />
         );
         map = (
-          <Map waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints} />
+          <Map
+            waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints}
+            key={this.state.currentQuest}
+          />
         );
       } else {
         waypointForm = (
           <div />
         );
-        map = ( 
+        map = (
           <div />
         );
       }
@@ -258,7 +261,7 @@ class Main extends React.Component {
           context.setCurrentWaypoint(context.state.quests[questIndex].waypoints[0].id);
         } else {
           context.setCurrentWaypoint(null);
-        }     
+        }
       });
     });
   }
