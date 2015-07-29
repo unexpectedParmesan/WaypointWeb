@@ -36,7 +36,6 @@ class Main extends React.Component {
 
   componentDidMount() {
     api.getMe().then((user) => {
-      console.log(user);
       this.setState({ user }, () => {
         api.getQuests(this.state.user.facebook_id).then((quests) => {
           quests.forEach( (quest) => {
@@ -182,7 +181,7 @@ class Main extends React.Component {
     };
 
     api.saveQuest(newQuest, 'POST').then((quest) => {
-      quest.waypoints = [];
+      // quest.waypoints = [];
       var quests = this.state.quests.concat([quest]);
       this.setState({
         quests,
@@ -208,6 +207,12 @@ class Main extends React.Component {
   }
 
   deleteCurrentQuest() {
+
+    if (this.state.quests.length === 1) {
+      // TODO: fancy ui thing instead of a console.log
+      return console.log('sorry, but you can\'t delete your only quest!');
+    }
+
     var context = this;
     api.deleteQuest(this.state.currentQuest).then(() => {
       var quests = context.state.quests;
@@ -269,6 +274,12 @@ class Main extends React.Component {
   }
 
   deleteCurrentWaypoint() {
+
+    if (this.state.quests[this.indexOfCurrentQuest()].waypoints.length === 1) {
+      // TODO: fancy ui thing instead of a console.log
+      return console.log('sorry, but quests must have at least one waypoint!');
+    }
+
     var context = this;
     api.deleteWaypoint(this.state.currentQuest, this.state.currentWaypoint).then(() => {
       var quests = context.state.quests.slice();

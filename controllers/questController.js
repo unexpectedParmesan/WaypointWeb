@@ -1,4 +1,5 @@
 var Quest = require('../db/models/quest.js');
+var Waypoint = require('../db/models/waypoint.js');
 
 module.exports = {
 
@@ -32,8 +33,22 @@ module.exports = {
       creator_facebook_id: req.body.facebookId,
   	});
   	newQuest.save().then(function(quest){
-      console.log(quest);
-  		res.status(200).send(quest);
+      // all quests come with a waypoint free of charge
+      var newWaypoint = new Waypoint({
+        quest_id: quest.id,
+        index_in_quest: 0,
+        latitude: 37.7852134705,
+        longitude: -122.4028015137,
+        title: 'Untitled Waypoint',
+        description: 'Add a description here!',
+      });
+      newWaypoint.save().then(function(waypoint) {
+        new Quest({ id: waypoint.attributes.quest_id })
+        .fetch({ withRelated: 'waypoints' })
+        .then(function(questWithWaypoints) {
+  		    res.status(200).send(questWithWaypoints);
+        });
+      });
   	});
   },
 
@@ -57,8 +72,8 @@ module.exports = {
             }).fetch({
               withRelated: 'waypoints'
             }).then(function(questWithWaypoints) {
-             res.status(201).send(questWithWaypoints);  
-            })
+             res.status(201).send(questWithWaypoints);
+           });
           }
         });
       }
