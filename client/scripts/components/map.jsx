@@ -156,7 +156,8 @@ class WaypointMap extends React.Component {
       _.each(places, function(place) {
         console.log('place', place);
         context.props.newWaypoint(place.geometry.location.A, place.geometry.location.F);
-        console.log('the map\'s props',this.props)
+        console.log('the map\'s props',context.props);
+        console.log('the map\'s currentWaypoint',context.props.currentWaypoint);
         var marker = context.createMarker(place.geometry.location.A, place.geometry.location.F);
         console.log('marker created', marker)
       });
