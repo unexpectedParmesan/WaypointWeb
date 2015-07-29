@@ -41,7 +41,7 @@ class WaypointList extends React.Component {
     return (
       <div>
         <table className="ui inverted table segment">
-          <thead> Waypoints </thead>
+          <h3 style={styles.title}> Waypoints </h3>
             {waypointList}
         </table>
         <button className="ui black button" onClick={this.props.newWaypoint} style={styles.button}>New waypoint</button>
@@ -51,6 +51,11 @@ class WaypointList extends React.Component {
 }
 
 var styles = {
+  title: {
+    textAlign: 'center',
+    fontSize: 30
+  },
+
   button: {
     margin: 5
   }

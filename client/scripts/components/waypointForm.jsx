@@ -63,15 +63,15 @@ class WaypointForm extends React.Component {
 
 	render() {
     return (
-    	<div>
-    	  <form className="ui form">
+    	<div className="ui inverted segment">
+    	  <form className="ui inverted form">
 		    	<FormView
 		    	  ref="waypointForm"
 		    	  type={Waypoint}
 		        value={this.state.waypoint}/>
 		    </form>
-			<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-			<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+			<button className="ui inverted button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+			<button className="ui inverted button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
       </div>
     );
 	}
