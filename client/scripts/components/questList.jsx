@@ -13,19 +13,24 @@ class QuestList extends React.Component {
     var questList;
     questList = this.props.quests.map((quest, index) => {
       return (
+        
         <QuestListItem
           key={index}
           quest={quest}
-          setCurrentQuest={this.props.setCurrentQuest}
-        />
+          setCurrentQuest={this.props.setCurrentQuest}/>
+      
       );
     });
 
     return (
       <div>
-        <ul>
+        <table className="ui selectable inverted table">
+          <thead>Quests
+          <tbody>
           {questList}
-        </ul>
+          </tbody>
+          </thead>
+        </table>
         <button onClick={this.props.newQuest}>new quest</button>
       </div>
     );

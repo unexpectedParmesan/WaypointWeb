@@ -62,6 +62,7 @@ class QuestForm extends React.Component {
   render() {
     return (
     	<div>
+        <form className="ui form">
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}
@@ -69,6 +70,7 @@ class QuestForm extends React.Component {
 	      />
 				<button onClick={this.save.bind(this)}>Save</button>
       	<button onClick={this.destroy.bind(this)}>Delete</button>
+        </form>
     	</div>
   	);
   }
