@@ -6,8 +6,7 @@ var FormView = tform.form.Form;
 var Waypoint = tform.struct({
 	title: tform.Str,
 	description: tform.Str,
-    latitude: tform.Num,
-    longitude: tform.Num
+    mediaUrl: tform.Str
 });
 
 class WaypointForm extends React.Component {
@@ -19,7 +18,8 @@ class WaypointForm extends React.Component {
 				title: props.waypoint.title,
 				description: props.waypoint.description,
 				latitude: props.waypoint.latitude,
-				longitude: props.waypoint.longitude
+				longitude: props.waypoint.longitude,
+				mediaUrl: ""
 			}
 		};
   }
@@ -31,6 +31,7 @@ class WaypointForm extends React.Component {
 	        description: nextProps.waypoint.description,
 	        latitude: nextProps.waypoint.latitude,
 	        longitude: nextProps.waypoint.longitude,
+	        mediaUrl: ""
 	      }
 	    });
 }
@@ -50,6 +51,7 @@ class WaypointForm extends React.Component {
 					description: value.description,
 					latitude: value.latitude,
 					longitude: value.longitude,
+					mediaUrl: "",
 					id: this.props.waypoint.id,
 	      };
 				this.props.updateWaypoint(newWaypoint);
