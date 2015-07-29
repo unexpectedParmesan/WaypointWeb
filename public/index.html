@@ -8,32 +8,14 @@
   <link rel="stylesheet" type="text/css" href="/semantic/dist/semantic.min.css">
   <script src="/semantic/dist/semantic.min.js"></script>
  <style type="text/css">
+  body {
+    padding: 50px;
+    width: 100%;
+  }
   h1 {
     margin-bottom: 20px;
     font-weight: 200;
     color: #606060;
-  }
-  @media (min-width: 320px) {
-    body {
-      padding: 50px 70px;
-      font-family: "Roboto", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    }
-    .company-content {
-      position: relative;
-      top: 50%;
-      transform: translateY(50%);
-    }
-  }
-  @media (min-width: 0px) and (max-width: 320px) {
-    body {
-      padding: 20px;
-      font-family: "Roboto", "Lucida Sans Unicode", "Lucida Grande", sans-serif;
-    }
-    .company-content {
-      position: inherit;
-      transform: none;
-      top: auto;
-    }
   }
   #fb-login {
     color: #FFFFFF;
@@ -48,7 +30,8 @@
     position: relative;
   }
   img#map-illustration {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
   }
   p.tagline {
     color: #348F38;
@@ -80,9 +63,9 @@
       <div class="color" style="background: #348F38;">#348F38</div>
       <div class="color" style="background: #4CAF4F;">#4CAF4F</div>
   </div>
-  <div class="ui stackable two column grid">
+  <div class="ui grid stackable">
     <div class="row">
-      <div class="column vertical-align" id="valign">
+      <div class="eight wide column">
         <div class="company-content">
           <h1><img id="waypoint-logo" src="assets/waypoint_icon_2.svg" />
           Waypoint Beta</h1>
@@ -94,15 +77,15 @@
           </div>
         </div>
       </div>
-      <div class="column">
+      <div class="eight wide column">
         <div id="map-container">
           <img src="assets/map_illustration.svg" id="map-illustration">
         </div>
       </div>
     </div>
     <div class="row">
-      <div class="column">iPhone templates with Waypoint screenshots</div>
-      <div class="column">Description of iphone app/waypoint features</div>
+      <div class="eight wide column">iPhone templates with Waypoint screenshots</div>
+      <div class="eight wide column">Description of iphone app/waypoint features</div>
     </div>
   </div>
 </body>
