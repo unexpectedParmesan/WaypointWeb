@@ -20,7 +20,6 @@ var waypoint1 = new Waypoint({
 	index_in_quest: 0,
 	latitude: 37.785214,
 	longitude: -122.402802,
-	media_url: "http://youtube.com",
 	title: 'zomg waypoint',
 	description: 'see this here. this here\'s a waypoint.',
 });
@@ -30,7 +29,6 @@ var waypoint2 = new Waypoint({
 	index_in_quest: 1,
 	latitude: 37.776090,
 	longitude: -122.434645,
-	media_url: "http://youtube.com",
 	title: 'also waypoint',
 	description: 'way on point',
 });
@@ -40,7 +38,6 @@ var waypoint3 = new Waypoint({
 	index_in_quest: 2,
 	latitude: 37.772772,
 	longitude: -122.458690,
-	media_url: "http://youtube.com",
 	title: 'also also waypoint',
 	description: 'porkchop sandwhiches!',
 });
@@ -58,7 +55,6 @@ var waypoint4 = new Waypoint({
 	index_in_quest: 0,
 	latitude: 37.783932,
 	longitude: -122.409084,
-	media_url: "http://youtube.com",
 	title: 'mikeller',
 	description: 'so classy!',
 });
@@ -68,7 +64,6 @@ var waypoint5 = new Waypoint({
 	index_in_quest: 1,
 	latitude: 37.781169,
 	longitude: -122.406297,
-	media_url: "http://youtube.com",
 	title: 'tempest',
 	description: 'less classy...',
 });
@@ -78,7 +73,6 @@ var waypoint6 = new Waypoint({
 	index_in_quest: 2,
 	latitude: 37.782879,
 	longitude: -122.410106,
-	media_url: "http://youtube.com",
 	title: 'crazy horse',
 	description: '...',
 });

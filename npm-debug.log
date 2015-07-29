@@ -1,6 +1,6 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
-2 info using npm@2.13.0
+2 info using npm@3.1.3
 3 info using node@v0.12.5
 4 verbose node symlink /usr/local/bin/node
 5 verbose run-script [ 'prestart', 'start', 'poststart' ]
@@ -10,18 +10,18 @@
 9 info waypoint@0.0.0 Failed to exec start script
 10 verbose stack Error: waypoint@0.0.0 start: `./node_modules/gulp/bin/gulp.js serve`
 10 verbose stack Exit status 1
-10 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:213:16)
+10 verbose stack     at EventEmitter.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/lifecycle.js:223:16)
 10 verbose stack     at EventEmitter.emit (events.js:110:17)
 10 verbose stack     at ChildProcess.<anonymous> (/usr/local/lib/node_modules/npm/lib/utils/spawn.js:24:14)
 10 verbose stack     at ChildProcess.emit (events.js:110:17)
 10 verbose stack     at maybeClose (child_process.js:1015:16)
 10 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
 11 verbose pkgid waypoint@0.0.0
-12 verbose cwd /Users/josh/Desktop/waypointWeb
-13 error Darwin 14.3.0
+12 verbose cwd /Users/danielleknudson/Desktop/hackreactor/senior-projects/waypointWeb
+13 error Darwin 14.4.0
 14 error argv "node" "/usr/local/bin/npm" "start"
 15 error node v0.12.5
-16 error npm  v2.13.0
+16 error npm  v3.1.3
 17 error code ELIFECYCLE
 18 error waypoint@0.0.0 start: `./node_modules/gulp/bin/gulp.js serve`
 18 error Exit status 1
