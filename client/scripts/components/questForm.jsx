@@ -62,17 +62,24 @@ class QuestForm extends React.Component {
   render() {
     return (
     	<div>
+        <form className="ui form">
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}
-	        value={this.state.quest}
-	      />
-				<button onClick={this.save.bind(this)}>Save</button>
-      	<button onClick={this.destroy.bind(this)}>Delete</button>
+	        value={this.state.quest}/>
+				<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+      	<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+        </form>
     	</div>
   	);
   }
 
+}
+
+var styles = {
+  button: {
+    margin: 5
+  }
 }
 
 module.exports = QuestForm;

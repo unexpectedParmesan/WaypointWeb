@@ -7,7 +7,6 @@ class Nav extends React.Component {
     super(props);
   }
 
-
   render() {
     return (
       <div className='ui menu navbar' style={styles.nav}>
@@ -15,7 +14,7 @@ class Nav extends React.Component {
         <div className="item" style={styles.quest}> Current Quest </div>
         <div className="item" style={styles.user}> {this.props.user.name}
           <img className="item" src={this.props.user.profile_pic} style={styles.pic} />
-           <button className="item ui blue button"href='/logout'>Logout</button>
+           <button className="item ui inverted blue button"href='/logout'>Logout</button>
         </div>
       </div>
     );
@@ -25,7 +24,8 @@ class Nav extends React.Component {
 var styles = {
   nav: {
     fontSize: 30,
-    marginBottom: 30
+    marginBottom: 10,
+    height: 130
   },
   user: {
     fontSize: 20
@@ -34,8 +34,8 @@ var styles = {
     fontSize: 50
   },
   pic: {
-    height: 120,
-    width: 120
+    height: 100,
+    width: 100
   }
 };
 

@@ -64,17 +64,24 @@ class WaypointForm extends React.Component {
 	render() {
     return (
     	<div>
-	    	<FormView
-	    	  ref="waypointForm"
-	    	  type={Waypoint}
-	        value={this.state.waypoint}
-	      />
-		<button onClick={this.save.bind(this)}>Save</button>
-		<button onClick={this.destroy.bind(this)}>Delete</button>
+    	  <form className="ui form">
+		    	<FormView
+		    	  ref="waypointForm"
+		    	  type={Waypoint}
+		        value={this.state.waypoint}/>
+		    </form>
+			<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+			<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
       </div>
     );
 	}
 
+}
+
+var styles = {
+	button: {
+		margin: 5
+	}
 }
 
 module.exports = WaypointForm;
