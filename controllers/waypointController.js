@@ -21,7 +21,7 @@ module.exports = {
   makeWaypoint: function(req, res) {
     var newWaypoint = new Waypoint({
       quest_id: req.params.questId,
-      index_in_quest: req.body.indexInQuest,
+      index_in_quest: req.body.index_in_quest,
       latitude: req.body.latitude,
       longitude: req.body.longitude,
       title: req.body.title,
@@ -29,7 +29,7 @@ module.exports = {
     });
     newWaypoint.save().then(function(waypoint) {
       if (!waypoint) {
-        res.status(500).send('Internal server error')
+        res.status(500).send('Internal server error');
       } else {
         res.status(201).send(waypoint);
       }

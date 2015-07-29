@@ -7,6 +7,7 @@ var QuestList = require('./questList.jsx');
 var WaypointList = require('./waypointList.jsx');
 var Nav = require('./navbar.jsx');
 var api = require('../helpers/api.helper');
+var _ = require('underscore');
 
 var Map = require('./map.jsx');
 
@@ -110,7 +111,7 @@ class Main extends React.Component {
         if (this.state.currentWaypoint !== null) {
           map = (
             <Map
-              waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints}
+              waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
               setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
               currentWaypoint={this.state.currentWaypoint}
               updateWaypoint={this.updateCurrentWaypoint.bind(this)}
@@ -224,11 +225,12 @@ class Main extends React.Component {
 
 
   newWaypoint() {
-    var quests = this.state.quests.slice();
+    var quests = _.clone(this.state.quests);
     var targetQuest = quests[this.indexOfCurrentQuest()];
+    // this.state.quests
     var defaultWaypoint = {
         quest_id: this.state.currentQuest,
-        index_in_quest: targetQuest.waypoints.length,
+        index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
         title: 'Untitled Waypoint',
         description: 'Add a description here',
         latitude: 37.783932,
@@ -236,7 +238,10 @@ class Main extends React.Component {
     };
     api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
       targetQuest.waypoints.push(waypoint);
-      this.setState({quests});
+      this.setState({
+        quests,
+        currentWaypoint: waypoint.id
+      });
     });
   }
 
