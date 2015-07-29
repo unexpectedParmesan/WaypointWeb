@@ -12,7 +12,7 @@ var quest1 = new Quest({
 	length: '2.3 mi',
 	description: 'A thrilling brush with the undead through some the city\'s lovliest parks. Includes puzzles and physical clues. Requires tree climbing. Recomended start time is 6pm.',
 	estimated_time: '2-3 hrs',
-	creator_facebook_id: '10101794099292433'
+	creator_facebook_id: '1445622509079661'
 });
 
 var waypoint1 = new Waypoint({
@@ -50,7 +50,7 @@ var quest2 = new Quest({
 	length: '0.7 mi',
 	description: 'we deserve a beer or seven',
 	estimated_time: '1-13 hrs',
-	creator_facebook_id: '10101794099292433'
+	creator_facebook_id: '1445622509079661'
 });
 
 var waypoint4 = new Waypoint({
@@ -84,14 +84,14 @@ var waypoint6 = new Waypoint({
 });
 
 var user1 = new User({
-	facebook_id: '10101794099292433',
+	facebook_id: '1445622509079661',
 	name: 'bo diddley',
 	profile_pic: 'http://a.deviantart.net/avatars/s/_/s-shy-kitten.jpg?1'
 });
 
 var activeQuest1 = new userActiveQuest({
 	quest_id: 2,
-	facebook_id: '10101794099292433',
+	facebook_id: '1445622509079661',
 	current_waypoint_index: 1
 });
 
@@ -99,12 +99,12 @@ var quest3 = new Quest({
 	title: 'A unique affair',
 	length: 'A while',
 	description: 'Stuff and things',
-	creator_facebook_id: '10101794099292433'
+	creator_facebook_id: '1445622509079661'
 });
 
 var activeQuest2 = new userActiveQuest({
 	quest_id: 32,
-  facebook_id: '10101794099292433',
+  facebook_id: '1445622509079661',
   current_waypoint_index: 0
 });
 
