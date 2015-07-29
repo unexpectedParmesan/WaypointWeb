@@ -40,9 +40,11 @@ class WaypointList extends React.Component {
 
     return (
       <div>
+        <h3 style={styles.title}> Waypoints </h3>
         <table className="ui inverted table segment">
-          <h3 style={styles.title}> Waypoints </h3>
+          <tbody>
             {waypointList}
+          </tbody>
         </table>
         <button className="ui black button" onClick={this.props.newWaypoint} style={styles.button}>New waypoint</button>
       </div>

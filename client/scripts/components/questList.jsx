@@ -21,15 +21,17 @@ class QuestList extends React.Component {
               setCurrentQuest={this.props.setCurrentQuest}/>
           </td>
         </tr>
-      
+
       );
     });
 
     return (
       <div>
+        <h3 style={styles.title}> Quests </h3>
         <table className="ui inverted table segment">
-          <h3 style={styles.title}> Quests </h3>
-          {questList}
+          <tbody>
+            {questList}
+          </tbody>
         </table>
         <button className="ui black button" onClick={this.props.newQuest} style={styles.button}>New quest</button>
       </div>
