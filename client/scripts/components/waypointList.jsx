@@ -26,13 +26,12 @@ class WaypointList extends React.Component {
       waypointList = this.props.quest.waypoints.map((waypoint, index) => {
         return (
           <tr>
-          <td>
-          <WaypointListItem
-            key={index}
-            waypoint={waypoint}
-            setCurrentWaypoint={this.props.setCurrentWaypoint}
-          />
-          </td>
+            <td>
+              <WaypointListItem
+                key={index}
+                waypoint={waypoint}
+                setCurrentWaypoint={this.props.setCurrentWaypoint}/>
+            </td>
           </tr>
         );
       });
@@ -41,7 +40,7 @@ class WaypointList extends React.Component {
 
     return (
       <div>
-        <table className="ui table segment">
+        <table className="ui inverted table segment">
           <thead> Waypoints </thead>
             {waypointList}
         </table>
