@@ -19,7 +19,7 @@ class WaypointForm extends React.Component {
 				description: props.waypoint.description,
 				latitude: props.waypoint.latitude,
 				longitude: props.waypoint.longitude,
-				mediaUrl: ""
+				mediaUrl: props.waypoint.mediaUrl
 			}
 		};
   }
@@ -31,7 +31,7 @@ class WaypointForm extends React.Component {
 	        description: nextProps.waypoint.description,
 	        latitude: nextProps.waypoint.latitude,
 	        longitude: nextProps.waypoint.longitude,
-	        mediaUrl: ""
+	        mediaUrl: nextProps.waypoint.mediaUrl
 	      }
 	    });
 }
@@ -51,7 +51,7 @@ class WaypointForm extends React.Component {
 					description: value.description,
 					latitude: value.latitude,
 					longitude: value.longitude,
-					mediaUrl: "",
+					media_url: value.mediaUrl,
 					id: this.props.waypoint.id,
 	      };
 				this.props.updateWaypoint(newWaypoint);
