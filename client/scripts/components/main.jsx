@@ -29,6 +29,7 @@ class Main extends React.Component {
       },
       quests: null,
       currentQuest: null,
+      currentQuestTitle: null,
       currentWaypoint: null,
       index: 0
     };
@@ -75,6 +76,7 @@ class Main extends React.Component {
           userId={this.state.user.facebook_id}
           quests={this.state.quests}
           setCurrentQuest={this.setCurrentQuest.bind(this)}
+          currentQuest={this.state.currentQuest}
           newQuest={this.newQuest.bind(this)}
         />
       );
@@ -92,6 +94,7 @@ class Main extends React.Component {
          <WaypointList
            quest={this.state.quests[this.indexOfCurrentQuest()]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+           currentWaypoint={this.state.currentWaypoint}
            newWaypoint={this.newWaypoint.bind(this)}
         />
       );
@@ -150,6 +153,7 @@ class Main extends React.Component {
             {questForm}
           </div>
           <div className="eight wide column" style={mainStyle}>
+            <div style={mainStyle.title}>{this.state.currentQuestTitle}</div>
             {map}
           </div>
           <div className="four wide column" style={mainStyle}>
@@ -166,7 +170,10 @@ class Main extends React.Component {
       currentQuest: id,
     }, () => {
       // this.setState({index: this.indexOfCurrentQuest()});
-      this.setState({ currentWaypoint: this.state.quests[this.indexOfCurrentQuest()].waypoints[0].id });
+      this.setState({
+        currentWaypoint: this.state.quests[this.indexOfCurrentQuest()].waypoints[0].id,
+        currentQuestTitle: this.state.quests[this.indexOfCurrentQuest()].title
+      });
     });
   }
 
@@ -202,7 +209,10 @@ class Main extends React.Component {
           return item;
         }
       });
-      this.setState({ quests });
+      this.setState({
+        quests,
+        currentQuestTitle: quest.title
+      });
     });
 
 
@@ -324,7 +334,12 @@ class Main extends React.Component {
 
 }
 
- var mainStyle = {
-  };
+var mainStyle = {
+  title: {
+    textAlign: 'center',
+    fontSize: 42,
+    minHeight: 50,
+  }
+};
 
 module.exports = Main;

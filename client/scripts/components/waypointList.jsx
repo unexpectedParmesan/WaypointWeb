@@ -24,8 +24,14 @@ class WaypointList extends React.Component {
       waypointList = <div></div>;
     } else {
       waypointList = this.props.quest.waypoints.map((waypoint, index) => {
+
+        var selectionStyle;
+        if (waypoint.id === this.props.currentWaypoint) {
+          selectionStyle = styles.selected;
+        }
+
         return (
-          <tr>
+          <tr style={selectionStyle}>
             <td>
               <WaypointListItem
                 key={index}
@@ -57,10 +63,13 @@ var styles = {
     textAlign: 'center',
     fontSize: 30
   },
-
   button: {
     margin: 5
+  },
+  selected: {
+    backgroundColor: 'white',
+    color: 'black',
   }
-}
+};
 
 module.exports = WaypointList;

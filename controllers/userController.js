@@ -1,6 +1,6 @@
 var url = require('url');
 var Quest = require('../db/models/quest.js');
-var Waypoint = require('../db/models/waypoint.js');
+// var Waypoint = require('../db/models/waypoint.js');
 var User = require('../db/models/user.js');
 var userActiveQuest = require('../db/models/userActiveQuest.js');
 
