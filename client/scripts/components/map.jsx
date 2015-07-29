@@ -42,6 +42,21 @@ class WaypointMap extends React.Component {
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
       // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
+    }, () => { 
+
+      var markers = _.clone(this.state.markers);
+      var waypoint = _.findWhere(this.props.waypoints, {id: this.state.currentWaypointId});
+
+      markers.forEach((marker) => {
+        if (marker.index === waypoint.index_in_quest) {
+          marker.setOpacity(1);
+          marker.setDraggable(true);
+        } else {
+          marker.setOpacity(0.5);
+          marker.setDraggable(false);
+        }
+      });
+
     });
 
     // console.dir(this.state.markers);
