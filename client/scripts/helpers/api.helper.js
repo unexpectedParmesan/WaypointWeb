@@ -180,12 +180,12 @@ var API = {
         contentType: 'application/json'
       })
         .done(function (res) {
-          console.log('saveQuest success: ');
+          console.log('saveWaypoint success: ');
           console.log(res);
           return res;
         })
         .fail(function (res) {
-          console.log('saveQuest fail: ');
+          console.log('saveWaypoint fail: ');
           console.log(res);
           return res;
         });

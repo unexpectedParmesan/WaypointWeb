@@ -84,8 +84,8 @@ class WaypointMap extends React.Component {
 
   handleMarkerDrop(markerPos) {
     var coords = {
-      latitude: markerPos.A,
-      longitude: markerPos.F,
+      latitude: markerPos.G,
+      longitude: markerPos.K,
     };
 
     this.props.updateWaypoint(coords);
@@ -199,6 +199,7 @@ class WaypointMap extends React.Component {
     });
 
     GoogleMaps.event.addListener(marker, 'dragend', () => {
+      console.log('new marker location:', marker.getPosition());
       this.handleMarkerDrop(marker.getPosition());
     });
 
