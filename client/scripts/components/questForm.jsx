@@ -66,10 +66,9 @@ class QuestForm extends React.Component {
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}
-	        value={this.state.quest}
-	      />
-				<button onClick={this.save.bind(this)}>Save</button>
-      	<button onClick={this.destroy.bind(this)}>Delete</button>
+	        value={this.state.quest}/>
+				<button className="ui button" onClick={this.save.bind(this)}>Save</button>
+      	<button className="ui button" onClick={this.destroy.bind(this)}>Delete</button>
         </form>
     	</div>
   	);
