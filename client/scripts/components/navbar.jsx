@@ -9,18 +9,14 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <div className="ui grid container">
-        <div className="sixteen wide column">
-          <div className="ui borderless menu" style={styles.nav}>
-            <div className="brand item"> Waypoint Beta </div>
-            <div className="right menu">
-              <div className="item" style={styles.user}>
-                <img className="item" src={this.props.user.profile_pic} style={styles.pic} />
-                {this.props.user.name}
-              </div>
-              <div className="item"><a href="/logout">Logout</a></div>
-            </div>
+      <div className="ui borderless menu" style={styles.nav}>
+        <div className="brand item"> Waypoint Beta </div>
+        <div className="right menu">
+          <div className="item" style={styles.user}>
+            <img className="item" src={this.props.user.profile_pic} style={styles.pic} />
+            {this.props.user.name}
           </div>
+          <div className="item"><a href="/logout">Logout</a></div>
         </div>
       </div>
     );

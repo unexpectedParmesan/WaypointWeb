@@ -142,20 +142,22 @@ class Main extends React.Component {
 
     return (
       <div className="ui grid container">
-            <div className="ui grid container">
-              <Nav className="sixteen wide column" user={this.state.user} />
-            </div>
-            <div className="four wide column" style={mainStyle}>
-              {questList}
-              {questForm}
-            </div>
-            <div className="eight wide column" style={mainStyle}>
-              {map}
-            </div>
-            <div className="four wide column" style={mainStyle}>
-              {waypointList}
-              {waypointForm}
-            </div>
+        <div className="row">
+          <Nav className="sixteen wide column" user={this.state.user} />
+        </div>
+        <div className="row">
+          <div className="four wide column" style={mainStyle}>
+            {questList}
+            {questForm}
+          </div>
+          <div className="eight wide column" style={mainStyle}>
+            {map}
+          </div>
+          <div className="four wide column" style={mainStyle}>
+            {waypointList}
+            {waypointForm}
+          </div>
+        </div>
       </div>
     );
   }
