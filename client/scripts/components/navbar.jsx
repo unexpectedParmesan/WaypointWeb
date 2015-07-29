@@ -41,9 +41,9 @@ var styles = {
     fontSize: 18
   },
   pic: {
-    height: 40,
-    width: 40,
-    backgroundColor: '##9E9E9E',
+    height: 60,
+    width: 60,
+    background: '##9E9E9E',
   }
 };
 
