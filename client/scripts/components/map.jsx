@@ -11,26 +11,74 @@ var GoogleMaps = window.google.maps;
 class WaypointMap extends React.Component {
   constructor(props) {
     super(props);
-    // var markers = (!this.props.waypoints) ? [] : this.props.waypoints;
-
     this.state = {
       map: null,
       markers: [],
       currentWaypointId: props.currentWaypoint,
-      currentWaypointIndex: _.findWhere(props.waypoints, {id: props.currentWaypoint}).index_in_quest,
+      // currentWaypointIndex: _.findWhere(props.waypoints, {id: props.currentWaypoint}).index_in_quest,
     };
-    console.log(this.props.currentWaypoint);
   }
 
 
   componentDidMount () {
-    this.createMap();
+    var markers = [];
+
+    this.createMap(() => {
+      this.props.waypoints.forEach(function(waypoint) {
+        // debugger;
+        var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
+        if (waypoint.id === this.state.currentWaypointId) {
+          marker.setOpacity(1);
+          marker.setDraggable(true);
+        }
+        markers.push(marker);
+
+      }.bind(this));
+      this.setState({ markers });
+    });
   }
 
   componentWillReceiveProps(nextProps) {
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
-      currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
+      // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
+    }, () => {
+
+      var markers = _.clone(this.state.markers);
+
+      if (markers.length !== nextProps.waypoints.length) {
+
+        markers.forEach((marker) => {
+          marker.setMap(null);
+        });
+
+        markers = [];
+
+        nextProps.waypoints.forEach((waypoint) => {
+          var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
+          if (waypoint.id === this.state.currentWaypointId) {
+            marker.setOpacity(1);
+            marker.setDraggable(true);
+          }
+          markers.push(marker);
+        });
+
+        this.setState({ markers });
+
+      } else {
+
+        var waypoint = _.findWhere(this.props.waypoints, {id: this.state.currentWaypointId});
+
+        markers.forEach((marker) => {
+          if (marker.index === waypoint.index_in_quest) {
+            marker.setOpacity(1);
+            marker.setDraggable(true);
+          } else {
+            marker.setOpacity(0.5);
+            marker.setDraggable(false);
+          }
+        });
+      }
     });
   }
 
@@ -44,28 +92,23 @@ class WaypointMap extends React.Component {
   }
 
   handleMarkerClick(markerIndex) {
-    // var markers = _.clone(this.state.markers);
-    // console.log(markers);
-    // markers.forEach((marker, index) => {
-    //   // console.log('comparing marker indices');
-    //   if (index === markerIndex) {
-    //     console.log('setting marker at index ' + index + 'to opaque and draggable');
-    //     marker.setOpacity(1);
-    //     marker.setDraggable(true);
-    //   } else {
-    //     console.log('setting marker at index ' + index + 'to transparent and locked');
-    //     marker.setOpacity(0.5);
-    //     marker.setDraggable(false);
-    //   }
-    //
-    //   marker.setMap(this.state.map);
-    //
-    // });
-    //
-    // this.setState({ markers });
+    var markers = _.clone(this.state.markers);
+    var waypoint = _.findWhere(this.props.waypoints, {index_in_quest: markerIndex});
 
-    var id = _.findWhere(this.props.waypoints, {index_in_quest: markerIndex}).id;
-    this.props.setCurrentWaypoint(id);
+    markers.forEach((marker) => {
+      if (marker.index === waypoint.index_in_quest) {
+        marker.setOpacity(1);
+        marker.setDraggable(true);
+      } else {
+        marker.setOpacity(0.5);
+        marker.setDraggable(false);
+      }
+    });
+
+    this.setState({ markers }, () => {
+      this.props.setCurrentWaypoint(waypoint.id);
+    });
+
   }
 
   render () {
@@ -78,7 +121,7 @@ class WaypointMap extends React.Component {
     );
   }
 
-  createMap () {
+  createMap (callback) {
     var context = this;
 
     // default map centers on Hack Reactor
@@ -90,14 +133,12 @@ class WaypointMap extends React.Component {
     };
 
     // add the map to the page
-    // this.state.map = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
     var newMap = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
 
     // create the places searchBox
     var searchBox = new GoogleMaps.places.SearchBox(this.refs.search.getDOMNode());
 
     // put the search box in the top left-hand corner
-    // this.state.map.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
     newMap.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
 
     // add listener to search box
@@ -115,43 +156,34 @@ class WaypointMap extends React.Component {
     });
 
     this.setState({ map: newMap }, () => {
+      callback.bind(this)();
+
+
       // listen for clicks on the map and add a marker for where the user clicks
       // GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
       //   context.createMarker(event.latLng.A, event.latLng.F);
       // });
 
       // if there are already waypoints set for this quest, add them to the map when the page loads
-      if (this.props.waypoints) {
-        _.each(this.props.waypoints, function(obj) {
-          // console.log('creating marker for this waypoint:', obj);
-          this.createMarker(obj.latitude, obj.longitude, obj.index_in_quest);
-        }, this);
-      }
+      // if (this.props.waypoints) {
+      //   _.each(this.props.waypoints, function(obj) {
+      //     // console.log('creating marker for this waypoint:', obj);
+      //     this.createMarker(obj.latitude, obj.longitude, obj.index_in_quest);
+      //   }, this);
+      // }
     });
 
   }
 
   createMarker (lat, lng, index) {
 
-    var context = this;
-
-    // var opacity = 0.5;
-    var draggable = true;
-
-    // if (index === this.state.currentWaypointIndex) {
-    //   opacity = 1;
-    //   draggable = true;
-    // }
-
-
     var marker = new GoogleMaps.Marker({
       index: index,
       position: new GoogleMaps.LatLng(lat, lng),
       map: this.state.map,
-      animation: GoogleMaps.Animation.DROP,
-      label: this.state.count,
-      draggable: draggable,
-      // opacity: opacity,
+      // animation: GoogleMaps.Animation.DROP,
+      // label: this.state.count,
+      opacity: 0.5,
 
     });
 
@@ -167,9 +199,7 @@ class WaypointMap extends React.Component {
     });
 
     GoogleMaps.event.addListener(marker, 'dragend', () => {
-      // console.log(marker);
       this.handleMarkerDrop(marker.getPosition());
-      console.log('new position is', marker.getPosition());
     });
 
     // // when a marker is clicked twice, remove the marker
@@ -193,11 +223,15 @@ class WaypointMap extends React.Component {
     //   // remove the marker from this.state.markers
     //   console.log(context.state.markers);
     // });
-    var markers = _.clone(this.state.markers);
-    markers.push(marker);
-    this.setState({markers}, () => {
-      marker.setMap(this.state.map);
-    });
+
+    // var markers = _.clone(this.state.markers);
+    // markers.push(marker);
+    // this.setState({markers}, () => {
+    //   marker.setMap(this.state.map);
+    // });
+
+
+    return marker;
   }
 }
 
