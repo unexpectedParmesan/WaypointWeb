@@ -12,8 +12,14 @@ class QuestList extends React.Component {
 
     var questList;
     questList = this.props.quests.map((quest, index) => {
+
+      var selectionStyle;
+      if (quest.id === this.props.currentQuest) {
+        selectionStyle = styles.selected;
+      }
+
       return (
-        <tr>
+        <tr style={selectionStyle}>
           <td>
             <QuestListItem
               key={index}
@@ -46,7 +52,11 @@ var styles = {
   },
   button: {
     margin: 5
+  },
+  selected: {
+    backgroundColor: 'white',
+    color: 'black',
   }
-}
+};
 
 module.exports = QuestList;

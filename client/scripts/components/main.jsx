@@ -76,6 +76,7 @@ class Main extends React.Component {
           userId={this.state.user.facebook_id}
           quests={this.state.quests}
           setCurrentQuest={this.setCurrentQuest.bind(this)}
+          currentQuest={this.state.currentQuest}
           newQuest={this.newQuest.bind(this)}
         />
       );
@@ -93,6 +94,7 @@ class Main extends React.Component {
          <WaypointList
            quest={this.state.quests[this.indexOfCurrentQuest()]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+           currentWaypoint={this.state.currentWaypoint}
            newWaypoint={this.newWaypoint.bind(this)}
         />
       );
@@ -151,7 +153,7 @@ class Main extends React.Component {
             {questForm}
           </div>
           <div className="eight wide column" style={mainStyle}>
-            <div>{this.state.currentQuestTitle}</div>
+            <div style={mainStyle.title}>{this.state.currentQuestTitle}</div>
             {map}
           </div>
           <div className="four wide column" style={mainStyle}>
@@ -332,7 +334,12 @@ class Main extends React.Component {
 
 }
 
- var mainStyle = {
-  };
+var mainStyle = {
+  title: {
+    textAlign: 'center',
+    fontSize: 42,
+    minHeight: 50,
+  }
+};
 
 module.exports = Main;
