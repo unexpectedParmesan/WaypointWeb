@@ -31,7 +31,7 @@ class QuestList extends React.Component {
           </tbody>
           </thead>
         </table>
-        <button onClick={this.props.newQuest}>new quest</button>
+        <button className="ui button" onClick={this.props.newQuest}>New quest</button>
       </div>
     );
   }
