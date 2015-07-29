@@ -42,30 +42,44 @@ class WaypointMap extends React.Component {
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
       // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
-    }, () => { 
+    }, () => {
 
       var markers = _.clone(this.state.markers);
-      var waypoint = _.findWhere(this.props.waypoints, {id: this.state.currentWaypointId});
 
-      markers.forEach((marker) => {
-        if (marker.index === waypoint.index_in_quest) {
-          marker.setOpacity(1);
-          marker.setDraggable(true);
-        } else {
-          marker.setOpacity(0.5);
-          marker.setDraggable(false);
-        }
-      });
+      if (markers.length !== nextProps.waypoints.length) {
 
+        markers.forEach((marker) => {
+          marker.setMap(null);
+        });
+
+        markers = [];
+
+        nextProps.waypoints.forEach((waypoint) => {
+          var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
+          if (waypoint.id === this.state.currentWaypointId) {
+            marker.setOpacity(1);
+            marker.setDraggable(true);
+          }
+          markers.push(marker);
+        });
+
+        this.setState({ markers });
+
+      } else {
+
+        var waypoint = _.findWhere(this.props.waypoints, {id: this.state.currentWaypointId});
+
+        markers.forEach((marker) => {
+          if (marker.index === waypoint.index_in_quest) {
+            marker.setOpacity(1);
+            marker.setDraggable(true);
+          } else {
+            marker.setOpacity(0.5);
+            marker.setDraggable(false);
+          }
+        });
+      }
     });
-
-    // console.dir(this.state.markers);
-
-    // console.log(nextProps.currentWaypoint);
-    // console.log(nextProps.waypoints);
-    // var newWaypoint = nextProps.waypoints[nextProps.waypoints.length - 1];
-    // this.createMarker(newWaypoint.latitude, newWaypoint.longitude, nextProps.waypoints.length - 1);
-    // console.log(this.state.markers);
   }
 
   handleMarkerDrop(markerPos) {
