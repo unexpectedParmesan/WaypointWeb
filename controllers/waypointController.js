@@ -26,6 +26,7 @@ module.exports = {
       longitude: req.body.longitude,
       title: req.body.title,
       description: req.body.description,
+      media_url: req.body.media_url
     });
     newWaypoint.save().then(function(waypoint) {
       if (!waypoint) {

@@ -52,6 +52,7 @@ db.knex.schema.hasTable('waypoints').then(function(exists) {
 			waypoint.float('longitude', 15,10);
 			waypoint.string('title', 100);
 			waypoint.string('description', 5000);
+			waypoint.string('media_url', 100);
 			waypoint.timestamps();
 		}).then(function(table) {
 			console.log('Created table', table);
