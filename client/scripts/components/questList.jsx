@@ -24,16 +24,16 @@ class QuestList extends React.Component {
 
     return (
       <div>
-        <table className="ui selectable inverted table">
-          <thead>Quests
-          <tbody>
-          {questList}
-          </tbody>
-          </thead>
-        </table>
-        <button className="ui button" onClick={this.props.newQuest}>New quest</button>
+        {questList}
+        <button className="ui black button" onClick={this.props.newQuest} style={styles.button}>New quest</button>
       </div>
     );
+  }
+}
+
+var styles = {
+  button: {
+    margin: 5
   }
 }
 
