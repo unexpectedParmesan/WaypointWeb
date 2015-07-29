@@ -1,5 +1,6 @@
 var url = require('url');
 var Quest = require('../db/models/quest.js');
+var Waypoint = require('../db/models/waypoint.js');
 var User = require('../db/models/user.js');
 var userActiveQuest = require('../db/models/userActiveQuest.js');
 
@@ -35,16 +36,41 @@ module.exports = {
     });
   },
 
-  makeUser: function (req, res) {
-    var newUser = new User({
-      facebook_id: req.params.facebookId,
-      name: req.body.name,
-      profile_pic: req.body.profilePic
-    });
-    newUser.save().then(function (user) {
-      res.status(200).send(user);
-    });
-  },
+  // NOT CURRENTLY IN USE. SEE auth.router.js
+  // create a user and give them a template quest with one waypoint
+
+  // makeUser: function (req, res) {
+  //   console.log('########### MAKE USER');
+  //   var newUser = new User({
+  //     facebook_id: req.params.facebookId,
+  //     name: req.body.name,
+  //     profile_pic: req.body.profilePic
+  //   });
+  //   newUser.save().then(function (user) {
+  //     var newQuest = new Quest({
+  //       creator_facebook_id: user.attributes.facebook_id,
+  //       title: 'Untitled Quest',
+  //       description: 'Add a description here!',
+  //       length: '2.3 mi',
+  //       estimated_time: '2-3 hrs',
+  //     });
+  //     newQuest.save().then(function(quest) {
+  //       console.log('############# TEMPLATE QUEST:', quest);
+  //       var newWaypoint = new Waypoint({
+  //         quest_id: quest.attributes.id,
+  //         index_in_quest: 0,
+  //         latitude: 37.7852134705,
+  //         longitude: -122.4028015137,
+  //         title: 'Untitled Waypoint',
+  //         description: 'Add a description here!',
+  //       });
+  //       newWaypoint.save().then(function(waypoint) {
+  //         console.log('############# TEMPLATE WAYPOINT:', waypoint);
+  //         res.status(200).send(user);
+  //       });
+  //     });
+  //   });
+  // },
 
   getCreatedQuests: function (req, res) {
     new Quest().query({

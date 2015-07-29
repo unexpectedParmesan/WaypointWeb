@@ -4,6 +4,8 @@ var passport          = require('passport');
 var FacebookStrategy  = require('passport-facebook').Strategy;
 var authRouter        = express.Router();
 var User              = require('../db/models/user.js');
+var Quest = require('../db/models/quest.js');
+var Waypoint = require('../db/models/waypoint.js');
 var baseURL           = require('../environment');
 
 var FB_APP_ID         = (baseURL === 'https://waypointbeta.herokuapp.com') ? '943850322345964' : '423908461151072';
@@ -18,7 +20,7 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-// configure passport-facebook auth strategy 
+// configure passport-facebook auth strategy
 passport.use(new FacebookStrategy({
   clientID: FB_APP_ID,
   clientSecret: FB_APP_SECRET,
@@ -32,16 +34,37 @@ passport.use(new FacebookStrategy({
     new User({
       facebook_id: profile.id
     }).fetch().then(function (user) {
-      console.log(user);
+      // console.log(user);
       if (!user) {
         var newUser = new User({
           facebook_id: profile.id,
           name: profile.displayName,
-          profile_pic: ''
+          profile_pic: profile.photos[0].value
         });
 
+        // all new users get a template quest free of charge :)
         newUser.save().then(function (user) {
-          return done(null, user);
+          var newQuest = new Quest({
+            creator_facebook_id: user.attributes.facebook_id,
+            title: 'Untitled Quest',
+            description: 'Add a description here!',
+            length: '2.3 mi',
+            estimated_time: '2-3 hrs',
+          });
+          // all new quests get a template waypoint free of charge :)
+          newQuest.save().then(function(quest) {
+            var newWaypoint = new Waypoint({
+              quest_id: quest.attributes.id,
+              index_in_quest: 0,
+              latitude: 37.7852134705,
+              longitude: -122.4028015137,
+              title: 'Untitled Waypoint',
+              description: 'Add a description here!',
+            });
+            newWaypoint.save().then(function(waypoint) {
+              return done(null, user);
+            });
+          });
         });
       } else {
         return done(null, user);
