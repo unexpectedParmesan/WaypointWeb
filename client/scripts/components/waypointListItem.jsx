@@ -13,13 +13,13 @@ class WaypointListItem extends React.Component {
   render() {
 
     return (
-      <li
+      <div
         onClick={() => {
           this.props.setCurrentWaypoint(this.props.waypoint.id);
         }}
       >
         <div>
-          <h4>{this.props.waypoint.title}</h4>
+          <p>{this.props.waypoint.title}</p>
           <p>{this.props.waypoint.description}</p>
           <div>
             <span>{this.props.waypoint.latitude}, {this.props.waypoint.longitude}</span>
@@ -28,7 +28,7 @@ class WaypointListItem extends React.Component {
             <br />
           </div>
         </div>
-      </li>
+      </div>
     );
   }
 }
