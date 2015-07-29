@@ -25,11 +25,14 @@ class WaypointList extends React.Component {
     } else {
       waypointList = this.props.quest.waypoints.map((waypoint, index) => {
         return (
-          <WaypointListItem
-            key={index}
-            waypoint={waypoint}
-            setCurrentWaypoint={this.props.setCurrentWaypoint}
-          />
+          <tr>
+            <td>
+              <WaypointListItem
+                key={index}
+                waypoint={waypoint}
+                setCurrentWaypoint={this.props.setCurrentWaypoint}/>
+            </td>
+          </tr>
         );
       });
     }
@@ -37,9 +40,10 @@ class WaypointList extends React.Component {
 
     return (
       <div>
-        <ul>
-          {waypointList}
-        </ul>
+        <table className="ui inverted table segment">
+          <h3 style={styles.title}> Waypoints </h3>
+            {waypointList}
+        </table>
         <button className="ui black button" onClick={this.props.newWaypoint} style={styles.button}>New waypoint</button>
       </div>
     );
@@ -47,6 +51,11 @@ class WaypointList extends React.Component {
 }
 
 var styles = {
+  title: {
+    textAlign: 'center',
+    fontSize: 30
+  },
+
   button: {
     margin: 5
   }
