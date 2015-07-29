@@ -114,6 +114,7 @@ class Main extends React.Component {
           map = (
             <Map
               waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
+              newWaypoint={this.newWaypoint.bind(this)}
               setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
               currentWaypoint={this.state.currentWaypoint}
               updateWaypoint={this.updateCurrentWaypoint.bind(this)}
@@ -241,7 +242,8 @@ class Main extends React.Component {
   }
 
 
-  newWaypoint() {
+  newWaypoint(lat, lng) {
+    console.log(lat, lng);
     var quests = _.clone(this.state.quests);
     var targetQuest = quests[this.indexOfCurrentQuest()];
     // this.state.quests
@@ -250,8 +252,8 @@ class Main extends React.Component {
         index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
         title: 'Untitled Waypoint',
         description: 'Add a description here',
-        latitude: 37.783932,
-        longitude: -122.409084
+        latitude: lat,
+        longitude: lng
     };
     api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
       targetQuest.waypoints.push(waypoint);

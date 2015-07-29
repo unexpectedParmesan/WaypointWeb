@@ -25,7 +25,7 @@ class WaypointMap extends React.Component {
 
     this.createMap(() => {
       this.props.waypoints.forEach(function(waypoint) {
-        // debugger;
+
         var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
         if (waypoint.id === this.state.currentWaypointId) {
           marker.setOpacity(1);
@@ -145,13 +145,15 @@ class WaypointMap extends React.Component {
     GoogleMaps.event.addListener(searchBox, 'places_changed', function () {
       // get the objects for the places returned by the user's search
       var places = searchBox.getPlaces();
+      console.log(places);
       // if no places found, return
       if (places.length === 0) { return; }
 
       // iterate over each place and create a marker for that place
       _.each(places, function(place) {
-        context.createMarker(place.geometry.location.A, place.geometry.location.F
-        );
+        console.log(place);
+        context.props.newWaypoint(place.geometry.location.A, place.geometry.location.F);
+        context.createMarker(place.geometry.location.A, place.geometry.location.F);
       });
     });
 
@@ -184,7 +186,6 @@ class WaypointMap extends React.Component {
       // animation: GoogleMaps.Animation.DROP,
       // label: this.state.count,
       opacity: 0.5,
-
     });
 
     // create an InfoWindow for each marker that displays the lat, lng for that location
@@ -230,8 +231,6 @@ class WaypointMap extends React.Component {
     // this.setState({markers}, () => {
     //   marker.setMap(this.state.map);
     // });
-
-
     return marker;
   }
 }

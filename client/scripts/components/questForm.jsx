@@ -48,7 +48,7 @@ class QuestForm extends React.Component {
   save() {
 
   	var value = this.refs.questForm.getValue();
-
+    console.log(value);
   	if (value) {
       var newQuest = {
         title: value.title,

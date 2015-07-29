@@ -11,12 +11,6 @@ class WaypointList extends React.Component {
     };
   }
 
-  componentDidMount() {
-
-  }
-
-
-
   render() {
 
     var waypointList;
