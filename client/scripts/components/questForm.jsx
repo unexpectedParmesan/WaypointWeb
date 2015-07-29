@@ -61,15 +61,15 @@ class QuestForm extends React.Component {
 
   render() {
     return (
-    	<div>
-        <form className="ui form">
+    	<div className="ui inverted red segment">
+        <form className="ui inverted form">
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}
 	        value={this.state.quest}/>
-				<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-      	<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
         </form>
+        <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+        <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
     	</div>
   	);
   }
