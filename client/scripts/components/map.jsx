@@ -39,6 +39,9 @@ class WaypointMap extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
+    console.log('recieved nextProps', nextProps);
+
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
       // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
@@ -151,9 +154,11 @@ class WaypointMap extends React.Component {
 
       // iterate over each place and create a marker for that place
       _.each(places, function(place) {
-        console.log(place);
+        console.log('place', place);
         context.props.newWaypoint(place.geometry.location.A, place.geometry.location.F);
-        context.createMarker(place.geometry.location.A, place.geometry.location.F);
+        console.log('the map\'s props',this.props)
+        var marker = context.createMarker(place.geometry.location.A, place.geometry.location.F);
+        console.log('marker created', marker)
       });
     });
 
