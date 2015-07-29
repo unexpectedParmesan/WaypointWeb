@@ -29,6 +29,7 @@ class Main extends React.Component {
       },
       quests: null,
       currentQuest: null,
+      currentQuestTitle: null,
       currentWaypoint: null,
       index: 0
     };
@@ -150,6 +151,7 @@ class Main extends React.Component {
             {questForm}
           </div>
           <div className="eight wide column" style={mainStyle}>
+            <div>{this.state.currentQuestTitle}</div>
             {map}
           </div>
           <div className="four wide column" style={mainStyle}>
@@ -166,7 +168,10 @@ class Main extends React.Component {
       currentQuest: id,
     }, () => {
       // this.setState({index: this.indexOfCurrentQuest()});
-      this.setState({ currentWaypoint: this.state.quests[this.indexOfCurrentQuest()].waypoints[0].id });
+      this.setState({
+        currentWaypoint: this.state.quests[this.indexOfCurrentQuest()].waypoints[0].id,
+        currentQuestTitle: this.state.quests[this.indexOfCurrentQuest()].title
+      });
     });
   }
 
@@ -202,7 +207,10 @@ class Main extends React.Component {
           return item;
         }
       });
-      this.setState({ quests });
+      this.setState({
+        quests,
+        currentQuestTitle: quest.title
+      });
     });
 
 
