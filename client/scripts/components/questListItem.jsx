@@ -14,13 +14,13 @@ class QuestListItem extends React.Component {
       this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
       return (
-        <li
+        <div
           onClick={() => {
             this.props.setCurrentQuest(this.props.quest.id);
           }}
           >
           <div>
-            <h3>{this.props.quest.title}</h3>
+            <p>{this.props.quest.title}</p>
             <p>{this.props.quest.description}</p>
             <div>
               <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
@@ -29,7 +29,7 @@ class QuestListItem extends React.Component {
               <br />
             </div>
           </div>
-        </li>
+        </div>
       );
 
     } else {
