@@ -17,6 +17,7 @@ var options = {
     }
   }
 };
+  
 
 class QuestForm extends React.Component {
 
@@ -48,7 +49,7 @@ class QuestForm extends React.Component {
   save() {
 
   	var value = this.refs.questForm.getValue();
-    console.log(value);
+
   	if (value) {
       var newQuest = {
         title: value.title,
@@ -68,18 +69,19 @@ class QuestForm extends React.Component {
   }
 
   render() {
+
     return (
-    	<div className="ui inverted red segment">
-        <form className="ui inverted form">
-	    	<FormView
-	    	  ref="questForm"
-	    	  type={Quest}
-          options={options}
-	        value={this.state.quest}/>
-        </form>
-        <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-        <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
-    	</div>
+        <div className="ui inverted red segment">
+-        <form className="ui inverted form">
+-       <FormView
+-         ref="questForm"
+-         type={Quest}
+-          options={options}
+-         value={this.state.quest}/>
+-        </form>
+-        <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+-        <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+-     </div>
   	);
   }
 

@@ -4,7 +4,7 @@ var cookieParser        = require('cookie-parser');
 var session             = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
-var baseURL             = require('./environment');
+// var baseURL             = require('./environment');
 
 // ROUTERS
 var indexRouter         = require('./routes/index.route');
@@ -36,10 +36,10 @@ app.use('/users', usersRouter);
 app.use('/logout', logoutRouter);
 
 // APP SETTINGS
-console.log(baseURL)
+// console.log(baseURL)
 app.set('port', process.env.PORT || 3000);
-var server = app.listen(app.get('port'), 'localhost', null, function () {
-  console.log('Server hosted at ' + baseURL + ', and on port '  + app.get('port'));
+var server = app.listen(app.get('port'), function(){
+	console.log('Server listening on port ' + app.get('port'));
 });
 
 module.exports = app;
