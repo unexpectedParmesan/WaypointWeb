@@ -20,11 +20,18 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
+var callbackPort;
+if (process.env.NODE_ENV === 'production') {
+  callbackPort = '';
+} else {
+  callbackPort = ':3000';
+}
+
 // configure passport-facebook auth strategy
 passport.use(new FacebookStrategy({
   clientID: FB_APP_ID,
   clientSecret: FB_APP_SECRET,
-  callbackURL: baseURL + ':3000' + '/auth/facebook/callback',
+  callbackURL: baseURL + callbackPort + '/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos']
 }, function (accessToken, refreshToken, profile, done) {
   console.log(profile);
