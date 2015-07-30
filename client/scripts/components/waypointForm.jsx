@@ -9,6 +9,14 @@ var Waypoint = tform.struct({
     mediaUrl: tform.Str
 });
 
+var options = {
+  fields: {
+    description: {
+    type: 'textarea'
+    }
+  }
+};
+
 class WaypointForm extends React.Component {
 
   constructor(props) {
@@ -70,6 +78,7 @@ class WaypointForm extends React.Component {
 		    	<FormView
 		    	  ref="waypointForm"
 		    	  type={Waypoint}
+		    	  options={options}
 		        value={this.state.waypoint}/>
 		    </form>
 			<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
