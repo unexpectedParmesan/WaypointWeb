@@ -10,6 +10,14 @@ var Quest = tform.struct({
 	estimatedTime: tform.Str
 });
 
+var options = {
+  fields: {
+    description: {
+    type: 'textarea'
+    }
+  }
+};
+
 class QuestForm extends React.Component {
 
   constructor(props) {
@@ -66,6 +74,7 @@ class QuestForm extends React.Component {
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}
+          options={options}
 	        value={this.state.quest}/>
         </form>
         <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
