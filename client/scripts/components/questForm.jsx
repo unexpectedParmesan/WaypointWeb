@@ -17,9 +17,6 @@ var options = {
     }
   }
 };
-
-$('.ui.dropdown')
-  .dropdown()
   
 
 class QuestForm extends React.Component {
@@ -52,7 +49,7 @@ class QuestForm extends React.Component {
   save() {
 
   	var value = this.refs.questForm.getValue();
-    console.log(value);
+
   	if (value) {
       var newQuest = {
         title: value.title,
@@ -71,28 +68,20 @@ class QuestForm extends React.Component {
     this.props.deleteQuest();
   }
 
-  drop (){
-    dropdown('show');
-  }
-
   render() {
 
     return (
-      <div className="ui floating dropdown button" onClick={this.drop.bind(this)}>
-        <span className="text">Edit Quest</span>
-      	<div className="menu">
-          <form className="ui inverted form menu">
-  	    	<FormView
-            className="item"
-  	    	  ref="questForm"
-  	    	  type={Quest}
-            options={options}
-  	        value={this.state.quest}/>
-          </form>
-          <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-          <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
-      	</div>
-      </div>
+        <div className="ui inverted red segment">
+-        <form className="ui inverted form">
+-       <FormView
+-         ref="questForm"
+-         type={Quest}
+-          options={options}
+-         value={this.state.quest}/>
+-        </form>
+-        <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+-        <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+-     </div>
   	);
   }
 
