@@ -8,6 +8,7 @@ usersRouter.get('/', function(req, res) {
 });
 
 usersRouter.get('/me', function(req, res) {
+  console.log('in here')
   if (!req.session.passport.user) {
     res.redirect('/');
   } else {
