@@ -37,8 +37,8 @@ app.use('/logout', logoutRouter);
 
 // APP SETTINGS
 console.log(baseURL)
-app.set('port', process.env.PORT || 3000);
-var server = app.listen(app.get('port'), 'localhost', null, function () {
+// app.set('port', process.env.PORT || 3000);
+var server = app.listen(process.env.PORT || 3000), 'localhost', null, function () {
   console.log('Server hosted at ' + baseURL + ', and on port '  + app.get('port'));
 });
 
