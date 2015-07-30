@@ -36,7 +36,7 @@ app.use('/users', usersRouter);
 app.use('/logout', logoutRouter);
 
 // APP SETTINGS
-console.log(console.log(environment.ENV));
+console.log(environment);
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function(){
 	console.log('Server listening on port ' + app.get('port'));
