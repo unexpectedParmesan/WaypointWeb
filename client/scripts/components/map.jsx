@@ -24,24 +24,25 @@ class WaypointMap extends React.Component {
     var markers = [];
 
     this.createMap(() => {
+      var bound = new GoogleMaps.LatLngBounds();
       this.props.waypoints.forEach(function(waypoint) {
 
         var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
+        bound.extend(marker.getPosition());
         if (waypoint.id === this.state.currentWaypointId) {
           marker.setOpacity(1);
           marker.setDraggable(true);
         }
         markers.push(marker);
-
       }.bind(this));
+
+      this.state.map.fitBounds(bound);
+
       this.setState({ markers });
     });
   }
 
   componentWillReceiveProps(nextProps) {
-
-    console.log('recieved nextProps', nextProps);
-
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
       // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
@@ -57,14 +58,20 @@ class WaypointMap extends React.Component {
 
         markers = [];
 
+        var bound = new GoogleMaps.LatLngBounds();
+
         nextProps.waypoints.forEach((waypoint) => {
           var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
+          bound.extend(marker.getPosition());
           if (waypoint.id === this.state.currentWaypointId) {
             marker.setOpacity(1);
             marker.setDraggable(true);
+
           }
           markers.push(marker);
         });
+
+        this.state.map.fitBounds(bound);
 
         this.setState({ markers });
 
@@ -116,12 +123,11 @@ class WaypointMap extends React.Component {
 
   render () {
 
+    var display;
     if (!this.props.hideSearchInput) {
-      console.log(this.props.hideSearchInput)
-      var display = styles.searchInput;
+      display = styles.searchInput;
     } else {
-      console.log(this.props.hideSearchInput)
-      var display = styles.hidden;
+      display = styles.hidden;
     }
 
     return (
@@ -145,7 +151,7 @@ class WaypointMap extends React.Component {
 
     // add the map to the page
     var newMap = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
-   
+
     // search input should only expect addresses
     var searchOptions = {
       types: ['address']
@@ -158,16 +164,15 @@ class WaypointMap extends React.Component {
 
     // add listener to search box
     GoogleMaps.event.addListener(searchBox, 'place_changed', function () {
-      console.log('in searchBox listener')
       // get the objects for the places returned by the user's search
       var place = searchBox.getPlace();
       console.log(place);
       // if no places found, return
+      // TODO: tell user that their query returned no results
       if (place.length === 0) { return; }
 
       // create a marker for the place
-
-      context.props.newWaypoint(place.geometry.location.G, place.geometry.location.K)
+      context.props.newWaypoint(place.geometry.location.G, place.geometry.location.K);
     });
 
     this.setState({ map: newMap }, () => {
@@ -175,22 +180,14 @@ class WaypointMap extends React.Component {
 
 
       // listen for clicks on the map and add a marker for where the user clicks
-
       GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
+        // only add waypoint when hideSearchInput is false
         if (context.props.hideSearchInput) {
           return;
         } else {
           context.props.newWaypoint(event.latLng.G, event.latLng.K);
         }
       });
-
-      // if there are already waypoints set for this quest, add them to the map when the page loads
-      // if (this.props.waypoints) {
-      //   _.each(this.props.waypoints, function(obj) {
-      //     // console.log('creating marker for this waypoint:', obj);
-      //     this.createMarker(obj.latitude, obj.longitude, obj.index_in_quest);
-      //   }, this);
-      // }
     });
 
   }
@@ -206,14 +203,8 @@ class WaypointMap extends React.Component {
       opacity: 0.5,
     });
 
-    // create an InfoWindow for each marker that displays the lat, lng for that location
-    var infoBox = new GoogleMaps.InfoWindow({
-      content: lat + ', ' + lng + ' index: ' + index
-    });
-
     // when a marker is clicked once, show the infoBox
     GoogleMaps.event.addListener(marker, 'click', (event) => {
-      // infoBox.open(context.state.map, marker);
       this.handleMarkerClick(index);
     });
 
@@ -222,33 +213,6 @@ class WaypointMap extends React.Component {
       this.handleMarkerDrop(marker.getPosition());
     });
 
-    // // when a marker is clicked twice, remove the marker
-    // GoogleMaps.event.addListener(marker, 'dblclick', function(event) {
-    //
-    //   // remove marker from the map and delete the marker
-    //   marker.setMap(null);
-    //   marker = null;
-    //
-    //   console.log(event);
-    //
-    //   _.each(context.state.markers, function(mark, index, collection) {
-    //     console.log(mark);
-    //     if ( (event.latLng.A === mark.position.A && event.latLng.F === mark.position.F)
-    //      ) {
-    //       console.log('found marker to delete');
-    //       collection[index] = null;
-    //     }
-    //   }, this);
-    //
-    //   // remove the marker from this.state.markers
-    //   console.log(context.state.markers);
-    // });
-
-    // var markers = _.clone(this.state.markers);
-    // markers.push(marker);
-    // this.setState({markers}, () => {
-    //   marker.setMap(this.state.map);
-    // });
     return marker;
   }
 }

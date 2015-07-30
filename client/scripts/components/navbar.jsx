@@ -13,7 +13,7 @@ class Nav extends React.Component {
         <div className="brand item"> Waypoint Beta </div>
         <div className="right menu">
           <div className="item" style={styles.user}>
-            <img className="item" src={this.props.user.profile_pic} style={styles.pic} />
+            <img src={this.props.user.profile_pic} style={styles.pic} />
             {this.props.user.name}
           </div>
           <div className="item"><a href="/logout">Logout</a></div>
@@ -37,7 +37,10 @@ var styles = {
     fontSize: 18
   },
   pic: {
-    width: 70,
+    height: 36,
+    width: 36,
+    borderRadius: 18,
+    marginRight: 10,
     background: '##9E9E9E',
     left: 10,
   }
