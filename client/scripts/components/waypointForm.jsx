@@ -6,7 +6,7 @@ var FormView = tform.form.Form;
 var Waypoint = tform.struct({
 	title: tform.Str,
 	description: tform.Str,
-    mediaUrl: tform.Str
+  // mediaUrl: tform.Str,
 });
 
 var options = {
@@ -42,13 +42,12 @@ class WaypointForm extends React.Component {
 	        mediaUrl: nextProps.waypoint.mediaUrl
 	      }
 	    });
-}
-
+	}
 
   save() {
 
 	  var value = this.refs.waypointForm.getValue();
-
+	  console.log(value);
 	  if (this.state.waypoint) {
 	    var validation = this.refs.waypointForm.validate();
 	    if (validation.errors.length > 0) {

@@ -25,7 +25,7 @@ class WaypointMap extends React.Component {
 
     this.createMap(() => {
       this.props.waypoints.forEach(function(waypoint) {
-        // debugger;
+
         var marker = this.createMarker(waypoint.latitude, waypoint.longitude, waypoint.index_in_quest);
         if (waypoint.id === this.state.currentWaypointId) {
           marker.setOpacity(1);
@@ -39,6 +39,9 @@ class WaypointMap extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
+
+    console.log('recieved nextProps', nextProps);
+
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
       // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
@@ -113,9 +116,17 @@ class WaypointMap extends React.Component {
 
   render () {
 
+    if (!this.props.hideSearchInput) {
+      console.log(this.props.hideSearchInput)
+      var display = styles.searchInput;
+    } else {
+      console.log(this.props.hideSearchInput)
+      var display = styles.hidden;
+    }
+
     return (
       <div className='googleMap'>
-        <input type="text" ref="search" style={styles.searchInput} />
+        <input type="text" ref="search" style={display} />
         <div ref="mapCanvas" style={styles.mapStyles} ></div>
       </div>
     );
@@ -134,25 +145,29 @@ class WaypointMap extends React.Component {
 
     // add the map to the page
     var newMap = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
-
+   
+    // search input should only expect addresses
+    var searchOptions = {
+      types: ['address']
+    };
     // create the places searchBox
-    var searchBox = new GoogleMaps.places.SearchBox(this.refs.search.getDOMNode());
+    var searchBox = new GoogleMaps.places.Autocomplete(this.refs.search.getDOMNode(), searchOptions);
 
     // put the search box in the top left-hand corner
     newMap.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
 
     // add listener to search box
-    GoogleMaps.event.addListener(searchBox, 'places_changed', function () {
+    GoogleMaps.event.addListener(searchBox, 'place_changed', function () {
+      console.log('in searchBox listener')
       // get the objects for the places returned by the user's search
-      var places = searchBox.getPlaces();
+      var place = searchBox.getPlace();
+      console.log(place);
       // if no places found, return
-      if (places.length === 0) { return; }
+      if (place.length === 0) { return; }
 
-      // iterate over each place and create a marker for that place
-      _.each(places, function(place) {
-        context.createMarker(place.geometry.location.A, place.geometry.location.F
-        );
-      });
+      // create a marker for the place
+
+      context.props.newWaypoint(place.geometry.location.G, place.geometry.location.K)
     });
 
     this.setState({ map: newMap }, () => {
@@ -160,9 +175,14 @@ class WaypointMap extends React.Component {
 
 
       // listen for clicks on the map and add a marker for where the user clicks
-      // GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
-      //   context.createMarker(event.latLng.A, event.latLng.F);
-      // });
+
+      GoogleMaps.event.addListener(this.state.map, 'click', function (event) {
+        if (context.props.hideSearchInput) {
+          return;
+        } else {
+          context.props.newWaypoint(event.latLng.G, event.latLng.K);
+        }
+      });
 
       // if there are already waypoints set for this quest, add them to the map when the page loads
       // if (this.props.waypoints) {
@@ -184,7 +204,6 @@ class WaypointMap extends React.Component {
       // animation: GoogleMaps.Animation.DROP,
       // label: this.state.count,
       opacity: 0.5,
-
     });
 
     // create an InfoWindow for each marker that displays the lat, lng for that location
@@ -230,8 +249,6 @@ class WaypointMap extends React.Component {
     // this.setState({markers}, () => {
     //   marker.setMap(this.state.map);
     // });
-
-
     return marker;
   }
 }
@@ -250,6 +267,9 @@ var styles = {
     paddingBottom: 0,
     paddingLeft: 13,
     width: 400,
+  },
+  hidden: {
+    display: 'none',
   },
   markerStyles: {
     height: 30,

@@ -29,17 +29,17 @@ var styles = {
     marginBottom: 10,
     height: 40,
     flex: 1,
+    color: '#606060',
   },
   user: {
-    fontSize: 20
   },
   quest: {
     fontSize: 18
   },
   pic: {
-    height: 60,
-    width: 60,
+    width: 70,
     background: '##9E9E9E',
+    left: 10,
   }
 };
 
