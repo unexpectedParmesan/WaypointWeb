@@ -24,7 +24,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new FacebookStrategy({
   clientID: FB_APP_ID,
   clientSecret: FB_APP_SECRET,
-  callbackURL: baseURL + callbackPort + '/auth/facebook/callback',
+  callbackURL: baseURL + '/auth/facebook/callback',
   profileFields: ['id', 'displayName', 'photos']
 }, function (accessToken, refreshToken, profile, done) {
   console.log(profile);
