@@ -24,6 +24,7 @@ class Main extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      hideSearchInput: true,
       user: {
         facebook_id: null
       },
@@ -95,7 +96,7 @@ class Main extends React.Component {
            quest={this.state.quests[this.indexOfCurrentQuest()]}
            setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
            currentWaypoint={this.state.currentWaypoint}
-           newWaypoint={this.newWaypoint.bind(this)}
+           waypointWillBeCreated={this.waypointWillBeCreated.bind(this)}
         />
       );
 
@@ -115,6 +116,7 @@ class Main extends React.Component {
             <Map
               waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
               newWaypoint={this.newWaypoint.bind(this)}
+              hideSearchInput={this.state.hideSearchInput}
               setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
               currentWaypoint={this.state.currentWaypoint}
               updateWaypoint={this.updateCurrentWaypoint.bind(this)}
@@ -241,9 +243,14 @@ class Main extends React.Component {
     this.setState({currentWaypoint: id});
   }
 
+  waypointWillBeCreated() {
+    this.setState({hideSearchInput: false});
+    
+  }
 
   newWaypoint(lat, lng) {
     console.log(lat, lng);
+
     var quests = _.clone(this.state.quests);
     var targetQuest = quests[this.indexOfCurrentQuest()];
     // this.state.quests
@@ -255,11 +262,13 @@ class Main extends React.Component {
         latitude: lat,
         longitude: lng
     };
+
     api.saveWaypoint(defaultWaypoint, 'POST').then((waypoint) => {
       targetQuest.waypoints.push(waypoint);
       this.setState({
         quests,
-        currentWaypoint: waypoint.id
+        currentWaypoint: waypoint.id,
+        hideSearchInput: true,
       });
     });
   }

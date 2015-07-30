@@ -46,7 +46,7 @@ class WaypointList extends React.Component {
             {waypointList}
           </tbody>
         </table>
-        <button className="ui black button" onClick={this.props.newWaypoint} style={styles.button}>New waypoint</button>
+        <button className="ui black button" onClick={this.props.waypointWillBeCreated} style={styles.button}>New waypoint</button>
       </div>
     );
   }
