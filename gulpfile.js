@@ -19,7 +19,7 @@ var dbManager = dbTask({
   // password: '',
   // database: 'waypointdb',
   // dialect: 'mysql'
-  Comment out above and use above for local server
+  // Comment out above and use above for local server
   host: 'us-cdbr-iron-east-02.cleardb.net',
   user: 'bbaf82d9c58cfe',
   password: 'ccebbb53',
