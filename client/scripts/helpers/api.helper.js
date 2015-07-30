@@ -7,7 +7,15 @@
 
 var $ = require('jquery');
 var baseURL = require('../../../environment');
-baseURL += ':3000';
+
+var port;
+if (process.env.NODE_ENV === 'production') {
+  port = '';
+} else {
+  port = ':3000';
+}
+
+baseURL += port;
 
 var API = {
 
