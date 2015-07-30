@@ -65,6 +65,5 @@
     "node": ">=0.10.0"
   },
   "scripts": {
-    "start": "./node_modules/gulp/bin/gulp.js serve"
   }
 }
