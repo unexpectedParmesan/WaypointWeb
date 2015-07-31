@@ -4,7 +4,6 @@ var cookieParser        = require('cookie-parser');
 var session             = require('express-session');
 var passport            = require('passport');
 var FacebookStrategy    = require('passport-facebook').Strategy;
-var environment         = require('./environment.js');
 
 // ROUTERS
 var indexRouter         = require('./routes/index.route');
@@ -36,7 +35,6 @@ app.use('/users', usersRouter);
 app.use('/logout', logoutRouter);
 
 // APP SETTINGS
-console.log(environment);
 app.set('port', process.env.PORT || 3000);
 var server = app.listen(app.get('port'), function(){
 	console.log('Server listening on port ' + app.get('port'));
