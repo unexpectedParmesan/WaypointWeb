@@ -5,8 +5,8 @@ var FormView = tform.form.Form;
 
 var Waypoint = tform.struct({
 	title: tform.Str,
-	description: tform.Str,
-  mediaUrl: tform.Str
+	description: tform.maybe(tform.Str),
+  mediaUrl: tform.maybe(tform.Str)
 });
 
 var options = {
@@ -71,23 +71,30 @@ class WaypointForm extends React.Component {
 
 	render() {
     return (
-    	<div className="ui inverted red segment">
-    	  <form className="ui inverted form">
-		    	<FormView
-		    	  ref="waypointForm"
-		    	  type={Waypoint}
-		    	  options={options}
-		        value={this.state.waypoint}/>
-		    </form>
-			<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-			<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
-      </div>
+			<div>
+				<h3 style={styles.title}>{this.state.waypoint.title}</h3>
+	    	<div className="ui inverted grey segment">
+	    	  <form className="ui inverted form">
+			    	<FormView
+			    	  ref="waypointForm"
+			    	  type={Waypoint}
+			    	  options={options}
+			        value={this.state.waypoint}/>
+			    </form>
+				<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+				<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+	      </div>
+			</div>
     );
 	}
 
 }
 
 var styles = {
+	title: {
+		textAlign: 'center',
+		fontSize: 30
+	},
 	button: {
 		margin: 5
 	}

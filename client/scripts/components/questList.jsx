@@ -22,14 +22,13 @@ class QuestList extends React.Component {
         return (
           <div className="ui selection list">
             <div className="item" onClick={ () => {
-              this.props.onSetSidebarOpen(false);
-              this.props.editQuest();
+              this.props.closeQuestList();
             }}>
               <QuestListItem
                 key={index}
                 quest={quest}
                 deleteQuest={this.props.deleteQuest}
-                editQuest={this.props.editQuest}
+                closeQuestList={this.props.closeQuestList}
                 setCurrentQuest={this.props.setCurrentQuest}/>
             </div>
           </div>
