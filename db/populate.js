@@ -9,7 +9,7 @@ var userActiveQuest = require('./models/userActiveQuest');
 
 var quest1 = new Quest({
 	title: 'Zombie Escape 2: mySQL',
-	length: '2.3 mi',
+	// length: '2.3 mi',
 	description: 'A thrilling brush with the undead through some the city\'s lovliest parks. Includes puzzles and physical clues. Requires tree climbing. Recomended start time is 6pm.',
 	estimated_time: '2-3 hrs',
 	creator_facebook_id: '10101794099292433'
@@ -47,7 +47,7 @@ var waypoint3 = new Waypoint({
 
 var quest2 = new Quest({
 	title: 'Hack Reactor Bars',
-	length: '0.7 mi',
+	// length: '0.7 mi',
 	description: 'we deserve a beer or seven',
 	estimated_time: '1-13 hrs',
 	creator_facebook_id: '10101794099292433'
@@ -97,7 +97,7 @@ var activeQuest1 = new userActiveQuest({
 
 var quest3 = new Quest({
 	title: 'A unique affair',
-	length: 'A while',
+	// length: 'A while',
 	description: 'Stuff and things',
 	creator_facebook_id: '10101794099292433'
 });
@@ -121,15 +121,15 @@ activeQuest2.save().then(function(quest){
 });
 
 waypoint1.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 waypoint2.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 waypoint3.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 quest2.save().then(function(quest) {
@@ -137,15 +137,15 @@ quest2.save().then(function(quest) {
 });
 
 waypoint4.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 waypoint5.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 waypoint6.save().then(function(waypoint) {
-	console.log('saved waypoint:', waypoint)
+	console.log('saved waypoint:', waypoint);
 });
 
 user1.save().then(function(user) {

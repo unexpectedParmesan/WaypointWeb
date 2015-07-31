@@ -104,7 +104,6 @@ var API = {
     ** Example:
     ** questObj = {
     **   title: "Quest Title",
-    **   length: "6 miles",
     **   description: "Quest description goes something like this",
     **   estimatedTime: "4 hours",
     **   facebookId: "123456789",
