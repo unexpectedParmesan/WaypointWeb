@@ -64,6 +64,7 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+
     api.getMe().then((user) => {
       this.setState({ user }, () => {
         api.getQuests(this.state.user.facebook_id).then((quests) => {
@@ -89,7 +90,7 @@ class Main extends React.Component {
   }
 
 ///////////////////////////////
-// REEEEENNNNNDDEEERRRRRRR
+// RENDER
 //////////////////////////////
 
   render() {
@@ -245,10 +246,13 @@ class Main extends React.Component {
 
     return (
       <div>
-        <Sidebar sidebar={sidebarContent}
+        <Sidebar 
+          className="sidebar"
+          sidebar={sidebarContent}
           open={this.state.sidebarOpen}
-          onSetOpen={this.onSetSidebarOpen}>
-          <div className="ui grid container">
+          onSetOpen={this.onSetSidebarOpen.bind(this)}>
+          <div 
+            className="ui grid container" 
             <div className="row">
               <Nav className="sixteen wide column"
                 user={this.state.user}
@@ -471,7 +475,7 @@ class Main extends React.Component {
 
 var mainStyle = {
   sidebarContent: {
-    padding: 10,
+    padding: 20,
   },
   title: {
     textAlign: 'center',

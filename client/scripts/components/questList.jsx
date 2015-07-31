@@ -21,9 +21,11 @@ class QuestList extends React.Component {
 
         return (
           <div className="ui selection list">
-            <div className="item" onClick={ () => {
-              this.props.closeQuestList();
-            }}>
+            <div 
+              className="item" 
+              style={styles.item}
+              onClick={ () => {
+              this.props.closeQuestList(); }}>
               <QuestListItem
                 key={index}
                 quest={quest}
@@ -50,6 +52,9 @@ class QuestList extends React.Component {
 }
 
 var styles = {
+  item: {
+    padding: 20,
+  },
   title:{
     textAlign: 'left',
     fontSize: 30
