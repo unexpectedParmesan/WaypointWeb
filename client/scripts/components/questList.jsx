@@ -11,35 +11,40 @@ class QuestList extends React.Component {
   render() {
 
     var questList;
-    questList = this.props.quests.map((quest, index) => {
+    if (this.props.quests.length) {
+      questList = this.props.quests.map((quest, index) => {
 
-      var selectionStyle;
-      if (quest.id === this.props.currentQuest) {
-        selectionStyle = styles.selected;
-      }
+        var selectionStyle;
+        if (quest.id === this.props.currentQuest) {
+          selectionStyle = styles.selected;
+        }
 
-      return (
-        <tr style={selectionStyle}>
-          <td>
-            <QuestListItem
-              key={index}
-              quest={quest}
-              setCurrentQuest={this.props.setCurrentQuest}/>
-          </td>
-        </tr>
+        return (
+          <div className="ui selection list">
+            <div className="item" onClick={ () => {
+              this.props.onSetSidebarOpen(false);
+              this.props.editQuest();
+            }}>
+              <QuestListItem
+                key={index}
+                quest={quest}
+                deleteQuest={this.props.deleteQuest}
+                editQuest={this.props.editQuest}
+                setCurrentQuest={this.props.setCurrentQuest}/>
+            </div>
+          </div>
 
-      );
-    });
+        );
+      });
+    }
 
     return (
       <div>
-        <h3 style={styles.title}> Quests </h3>
-        <table className="ui inverted table segment">
-          <tbody>
-            {questList}
-          </tbody>
-        </table>
-        <button className="ui black button" onClick={this.props.newQuest} style={styles.button}>New quest</button>
+        <div style={styles.title}>
+          <h4>My Quests</h4>
+          <button className="ui green button" onClick={this.props.newQuest} style={styles.button}>New Quest</button>
+        </div>
+        {questList}
       </div>
     );
   }
@@ -47,7 +52,7 @@ class QuestList extends React.Component {
 
 var styles = {
   title:{
-    textAlign: 'center',
+    textAlign: 'left',
     fontSize: 30
   },
   button: {

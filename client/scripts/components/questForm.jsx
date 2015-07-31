@@ -1,5 +1,8 @@
 var React = require('react');
+var Map = require('./map.jsx');
 var tform = require('tcomb-form');
+var semantic = require('tcomb-form/lib/templates/semantic');
+tform.form.Form.templates = semantic;
 
 var FormView = tform.form.Form;
 
@@ -21,17 +24,20 @@ class QuestForm extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      quest: {
-        title: props.quest.title,
-        description: props.quest.description,
-        estimatedTime: props.quest.estimated_time,
-      }
-    };
+    console.log(props.quest.title)
+		this.state = {
+			quest: {
+				title: props.quest.title,
+				description: props.quest.description,
+				length: props.quest.length,
+				estimatedTime: props.quest.estimated_time,
+			}
+		};
   }
 
   componentWillReceiveProps(nextProps) {
-    // console.log('nextProps: ', nextProps);
+    if (!nextProps.quest) { return; }
+
     this.setState({
       quest: {
         title: nextProps.quest.title,
@@ -65,18 +71,20 @@ class QuestForm extends React.Component {
 
   render() {
     return (
-      <div className="ui inverted red segment">
-        <form className="ui inverted form">
-        <FormView
-          ref="questForm"
-          type={Quest}
+    	<div className="ui segment">
+        <form className="ui form">
+        <h4>You are currently editing: {this.state.quest.title}</h4>
+	    	<FormView
+	    	  ref="questForm"
+	    	  type={Quest}
           options={options}
-          value={this.state.quest}/>
+	        value={this.state.quest}
+          style={styles.form}/>
         </form>
-        <button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-        <button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
-      </div>
-    );
+        <button className="ui tiny green button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
+        <button className="ui tiny red button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+    	</div>
+  	);
   }
 
 }
