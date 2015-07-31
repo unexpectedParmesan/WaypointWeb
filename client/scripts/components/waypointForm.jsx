@@ -47,7 +47,6 @@ class WaypointForm extends React.Component {
   save() {
 
 	  var value = this.refs.waypointForm.getValue();
-	  console.log(value);
 	  if (this.state.waypoint) {
 	    var validation = this.refs.waypointForm.validate();
 	    if (validation.errors.length > 0) {
