@@ -30,7 +30,6 @@ var API = {
         url: baseURL + '/users/me'
       })
         .done(function (res) {
-          console.log(res);
           return res;
         })
         .fail(function (res) {

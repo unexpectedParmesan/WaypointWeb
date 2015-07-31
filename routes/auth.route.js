@@ -47,7 +47,8 @@ passport.use(new FacebookStrategy({
         });
 
         // all new users get a template quest free of charge :)
-
+        // // all new users get a template quest free of charge :)
+        // newUser.save().then(function (user) {
         //   var newQuest = new Quest({
         //     creator_facebook_id: user.attributes.facebook_id,
         //     title: 'Untitled Quest',
@@ -70,6 +71,7 @@ passport.use(new FacebookStrategy({
         //     });
         //   });
 
+        // });
       } else {
         return done(null, user);
       }

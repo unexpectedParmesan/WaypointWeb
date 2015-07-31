@@ -50,6 +50,7 @@
     "react-google-maps": "^1.7.1",
     "react-googlemaps": "^0.4.0",
     "react-router": "^0.13.3",
+    "react-sidebar": "^1.0.3",
     "reactify": "~1.1.0",
     "reflux": "~0.2.7",
     "require-dot-file": "^0.4.0",

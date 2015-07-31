@@ -6,23 +6,30 @@ class QuestListItem extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state = {
+      editing: false,
+    };
   }
 
   render() {
+
+    console.log('questListItem props', this.props);
 
     if (this.props.quest) {
       this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
       return (
-        <div
+        <div className="content"
           onClick={() => {
             this.props.setCurrentQuest(this.props.quest.id);
-          }}
-          >
+            this.props.editQuest();
+          }} >
           <div>
-            <p>{this.props.quest.title}</p>
-            <p>{this.props.quest.description}</p>
-            <div>
+            <p className="header">
+              {this.props.quest.title}
+            </p>
+            <p className="description">{this.props.quest.description}</p>
+            <div style={styles.details}>
               <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
               <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
               <br />
@@ -38,5 +45,17 @@ class QuestListItem extends React.Component {
     }
   }
 }
+
+var styles = {
+  icons: {
+    textAlign: 'right',
+    width: 41,
+    float: 'right',
+    position: 'relative',
+  },
+  details: {
+    fontSize: 12,
+  }
+};
 
 module.exports = QuestListItem;
