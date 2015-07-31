@@ -94,7 +94,6 @@ class Main extends React.Component {
       });
     });
   }
-
 ///////////////////////////////
 // RENDER
 //////////////////////////////
@@ -358,6 +357,7 @@ class Main extends React.Component {
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
     this.setState({waypointCreate: true});
+    $('.googleMap').dimBackground();
   }
 
   newWaypoint(lat, lng) {
@@ -369,7 +369,7 @@ class Main extends React.Component {
     var defaultWaypoint = {
         quest_id: this.state.currentQuest,
         index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
-        title: '',
+        title: 'Untitled waypoint',
         description: '',
         latitude: lat,
         longitude: lng
@@ -384,6 +384,7 @@ class Main extends React.Component {
         waypointCreate: false
       });
     });
+    $('.googleMap').undim();
   }
 
   updateCurrentWaypoint(waypoint) {
