@@ -12,9 +12,6 @@ class QuestListItem extends React.Component {
   }
 
   render() {
-
-    console.log('questListItem props', this.props);
-
     if (this.props.quest) {
       this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
@@ -22,7 +19,7 @@ class QuestListItem extends React.Component {
         <div className="content"
           onClick={() => {
             this.props.setCurrentQuest(this.props.quest.id);
-            this.props.editQuest();
+            this.props.closeQuestList();
           }} >
           <div>
             <p className="header">

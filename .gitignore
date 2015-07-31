@@ -7,6 +7,7 @@ test/scripts/
 ./secrets.js
 public/scripts
 public/scripts/app.js
+./npm-debug.log
 .DS_Store
 /.DS_Store
 **/.DS_Store

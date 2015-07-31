@@ -1,8 +1,3 @@
-/*
-** Map component used by Waypoint Form component
-** Map component created with http://react-components.com/component/react-google-maps
-*/
-
 var React = require('react');
 // var $ = require('jquery');
 var _ = require('underscore');
@@ -18,7 +13,6 @@ class WaypointMap extends React.Component {
       // currentWaypointIndex: _.findWhere(props.waypoints, {id: props.currentWaypoint}).index_in_quest,
     };
   }
-
 
   componentDidMount () {
     var markers = [];
@@ -189,7 +183,6 @@ class WaypointMap extends React.Component {
         }
       });
     });
-
   }
 
   createMarker (lat, lng, index) {
@@ -198,13 +191,10 @@ class WaypointMap extends React.Component {
       index: index,
       position: new GoogleMaps.LatLng(lat, lng),
       map: this.state.map,
-      // animation: GoogleMaps.Animation.DROP,
-      // label: this.state.count,
       opacity: 0.5,
     });
 
-    // when a marker is clicked once, show the infoBox
-    GoogleMaps.event.addListener(marker, 'click', (event) => {
+    GoogleMaps.event.addListener(marker, 'click', () => {
       this.handleMarkerClick(index);
     });
 
@@ -244,7 +234,5 @@ var styles = {
     height: 500,
   }
 };
-
-
 
 module.exports = WaypointMap;

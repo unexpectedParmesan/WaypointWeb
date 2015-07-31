@@ -41,7 +41,7 @@ class WaypointList extends React.Component {
     return (
       <div>
         <h3 style={styles.title}> Waypoints </h3>
-        <table className="ui inverted table segment">
+        <table className="ui table segment">
           <tbody>
             {waypointList}
           </tbody>
@@ -61,8 +61,8 @@ var styles = {
     margin: 5
   },
   selected: {
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: '#606060',
+    color: 'white',
   }
 };
 

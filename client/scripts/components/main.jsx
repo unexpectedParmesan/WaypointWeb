@@ -37,12 +37,29 @@ class Main extends React.Component {
       currentWaypoint: null,
       index: 0,
       sidebarOpen: false,
-      editingQuest: false,
+      questFormOpen: false,
+      // editingQuest: false,
     };
   }
 
   onSetSidebarOpen (open) {
     this.setState({sidebarOpen: open});
+  }
+
+  openQuestList() {
+    this.setState({ sidebarOpen: true });
+  }
+
+  closeQuestList() {
+    this.setState({ sidebarOpen: false });
+  }
+
+  openQuestForm() {
+    this.setState({ questFormOpen: true });
+  }
+
+  closeQuestForm() {
+    this.setState({ questFormOpen: false });
   }
 
   componentDidMount() {
@@ -56,7 +73,7 @@ class Main extends React.Component {
           });
           this.setState({ quests }, () => {
             if (quests.length) {
-              console.log('the user has quests!')
+              console.log('the user has quests!');
               this.setState({
                 currentQuest: quests[0].id
               });
@@ -82,114 +99,148 @@ class Main extends React.Component {
     var map;
 
     if (this.state.quests) {
-      questList = (
-        <QuestList
-          userId={this.state.user.facebook_id}
-          quests={this.state.quests}
-          setCurrentQuest={this.setCurrentQuest.bind(this)}
-          deleteQuest={this.deleteCurrentQuest.bind(this)}
-          currentQuest={this.state.currentQuest}
-          onSetSidebarOpen={this.onSetSidebarOpen.bind(this)}
-          editQuest={this.editQuest.bind(this)}
-          newQuest={this.newQuest.bind(this)} />
-      );
+      if (this.state.quests.length === 0) {
+        questList = (
+          <div style={mainStyle.sidebarContent}>
+            <p>You have not created any quests. Create a quest to get started.</p>
+            <button className="ui green button" onClick={this.createQuest.bind(this)}>Create New Quest</button>
+          </div>
+        );
+      } else {
+        questList = (
+          <div style={mainStyle.sidebarContent}>
+            <QuestList
+              userId={this.state.user.facebook_id}
+              quests={this.state.quests}
+              setCurrentQuest={this.setCurrentQuest.bind(this)}
+              deleteQuest={this.deleteCurrentQuest.bind(this)}
+              currentQuest={this.state.currentQuest}
+              onSetSidebarOpen={this.onSetSidebarOpen.bind(this)}
+              closeQuestList={this.closeQuestList.bind(this)}
+              newQuest={this.newQuest.bind(this)}
+            />
+          </div>
+        );
+      }
 
-      // waypointList = (
-      //    <WaypointList
-      //      quest={this.state.quests[this.indexOfCurrentQuest()]}
-      //      setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
-      //      currentWaypoint={this.state.currentWaypoint}
-      //      waypointWillBeCreated={this.waypointWillBeCreated.bind(this)} />
-      // );
 
-      // var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
+      var currentWaypoints;
+      if (!this.state.quests.length) {
+        currentWaypoints = null;
+      } else {
+        currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
+      }
 
-      // if (currentWaypoints && currentWaypoints.length) {
-      //   waypointForm = (
-      //     <WaypointForm
-      //       waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
-      //       updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-      //       deleteWaypoint={this.deleteCurrentWaypoint.bind(this)} />
-      //   );
 
-      //   if (this.state.currentWaypoint !== null) {
-      //     map = (
-      //       <Map
-      //         waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
-      //         newWaypoint={this.newWaypoint.bind(this)}
-      //         hideSearchInput={this.state.hideSearchInput}
-      //         setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
-      //         currentWaypoint={this.state.currentWaypoint}
-      //         updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-      //         key={this.state.currentQuest} />
-      //     );
-      //   } else {
-      //     map = <div />;
-      //   }
-      // } else {
-      //   waypointForm = (
-      //     <div />
-      //   );
-      //   map = (
-      //     <div />
-      //   );
-      // }
+      if (currentWaypoints && currentWaypoints.length) {
+        waypointList = (
+           <WaypointList
+             quest={this.state.quests[this.indexOfCurrentQuest()]}
+             setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+             currentWaypoint={this.state.currentWaypoint}
+             waypointWillBeCreated={this.waypointWillBeCreated.bind(this)} />
+        );
+        waypointForm = (
+          <WaypointForm
+            waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
+            updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+            deleteWaypoint={this.deleteCurrentWaypoint.bind(this)} />
+        );
 
+        if (this.state.currentWaypoint !== null) {
+          map = (
+            <Map
+              waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
+              newWaypoint={this.newWaypoint.bind(this)}
+              hideSearchInput={this.state.hideSearchInput}
+              setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+              currentWaypoint={this.state.currentWaypoint}
+              updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+              key={this.state.currentQuest} />
+          );
+        } else {
+          map = <div />;
+        }
+      } else {
+        waypointList = <div />;
+        waypointForm = <div />;
+        map = <div />;
+      }
     }
 
-    if (this.state.editingQuest) {
+    if (this.state.questFormOpen) {
       questForm = (
         <QuestForm
           userId={this.state.user.facebook_id}
           quest={this.state.quests[this.indexOfCurrentQuest()]}
           updateQuest={this.updateCurrentQuest.bind(this)}
-          deleteQuest={this.deleteCurrentQuest.bind(this)} />
+          deleteQuest={this.deleteCurrentQuest.bind(this)}
+          closeQuestForm={this.closeQuestForm.bind(this)}
+        />
       );
-      // var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
-
-      // if (currentWaypoints && currentWaypoints.length) {
-      //   waypointForm = (
-      //     <WaypointForm
-      //       waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
-      //       updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-      //       deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
-      //     />
-      //   );
-
-      //   if (this.state.currentWaypoint !== null) {
-      //     map = (
-      //       <Map
-      //         waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
-      //         newWaypoint={this.newWaypoint.bind(this)}
-      //         hideSearchInput={this.state.hideSearchInput}
-      //         setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
-      //         currentWaypoint={this.state.currentWaypoint}
-      //         updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-      //         key={this.state.currentQuest}
-      //       />
-      //     );
-      //   } else {
-      //     map = <div />;
-      //   }
-      // } else {
-      //   waypointForm = (
-      //     <div />
-      //   );
-      //   map = (
-      //     <div />
-      //   );
-      // }
-
     } else {
-      questForm = '';
+      questForm = (
+        <button
+          className="ui button"
+          onClick={this.openQuestForm.bind(this)}
+          style={mainStyle.centered}
+        >
+          edit
+        </button>
+      );
     }
 
+    // if (this.state.editingQuest) {
+    //   questForm = (
+    //     <QuestForm
+    //       userId={this.state.user.facebook_id}
+    //       quest={this.state.quests[this.indexOfCurrentQuest()]}
+    //       updateQuest={this.updateCurrentQuest.bind(this)}
+    //       deleteQuest={this.deleteCurrentQuest.bind(this)} />
+    //   );
+    //   var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
+    //
+    //   if (currentWaypoints && currentWaypoints.length) {
+    //     waypointForm = (
+    //       <WaypointForm
+    //         waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
+    //         updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+    //         deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
+    //       />
+    //     );
+    //
+    //     if (this.state.currentWaypoint !== null) {
+    //       map = (
+    //         <Map
+    //           waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
+    //           newWaypoint={this.newWaypoint.bind(this)}
+    //           hideSearchInput={this.state.hideSearchInput}
+    //           setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
+    //           currentWaypoint={this.state.currentWaypoint}
+    //           updateWaypoint={this.updateCurrentWaypoint.bind(this)}
+    //           key={this.state.currentQuest}
+    //         />
+    //       );
+    //     } else {
+    //       map = <div />;
+    //     }
+    //   } else {
+    //     waypointForm = (
+    //       <div />
+    //     );
+    //     map = (
+    //       <div />
+    //     );
+    //   }
+    //
+    // }
+
     var sidebarContent = (
-      <div style={mainStyle.sidebarContent}>
-        <p>You have not created any quests. Create a quest to get started.</p>
-        <button className="ui green button" onClick={this.createQuest.bind(this)}>Create New Quest</button>
-      </div>
+      {questList}
     );
+
+
+    // var sidebarContent = <div />;
 
     return (
       <div>
@@ -198,28 +249,45 @@ class Main extends React.Component {
           onSetOpen={this.onSetSidebarOpen}>
           <div className="ui grid container">
             <div className="row">
-              <Nav className="sixteen wide column" user={this.state.user} />
+              <Nav className="sixteen wide column"
+                user={this.state.user}
+                openQuestList={this.openQuestList.bind(this)}
+              />
             </div>
             <div className="row">
-              <div className="eight wide column" style={mainStyle}>
-                {questList}
+              <div className="sixteen wide column" style={mainStyle.title}>
+                {this.state.currentQuestTitle}
+              </div>
+            </div>
+            <div className="row">
+              <div className="sixteen wide column">
+                {questForm}
+              </div>
+            </div>
+
+            <div className="row">
+              <div className="four wide column" style={mainStyle}>
+                {waypointList}
               </div>
               <div className="eight wide column" style={mainStyle}>
-                {questForm}
+                {map}
+              </div>
+              <div className="four wide column" style={mainStyle}>
+                {waypointForm}
               </div>
             </div>
           </div>
         </Sidebar>
       </div>
-        
+
     );
   }
 
-  createQuest(){
-    console.log('create a quest!')
-    this.onSetSidebarOpen(false);
-    this.newQuest();
-  }
+  // createQuest(){
+  //   console.log('create a quest!');
+  //   this.onSetSidebarOpen(false);
+  //   this.newQuest();
+  // }
 
   setCurrentQuest(id) {
     this.setState({
@@ -253,16 +321,12 @@ class Main extends React.Component {
         var quests = this.state.quests.concat([quest]);
         this.setState({
           quests,
-          currentQuest: quest.id
+          currentQuest: quest.id,
+          sidebarOpen: false,
         });
       }
     });
 
-  }
-
-  editQuest() {
-    console.log('in edit quest!')
-    this.setState({editingQuest: true});
   }
 
   updateCurrentQuest(quest) {
@@ -277,7 +341,7 @@ class Main extends React.Component {
       this.setState({
         quests,
         currentQuestTitle: quest.title,
-        editingQuest: false,
+        questFormOpen: false,
       });
     });
   }
@@ -294,10 +358,10 @@ class Main extends React.Component {
       if (quests.length > 1) {
         quests.splice(context.indexOfCurrentQuest(), 1);
         context.setState( {currentQuest: context.state.quests[0].id, index: 0}, () => {
-          context.setState({quests, editingQuest: false});
+          context.setState({quests, questFormOpen: false});
         });
       } else {
-        context.setState({quests: [], editingQuest: false});  
+        context.setState({quests: [], questFormOpen: false});
       }
     });
   }
@@ -407,6 +471,9 @@ var mainStyle = {
     textAlign: 'center',
     fontSize: 42,
     minHeight: 50,
+  },
+  centered: {
+    textAlign: 'center',
   }
 };
 

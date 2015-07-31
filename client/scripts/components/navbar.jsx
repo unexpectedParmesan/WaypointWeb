@@ -10,6 +10,7 @@ class Nav extends React.Component {
   render() {
     return (
       <div className="ui borderless menu" style={styles.nav}>
+        <button className="ui button" onClick={this.props.openQuestList} style={styles.button}>my quests</button>
         <div className="brand item"> Waypoint Beta </div>
         <div className="right menu">
           <div className="item" style={styles.user}>
