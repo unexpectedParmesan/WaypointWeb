@@ -8,15 +8,6 @@
 var $ = require('jquery');
 var baseURL = require('../../../environment');
 
-var port;
-if (process.env.NODE_ENV === 'production') {
-  port = '';
-} else {
-  port = ':3000';
-}
-
-baseURL += port;
-
 var API = {
 
     /*
@@ -35,7 +26,6 @@ var API = {
     **          // }
     */
     getMe: function () {
-
       return $.ajax({
         url: baseURL + '/users/me'
       })
