@@ -26,7 +26,6 @@ var API = {
     **          // }
     */
     getMe: function () {
-      console.log('baseUrl', baseURL);
       return $.ajax({
         url: baseURL + '/users/me'
       })
