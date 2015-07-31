@@ -2,6 +2,7 @@
 
 var React = require('react');
 var Nav = require('./navbar.jsx');
+var Sidebar = require('react-sidebar');
 var Map = require('./map.jsx');
 var QuestList = require('./questList.jsx');
 var QuestForm = require('./questForm.jsx');
@@ -10,9 +11,7 @@ var WaypointForm = require('./waypointForm.jsx');
 var api = require('../helpers/api.helper');
 var _ = require('underscore');
 
-var Sidebar = require('react-sidebar');
 
-var Map = require('./map.jsx');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
@@ -48,7 +47,10 @@ class Main extends React.Component {
   }
 
   openQuestList() {
-    this.setState({ sidebarOpen: true });
+    this.setState({
+      sidebarOpen: true,
+      questFormOpen: false,
+    });
   }
 
   closeQuestList() {
@@ -77,7 +79,9 @@ class Main extends React.Component {
             if (quests.length) {
               console.log('the user has quests!');
               this.setState({
-                currentQuest: quests[0].id
+                currentQuest: quests[0].id,
+                currentQuestTitle: quests[0].title,
+                currentWaypoint: quests[0].waypoints[0].id
               });
             } else {
               this.setState({sidebarOpen: true});
@@ -181,12 +185,20 @@ class Main extends React.Component {
       );
     } else {
       questForm = (
-        <button
-          className="ui button"
-          onClick={this.openQuestForm.bind(this)}
-          style={styles.centered} >
-          edit
-        </button>
+        <div>
+          <button
+            className="ui button"
+            onClick={this.openQuestForm.bind(this)}
+            style={styles.centered} >
+            edit
+          </button>
+          <button
+            className="ui button"
+            onClick={this.deleteCurrentQuest.bind(this)}
+            style={styles.centered} >
+            delete
+          </button>
+        </div>
       );
     }
 
@@ -239,24 +251,21 @@ class Main extends React.Component {
       {questList}
     );
 
-
-    // var sidebarContent = <div />;
-
     return (
       <div>
-        <Sidebar 
+        <Sidebar
           className="sidebar"
           sidebar={sidebarContent}
           open={this.state.sidebarOpen}
           onSetOpen={this.onSetSidebarOpen.bind(this)}>
-          <div 
+          <div
             className="ui grid stackable">
             <div className="row">
               <Nav className="sixteen wide column"
                 user={this.state.user}
                 openQuestList={this.openQuestList.bind(this)} />
             </div>
-            <div 
+            <div
               className="row"
               style={styles.contentPadding}>
               <div className="sixteen wide column" style={styles.title}>
@@ -266,11 +275,11 @@ class Main extends React.Component {
               <div className="waypointAlert">
                 { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}
               </div>
-            
+
               <div className="sixteen wide column">
                 {questForm}
               </div>
-            
+
               <div className="four wide column" style={styles}>
                 {waypointList}
               </div>
@@ -327,7 +336,10 @@ class Main extends React.Component {
         this.setState({
           quests,
           currentQuest: quest.id,
+          currentQuestTitle: quest.title,
+          questFormOpen: true,
           sidebarOpen: false,
+          currentWaypoint: this.state.quests[this.state.quests.length - 1].waypoints[0].id,
         });
       }
     });
@@ -352,22 +364,30 @@ class Main extends React.Component {
   }
 
   deleteCurrentQuest() {
-    // if (this.state.quests.length === 1) {
-    //   // TODO: fancy ui thing instead of a console.log
-    //   return console.log('sorry, but you can\'t delete your only quest!');
-    // }
+    if (this.state.quests.length === 1) {
+      // TODO: fancy ui thing instead of a console.log
+      return console.log('sorry, but you can\'t delete your only quest!');
+    }
 
-    var context = this;
-    api.deleteQuest(this.state.currentQuest).then(() => {
-      var quests = context.state.quests.slice();
-      if (quests.length > 1) {
-        quests.splice(context.indexOfCurrentQuest(), 1);
-        context.setState( {currentQuest: context.state.quests[0].id, index: 0}, () => {
-          context.setState({quests, questFormOpen: false});
-        });
-      } else {
-        context.setState({quests: [], questFormOpen: false});
-      }
+    var oldIndex = this.indexOfCurrentQuest();
+
+    var newIndex;
+    if (oldIndex === 0) {
+      newIndex = 1;
+    } else {
+      newIndex = oldIndex - 1;
+    }
+
+    api.deleteQuest(this.state.quests[oldIndex].id).then(() => {
+      var quests = this.state.quests.slice();
+      quests.splice(oldIndex, 1);
+      this.setState({
+        quests,
+        questFormOpen: false,
+        currentQuest: this.state.quests[newIndex].id,
+        currentQuestTitle: this.state.quests[newIndex].title,
+        currentWaypoint: this.state.quests[newIndex].waypoints[0].id
+      });
     });
   }
 
