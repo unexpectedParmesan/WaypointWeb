@@ -65,7 +65,7 @@ class Main extends React.Component {
     this.setState({ questFormOpen: false });
   }
 
-  componentDidMount() {
+  componentWillMount() {
 
     api.getMe().then((user) => {
       this.setState({ user }, () => {
@@ -153,7 +153,10 @@ class Main extends React.Component {
             deleteWaypoint={this.deleteCurrentWaypoint.bind(this)} />
         );
 
+        console.log('in render checking state: ',this.state);
+
         if (this.state.currentWaypoint !== null) {
+          console.log('setting the map variable!')
           map = (
             <Map
               waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
