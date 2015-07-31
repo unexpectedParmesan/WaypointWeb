@@ -82,7 +82,7 @@ class QuestForm extends React.Component {
           style={styles.form}/>
         </form>
         <button className="ui tiny green button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-        <button className="ui tiny red button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+        <a onClick={this.props.closeQuestForm}>Cancel</a>
     	</div>
   	);
   }

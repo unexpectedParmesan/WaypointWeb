@@ -9,28 +9,57 @@ class Nav extends React.Component {
 
   render() {
     return (
-      <div className="ui borderless menu" style={styles.nav}>
-        <button className="ui button" onClick={this.props.openQuestList} style={styles.button}>my quests</button>
-        <div className="brand item"> Waypoint Beta </div>
-        <div className="right menu">
-          <div className="item" style={styles.user}>
-            <img src={this.props.user.profile_pic} style={styles.pic} />
-            {this.props.user.name}
+      <div className="sixteen wide column">
+        <div className="ui text menu" style={styles.nav}>
+          <div style={styles.myQuestsLink} className="item link" onClick={this.props.openQuestList}>
+            <img style={styles.waypointLogo} src="assets/waypoint_icon_2.svg" /><span>My Quests</span>
           </div>
-          <div className="item"><a href="/logout">Logout</a></div>
+          <div className="right menu">
+            <div className="item" style={styles.user}>
+              <img src={this.props.user.profile_pic} style={styles.pic} />
+              {this.props.user.name}
+            </div>
+            <div className="item link"><a href="/logout">Logout</a></div>
+          </div>
         </div>
       </div>
     );
+    // return (
+    //   <div className="ui borderless menu" style={styles.nav}>
+    //     <button className="ui button" onClick={this.props.openQuestList} style={styles.button}>my quests</button>
+    //     <div className="brand item"> Waypoint Beta </div>
+    //     <div className="right menu">
+    //       <div className="item" style={styles.user}>
+    //         <img src={this.props.user.profile_pic} style={styles.pic} />
+    //         {this.props.user.name}
+    //       </div>
+    //       <div className="item"><a href="/logout">Logout</a></div>
+    //     </div>
+    //   </div>
+    // );
   }
 }
 
 var styles = {
   nav: {
     fontSize: 16,
-    marginBottom: 10,
-    height: 40,
+    marginTop: 0,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 20,
+    paddingRight: 20,
     flex: 1,
     color: '#606060',
+    background: '#eeeeee',
+    borderBottom: '1px solid #e5e5e5',
+  },
+  myQuestsLink: {
+    cursor: 'hand',
+  },
+  waypointLogo: {
+    width: 14,
+    top: 4,
+    marginRight: 5,
   },
   user: {
   },

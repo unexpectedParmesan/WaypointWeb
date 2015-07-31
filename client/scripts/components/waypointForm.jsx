@@ -73,8 +73,8 @@ class WaypointForm extends React.Component {
     return (
 			<div>
 				<h3 style={styles.title}>{this.state.waypoint.title}</h3>
-	    	<div className="ui inverted grey segment">
-	    	  <form className="ui inverted form">
+	    	<div className="ui segment">
+	    	  <form className="ui form">
 			    	<FormView
 			    	  ref="waypointForm"
 			    	  type={Waypoint}
