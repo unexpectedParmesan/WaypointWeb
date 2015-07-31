@@ -51,6 +51,7 @@ var styles = {
     flex: 1,
     color: '#606060',
     background: '#eeeeee',
+    borderBottom: '1px solid #e5e5e5',
   },
   myQuestsLink: {
     cursor: 'hand',
