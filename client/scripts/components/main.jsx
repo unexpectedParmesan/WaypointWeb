@@ -79,7 +79,9 @@ class Main extends React.Component {
             if (quests.length) {
               console.log('the user has quests!');
               this.setState({
-                currentQuest: quests[0].id
+                currentQuest: quests[0].id,
+                currentQuestTitle: quests[0].title,
+                currentWaypoint: quests[0].waypoints[0].id
               });
             } else {
               this.setState({sidebarOpen: true});
