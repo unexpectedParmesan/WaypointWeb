@@ -103,14 +103,14 @@ class Main extends React.Component {
     if (this.state.quests) {
       if (this.state.quests.length === 0) {
         questList = (
-          <div style={mainStyle.sidebarContent}>
+          <div style={styles.sidebarContent}>
             <p>You have not created any quests. Create a quest to get started.</p>
             <button className="ui green button" onClick={this.createQuest.bind(this)}>Create New Quest</button>
           </div>
         );
       } else {
         questList = (
-          <div style={mainStyle.sidebarContent}>
+          <div style={styles.sidebarContent}>
             <QuestList
               userId={this.state.user.facebook_id}
               quests={this.state.quests}
@@ -177,16 +177,14 @@ class Main extends React.Component {
           quest={this.state.quests[this.indexOfCurrentQuest()]}
           updateQuest={this.updateCurrentQuest.bind(this)}
           deleteQuest={this.deleteCurrentQuest.bind(this)}
-          closeQuestForm={this.closeQuestForm.bind(this)}
-        />
+          closeQuestForm={this.closeQuestForm.bind(this)} />
       );
     } else {
       questForm = (
         <button
           className="ui button"
           onClick={this.openQuestForm.bind(this)}
-          style={mainStyle.centered}
-        >
+          style={styles.centered} >
           edit
         </button>
       );
@@ -252,34 +250,34 @@ class Main extends React.Component {
           open={this.state.sidebarOpen}
           onSetOpen={this.onSetSidebarOpen.bind(this)}>
           <div 
-            className="ui grid container" 
+            className="ui grid stackable">
             <div className="row">
               <Nav className="sixteen wide column"
                 user={this.state.user}
-                openQuestList={this.openQuestList.bind(this)}
-              />
+                openQuestList={this.openQuestList.bind(this)} />
             </div>
-            <div className="row">
-              <div className="sixteen wide column" style={mainStyle.title}>
+            <div 
+              className="row"
+              style={styles.contentPadding}>
+              <div className="sixteen wide column" style={styles.title}>
                 {this.state.currentQuestTitle}
               </div>
+
               <div className="waypointAlert">
-              { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}</div>
-            </div>
-            <div className="row">
+                { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}
+              </div>
+            
               <div className="sixteen wide column">
                 {questForm}
               </div>
-            </div>
-
-            <div className="row">
-              <div className="four wide column" style={mainStyle}>
+            
+              <div className="four wide column" style={styles}>
                 {waypointList}
               </div>
-              <div className="eight wide column" style={mainStyle}>
+              <div className="eight wide column" style={styles}>
                 {map}
               </div>
-              <div className="four wide column" style={mainStyle}>
+              <div className="four wide column" style={styles}>
                 {waypointForm}
               </div>
             </div>
@@ -473,7 +471,10 @@ class Main extends React.Component {
   }
 }
 
-var mainStyle = {
+var styles = {
+  contentPadding: {
+    padding: 50,
+  },
   sidebarContent: {
     padding: 20,
   },
