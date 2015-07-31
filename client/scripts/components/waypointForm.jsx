@@ -6,7 +6,7 @@ var FormView = tform.form.Form;
 var Waypoint = tform.struct({
 	title: tform.Str,
 	description: tform.Str,
-  // mediaUrl: tform.Str,
+  mediaUrl: tform.Str
 });
 
 var options = {
