@@ -38,6 +38,7 @@ class Main extends React.Component {
       index: 0,
       sidebarOpen: false,
       questFormOpen: false,
+      waypointCreate: false
       // editingQuest: false,
     };
   }
@@ -258,6 +259,8 @@ class Main extends React.Component {
               <div className="sixteen wide column" style={mainStyle.title}>
                 {this.state.currentQuestTitle}
               </div>
+              <div className="waypointAlert">
+              { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}</div>
             </div>
             <div className="row">
               <div className="sixteen wide column">
@@ -372,6 +375,8 @@ class Main extends React.Component {
 
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
+    this.setState({waypointCreate: true});
+
   }
 
   newWaypoint(lat, lng) {
@@ -395,6 +400,7 @@ class Main extends React.Component {
         quests,
         currentWaypoint: waypoint.id,
         hideSearchInput: true,
+        waypointCreate: false
       });
     });
   }
