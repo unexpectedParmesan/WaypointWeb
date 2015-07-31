@@ -17,13 +17,15 @@ class QuestList extends React.Component {
         var selectionStyle;
         if (quest.id === this.props.currentQuest) {
           selectionStyle = styles.selected;
+        } else {
+          selectionStyle = {background: 'none'};
         }
 
         return (
           <div className="ui selection list">
-            <div
-              className="item"
-              style={styles.item}
+            <div 
+              className="item" 
+              style={styles.item, selectionStyle}
               onClick={ () => {
               this.props.closeQuestList(); }}>
               <QuestListItem
@@ -31,7 +33,8 @@ class QuestList extends React.Component {
                 quest={quest}
                 deleteQuest={this.props.deleteQuest}
                 closeQuestList={this.props.closeQuestList}
-                setCurrentQuest={this.props.setCurrentQuest}/>
+                setCurrentQuest={this.props.setCurrentQuest}
+                currentQuest={this.props.currentQuest} />
             </div>
           </div>
 
@@ -62,8 +65,7 @@ var styles = {
     margin: 5
   },
   selected: {
-    backgroundColor: 'white',
-    color: 'black',
+    backgroundColor: '#eeeeee',
   }
 };
 

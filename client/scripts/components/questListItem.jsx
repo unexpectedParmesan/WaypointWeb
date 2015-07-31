@@ -8,6 +8,9 @@ class QuestListItem extends React.Component {
     super(props);
     this.state = {
       editing: false,
+      questItemStyle: {
+        background: 'none',
+      }
     };
   }
 
@@ -16,7 +19,8 @@ class QuestListItem extends React.Component {
       this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
       return (
-        <div className="content"
+        <div 
+          className="content"
           onClick={() => {
             this.props.setCurrentQuest(this.props.quest.id);
             this.props.closeQuestList();
@@ -29,16 +33,13 @@ class QuestListItem extends React.Component {
             <div style={styles.details}>
               <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
               <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
-              <br />
             </div>
           </div>
         </div>
       );
 
     } else {
-      return (
-        <div></div>
-      );
+      return;
     }
   }
 }

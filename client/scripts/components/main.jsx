@@ -497,6 +497,7 @@ var styles = {
   },
   sidebarContent: {
     padding: 20,
+    color: '#2A2A2A',
   },
   title: {
     textAlign: 'left',
