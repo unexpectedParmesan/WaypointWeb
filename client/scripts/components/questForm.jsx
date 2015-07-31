@@ -8,7 +8,7 @@ var FormView = tform.form.Form;
 
 var Quest = tform.struct({
   title: tform.Str,
-  description: tform.Str,
+  description: tform.maybe(tform.Str),
   estimatedTime: tform.Str
 });
 

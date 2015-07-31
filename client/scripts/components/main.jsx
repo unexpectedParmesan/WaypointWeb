@@ -309,9 +309,9 @@ class Main extends React.Component {
 
     // default values
     var newQuest = {
-      title: 'Untitled Quest',
-      description: 'Add a description here',
-      estimatedTime: '2 hrs',
+      title: '',
+      description: '',
+      estimatedTime: '',
       facebookId: this.state.user.facebook_id,
     };
 
@@ -390,8 +390,8 @@ class Main extends React.Component {
     var defaultWaypoint = {
         quest_id: this.state.currentQuest,
         index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
-        title: 'Untitled Waypoint',
-        description: 'Add a description here',
+        title: '',
+        description: '',
         latitude: lat,
         longitude: lng
     };
