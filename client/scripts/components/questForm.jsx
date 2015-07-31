@@ -73,7 +73,6 @@ class QuestForm extends React.Component {
     return (
     	<div className="ui segment">
         <form className="ui form">
-        <h4>You are currently editing: {this.state.quest.title}</h4>
 	    	<FormView
 	    	  ref="questForm"
 	    	  type={Quest}

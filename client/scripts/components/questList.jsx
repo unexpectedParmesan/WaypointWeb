@@ -21,8 +21,8 @@ class QuestList extends React.Component {
 
         return (
           <div className="ui selection list">
-            <div 
-              className="item" 
+            <div
+              className="item"
               style={styles.item}
               onClick={ () => {
               this.props.closeQuestList(); }}>
@@ -42,7 +42,6 @@ class QuestList extends React.Component {
     return (
       <div>
         <div style={styles.title}>
-          <h4>My Quests</h4>
           <button className="ui green button" onClick={this.props.newQuest} style={styles.button}>New Quest</button>
         </div>
         {questList}
