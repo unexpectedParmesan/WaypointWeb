@@ -27,7 +27,6 @@ module.exports = {
   makeQuest: function(req, res) {
   	var newQuest = new Quest({
       title: req.body.title,
-      length: req.body.length,
       description: req.body.description,
       estimated_time: req.body.estimatedTime,
       creator_facebook_id: req.body.facebookId,

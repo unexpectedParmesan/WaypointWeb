@@ -1,15 +1,14 @@
 'use strict';
 
 var React = require('react');
-var QuestForm = require('./questForm.jsx');
-var WaypointForm = require('./waypointForm.jsx');
-var QuestList = require('./questList.jsx');
-var WaypointList = require('./waypointList.jsx');
 var Nav = require('./navbar.jsx');
+var Map = require('./map.jsx');
+var QuestList = require('./questList.jsx');
+var QuestForm = require('./questForm.jsx');
+var WaypointList = require('./waypointList.jsx');
+var WaypointForm = require('./waypointForm.jsx');
 var api = require('../helpers/api.helper');
 var _ = require('underscore');
-
-var Map = require('./map.jsx');
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
@@ -135,8 +134,6 @@ class Main extends React.Component {
         );
       }
 
-
-
     } else {
       questList = <div />;
       questForm = <div />;
@@ -172,7 +169,6 @@ class Main extends React.Component {
     this.setState({
       currentQuest: id,
     }, () => {
-      // this.setState({index: this.indexOfCurrentQuest()});
       this.setState({
         currentWaypoint: this.state.quests[this.indexOfCurrentQuest()].waypoints[0].id,
         currentQuestTitle: this.state.quests[this.indexOfCurrentQuest()].title
@@ -186,14 +182,11 @@ class Main extends React.Component {
     var newQuest = {
       title: 'Untitled Quest',
       description: 'Add a description here',
-      length: '0 mi',
-      estimatedTime: '99 hrs',
+      estimatedTime: '2 hrs',
       facebookId: this.state.user.facebook_id,
-      waypoints: []
     };
 
     api.saveQuest(newQuest, 'POST').then((quest) => {
-      // quest.waypoints = [];
       var quests = this.state.quests.concat([quest]);
       this.setState({
         quests,
@@ -217,12 +210,9 @@ class Main extends React.Component {
         currentQuestTitle: quest.title
       });
     });
-
-
   }
 
   deleteCurrentQuest() {
-
     if (this.state.quests.length === 1) {
       // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but you can\'t delete your only quest!');
@@ -236,7 +226,6 @@ class Main extends React.Component {
         context.setState({quests});
       });
     });
-
   }
 
   setCurrentWaypoint(id) {
@@ -245,7 +234,6 @@ class Main extends React.Component {
 
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
-    
   }
 
   newWaypoint(lat, lng) {
@@ -293,11 +281,9 @@ class Main extends React.Component {
       }
       this.setState({ quests });
     });
-
   }
 
   deleteCurrentWaypoint() {
-
     if (this.state.quests[this.indexOfCurrentQuest()].waypoints.length === 1) {
       // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but quests must have at least one waypoint!');
@@ -319,10 +305,6 @@ class Main extends React.Component {
     });
   }
 
-  setCurrentQuestIndex(index) {
-    this.setState({index});
-  }
-
   indexOfCurrentQuest() {
     var index;
     if (this.state.currentQuest === null) {
@@ -340,9 +322,7 @@ class Main extends React.Component {
       var questIndex = indexOfProperty(this.state.quests, 'id', this.state.currentQuest);
       return indexOfProperty(this.state.quests[questIndex].waypoints, 'id', this.state.currentWaypoint);
     }
-
   }
-
 }
 
 var mainStyle = {

@@ -5,7 +5,6 @@ var FormView = tform.form.Form;
 
 var Quest = tform.struct({
   title: tform.Str,
-  length: tform.Str,
   description: tform.Str,
   estimatedTime: tform.Str
 });
@@ -26,7 +25,6 @@ class QuestForm extends React.Component {
       quest: {
         title: props.quest.title,
         description: props.quest.description,
-        length: props.quest.length,
         estimatedTime: props.quest.estimated_time,
       }
     };
@@ -38,7 +36,6 @@ class QuestForm extends React.Component {
       quest: {
         title: nextProps.quest.title,
         description: nextProps.quest.description,
-        length: nextProps.quest.length,
         estimatedTime: nextProps.quest.estimated_time,
       }
     });
@@ -52,7 +49,6 @@ class QuestForm extends React.Component {
     if (value) {
       var newQuest = {
         title: value.title,
-        length: value.length,
         description: value.description,
         estimated_time: value.estimatedTime,
         creator_facebook_id: this.props.userId,
@@ -89,6 +85,6 @@ var styles = {
   button: {
     margin: 5
   }
-}
+};
 
 module.exports = QuestForm;

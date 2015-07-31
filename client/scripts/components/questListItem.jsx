@@ -24,7 +24,6 @@ class QuestListItem extends React.Component {
             <p>{this.props.quest.description}</p>
             <div>
               <span>waypoints: <b>{this.props.quest.waypoints ? this.props.quest.waypoints.length : 0}</b> - </span>
-              <span>length: <b>{this.props.quest.length}</b> - </span>
               <span>estimated time: <b>{this.props.quest.estimated_time}</b></span>
               <br />
             </div>
