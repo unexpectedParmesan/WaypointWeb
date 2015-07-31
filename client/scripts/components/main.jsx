@@ -479,9 +479,9 @@ var styles = {
     padding: 20,
   },
   title: {
-    textAlign: 'center',
-    fontSize: 42,
-    minHeight: 50,
+    textAlign: 'left',
+    fontSize: 26,
+    marginBottom: 20,
   },
   centered: {
     textAlign: 'center',
