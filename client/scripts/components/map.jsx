@@ -57,7 +57,6 @@ class WaypointMap extends React.Component {
           if (waypoint.id === this.state.currentWaypointId) {
             marker.setOpacity(1);
             marker.setDraggable(true);
-
           }
           markers.push(marker);
         });
@@ -136,7 +135,13 @@ class WaypointMap extends React.Component {
     var mapOptions = {
       minZoom: 9,
       zoom: 16,
-      center: new GoogleMaps.LatLng(37.7837235, -122.4089778)
+      center: new GoogleMaps.LatLng(37.7837235, -122.4089778),
+      compassEnabled: false,
+      panControl: false,
+      zoomControlOptions: {
+        style: GoogleMaps.ZoomControlStyle.SMALL,
+        position: GoogleMaps.ControlPosition.TOP_LEFT
+      }
 
     };
 
