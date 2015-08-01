@@ -92,7 +92,7 @@ var styles = {
   saveButton: {
     marginTop: 15,
     marginRight: 10,
-  }, 
+  },
   deleteButton: {
     marginTop: 15,
     float: 'right',
@@ -103,6 +103,7 @@ var styles = {
     fontSize: '14',
     top: 3,
     color: '#909090',
+    cursor: 'pointer',
   }
 };
 

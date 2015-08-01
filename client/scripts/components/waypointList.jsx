@@ -29,8 +29,8 @@ class WaypointList extends React.Component {
 
         return (
           <div className="ui selection list">
-            <div 
-              className="item" 
+            <div
+              className="item"
               style={selectionStyle}>
               <WaypointListItem
                 key={index}
@@ -51,6 +51,7 @@ class WaypointList extends React.Component {
              this.setState({
                newWaypointLink: {
                  color: '#2F9032',
+                 cursor: 'pointer',
                }
              })
            }}

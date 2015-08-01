@@ -16,10 +16,10 @@ class QuestListItem extends React.Component {
 
   render() {
     if (this.props.quest) {
-      this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
+      // this.props.quest.estimated_time = this.props.quest.estimated_time || 'unknown';
 
       return (
-        <div 
+        <div
           style={styles.item}
           className="content"
           onClick={() => {
