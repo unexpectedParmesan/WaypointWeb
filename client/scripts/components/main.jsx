@@ -233,20 +233,26 @@ class Main extends React.Component {
                    </a>
                  </div>
               </div>
-
-              <div className="waypointAlert">
-                { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}
+              <div>
+                { this.state.waypointCreate ? <p>Click below to add waypoint</p> : null}
               </div>
-
               <div className="sixteen wide column">
                 {questForm}
               </div>
+<<<<<<< HEAD
 
               <div className="five wide column" style={styles}>
                 {waypointList}
               </div>
               <div className="six wide column" style={styles}>
+=======
+              <div className="four wide column" style={styles}>
+                {waypointList}
+              </div>
+              <div className="mapDiv eight wide column" style={styles}>
+>>>>>>> (feat) add backgroundDim and cancel button to map
                 {map}
+                { this.state.waypointCreate ? <button className="ui button" onClick={this.cancelWaypoint.bind(this)}> Cancel </button> : null}
               </div>
               <div className="five wide column" style={styles}>
                 {waypointForm}
@@ -357,7 +363,12 @@ class Main extends React.Component {
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
     this.setState({waypointCreate: true});
-    $('.googleMap').dimBackground();
+    $('.mapDiv').dimBackground();
+  }
+
+  cancelWaypoint(){
+    this.setState({waypointCreate: false});
+    $('.mapDiv').undim();
   }
 
   newWaypoint(lat, lng) {
@@ -384,7 +395,8 @@ class Main extends React.Component {
         waypointCreate: false
       });
     });
-    $('.googleMap').undim();
+    this.setState({waypointCreate: false});
+    $('.mapDiv').undim();
   }
 
   updateCurrentWaypoint(waypoint) {
