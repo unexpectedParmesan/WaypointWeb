@@ -4,4 +4,11 @@ Waypoint is a geolocation-based route creation and discovery platform. Users can
 
 The native mobile version of the app was made using React Native and the Google Maps API. The web route creation companion was made with React, the Google Maps API, and Semantic UI. On the back-end, Waypoint uses a Node.js/Express server with a MySql database, managed with Bookshelf.js/Knex.
 
+The Waypoint Team
+
+Colin Parsons - Team Lead/Full-stack engineer
+Tamara Woodson - Mobile App Lead/Full-stack Engineer
+Danielle Knudson - Full-stack Engineer
+Josh Turner - Back-end Architect/Full-stack Engineer
+
 You can check out the app at: http://waypointbeta.herokuapp.com
