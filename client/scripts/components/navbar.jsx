@@ -24,19 +24,6 @@ class Nav extends React.Component {
         </div>
       </div>
     );
-    // return (
-    //   <div className="ui borderless menu" style={styles.nav}>
-    //     <button className="ui button" onClick={this.props.openQuestList} style={styles.button}>my quests</button>
-    //     <div className="brand item"> Waypoint Beta </div>
-    //     <div className="right menu">
-    //       <div className="item" style={styles.user}>
-    //         <img src={this.props.user.profile_pic} style={styles.pic} />
-    //         {this.props.user.name}
-    //       </div>
-    //       <div className="item"><a href="/logout">Logout</a></div>
-    //     </div>
-    //   </div>
-    // );
   }
 }
 
@@ -75,6 +62,5 @@ var styles = {
     left: 10,
   }
 };
-
 
 module.exports = Nav;
