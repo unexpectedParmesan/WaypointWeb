@@ -9,25 +9,24 @@ var shell = require('gulp-shell');
 var dbTask = require('gulp-db');
 var babelify = require('babelify');
 
-// var scriptsDir = './client/scripts';
-// var buildDir = './public';
-
 var dbManager = dbTask({
-  //Comment out below and use bottom credentials for Heroku
+  //Credentials for local database
   host: '127.0.0.1',
   user: 'root',
   password: '',
   database: 'waypointdb',
   dialect: 'mysql'
-  // Comment out above and use above for local server
+  // Credentials for Heroku database
   // host: 'us-cdbr-iron-east-02.cleardb.net',
   // user: 'bbaf82d9c58cfe',
   // password: 'ccebbb53',
   // database: 'heroku_b2cce461cdb238b'
 });
 
+//Local database
 gulp.task('drop', dbManager.drop('waypointdb'));
 gulp.task('create', dbManager.create('waypointdb'));
+//Heroku database
 // gulp.task('drop', dbManager.drop('heroku_b2cce461cdb238b'));
 // gulp.task('create', dbManager.create('heroku_b2cce461cdb238b'));
 
