@@ -46,7 +46,6 @@ class QuestForm extends React.Component {
     });
   }
 
-
   save() {
 
     var value = this.refs.questForm.getValue();
@@ -61,7 +60,6 @@ class QuestForm extends React.Component {
       };
       this.props.updateQuest(newQuest);
     }
-
   }
 
   destroy() {
@@ -85,7 +83,6 @@ class QuestForm extends React.Component {
       </div>
     );
   }
-
 }
 
 var styles = {
