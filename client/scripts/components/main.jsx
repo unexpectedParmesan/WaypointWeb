@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react');
 var Nav = require('./navbar.jsx');
 var Sidebar = require('react-sidebar');

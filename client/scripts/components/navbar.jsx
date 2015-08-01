@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react');
 
 class Nav extends React.Component {
