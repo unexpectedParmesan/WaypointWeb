@@ -25,8 +25,11 @@
   #fb-login {
     color: #FFFFFF;
   }
-  .company-content {
-    padding: 50px;
+  .content {
+    padding: 20px 50px;
+  }
+  .map {
+    padding: 20px;
   }
   img#waypoint-logo {
     width: 14px;
@@ -35,23 +38,24 @@
   }
   div#map-container {
     width: 100%;
-    position: relative;
+    margin: 0 auto;
   }
   img#map-illustration {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
   }
   p.tagline {
     color: #242E8F;
-    font-size: 24px;
+    font-size: 38px;
+    line-height: 46px;
     font-weight: 500;
     margin-bottom: 20px;
   }
   p.description {
-    color: #2A2A2A;
-    font-size: 20px;
+    color: #555555;
     margin-bottom: 40px;
-    line-height: 22px;
+    line-height: 34px;
+    font-size: 20px;
   }
   .color {
     padding: 40px;
@@ -70,18 +74,18 @@
     </div>
     <div class="row">
       <div class="eight wide column">
-        <div class="company-content">
+        <div class="content">
           <p class="tagline">Put your story on the map.</p>
           <p class="description">Waypoint was made for people who like to go places. Discover and create adventures like scavenger hunts, pub crawls, city tours, alternate reality games and more. Explore your city in a whole new way! The only limit is your imagination.</p>
           <a id="fb-login" href="/auth/facebook">
-            <button class="ui facebook button">
+            <button class="ui facebook huge button">
               <i class="facebook icon"></i>Get early access
             </button>
           </a>
         </div>
       </div>
-      <div class="eight wide column">
-        <div id="map-container">
+      <div class="six wide column">
+        <div class="map">
           <img src="assets/map_illustration.svg" id="map-illustration">
         </div>
       </div>
