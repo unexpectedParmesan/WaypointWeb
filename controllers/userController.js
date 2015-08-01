@@ -1,6 +1,5 @@
 var url = require('url');
 var Quest = require('../db/models/quest.js');
-// var Waypoint = require('../db/models/waypoint.js');
 var User = require('../db/models/user.js');
 var userActiveQuest = require('../db/models/userActiveQuest.js');
 
@@ -40,7 +39,6 @@ module.exports = {
   // create a user and give them a template quest with one waypoint
 
   makeUser: function (req, res) {
-    console.log('########### MAKE USER');
     var newUser = new User({
       facebook_id: req.params.facebookId,
       name: req.body.name,

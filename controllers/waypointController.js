@@ -43,7 +43,7 @@ module.exports = {
 
     new Waypoint({
       id: req.params.waypointId
-    }).fetch().then(function(waypoint) {
+      }).fetch().then(function(waypoint) {
       if (!waypoint) {
         res.status(404).send('Waypoint not found');
       } else {
@@ -64,7 +64,7 @@ module.exports = {
   deleteWaypoint: function(req, res) {
     new Waypoint({
       id: req.params.waypointId
-    }).fetch().then(function(waypoint) {
+      }).fetch().then(function(waypoint) {
       if (!waypoint) {
         res.status(404).send('Waypoint not found');
       } else {
