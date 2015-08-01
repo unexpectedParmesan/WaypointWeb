@@ -239,22 +239,14 @@ class Main extends React.Component {
               <div className="sixteen wide column">
                 {questForm}
               </div>
-<<<<<<< HEAD
-
-              <div className="five wide column" style={styles}>
-                {waypointList}
-              </div>
-              <div className="six wide column" style={styles}>
-=======
               <div className="four wide column" style={styles}>
                 {waypointList}
               </div>
               <div className="mapDiv eight wide column" style={styles}>
->>>>>>> (feat) add backgroundDim and cancel button to map
                 {map}
                 { this.state.waypointCreate ? <button className="ui button" onClick={this.cancelWaypoint.bind(this)}> Cancel </button> : null}
               </div>
-              <div className="five wide column" style={styles}>
+              <div className="four wide column" style={styles}>
                 {waypointForm}
               </div>
             </div>
