@@ -5,6 +5,13 @@ class QuestList extends React.Component {
 
   constructor(props) {
     super(props);
+    this.state={
+      newButton: {
+        margin: 5,
+        background: '#48B04A',
+        color: '#FFFFFF'
+      },
+    };
   }
 
   render() {
@@ -44,7 +51,8 @@ class QuestList extends React.Component {
     return (
       <div>
         <div style={styles.title}>
-          <button className="ui green button" onClick={this.props.newQuest} style={styles.button}>New Quest</button>
+          <button className="ui green button" 
+            onClick={this.props.newQuest} style={styles.newButton}>New Quest</button>
         </div>
         {questList}
       </div>
@@ -60,8 +68,10 @@ var styles = {
     textAlign: 'left',
     fontSize: 30
   },
-  button: {
-    margin: 5
+  newButton: {
+    margin: 5,
+    background: '#48B04A',
+    color: '#FFFFFF'
   },
   selected: {
     backgroundColor: '#f6f6f6',

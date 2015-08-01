@@ -206,7 +206,7 @@ class Main extends React.Component {
                     onMouseOver={()=>{
                       this.setState({
                         editQuestLink: {
-                          color: '#3240C5',
+                          color: '#777777',
                         }
                       })
                     }}
@@ -233,8 +233,8 @@ class Main extends React.Component {
                 {waypointList}
               </div>
               <div className="mapDiv eight wide column" style={styles}>
+                { this.state.waypointCreate ? <p style={styles.pContainer}><button className="ui button" onClick={this.cancelWaypoint.bind(this)} style={styles.cancelButton}>Cancel</button></p> : null}
                 {map}
-                { this.state.waypointCreate ? <button className="ui button" onClick={this.cancelWaypoint.bind(this)}> Cancel </button> : null}
               </div>
               <div className="four wide column" style={styles}>
                 {waypointForm}
@@ -442,6 +442,14 @@ class Main extends React.Component {
 }
 
 var styles = {
+  pContainer: {
+    textAlign: 'right',
+    marginBottom: 10,
+  },
+  cancelButton: {
+    position: 'relative',
+    right: -3,
+  },
   contentPadding: {
     paddingLeft: 50,
     paddingRight: 50,
