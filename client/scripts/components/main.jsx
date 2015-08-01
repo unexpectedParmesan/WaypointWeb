@@ -94,7 +94,6 @@ class Main extends React.Component {
       });
     });
   }
-
 ///////////////////////////////
 // RENDER
 //////////////////////////////
@@ -234,22 +233,20 @@ class Main extends React.Component {
                    </a>
                  </div>
               </div>
-
-              <div className="waypointAlert">
-                { this.state.waypointCreate ? <p>Click below to add waypoint</p> : <p></p>}
+              <div>
+                { this.state.waypointCreate ? <p>Click below to add waypoint</p> : null}
               </div>
-
               <div className="sixteen wide column">
                 {questForm}
               </div>
-
-              <div className="five wide column" style={styles}>
+              <div className="four wide column" style={styles}>
                 {waypointList}
               </div>
-              <div className="six wide column" style={styles}>
+              <div className="mapDiv eight wide column" style={styles}>
                 {map}
+                { this.state.waypointCreate ? <button className="ui button" onClick={this.cancelWaypoint.bind(this)}> Cancel </button> : null}
               </div>
-              <div className="five wide column" style={styles}>
+              <div className="four wide column" style={styles}>
                 {waypointForm}
               </div>
             </div>
@@ -275,9 +272,9 @@ class Main extends React.Component {
 
     // default values
     var newQuest = {
-      title: 'Untitled Quest',
-      description: 'Add a description here',
-      estimatedTime: '2 hrs',
+      title: '',
+      description: '',
+      estimatedTime: '',
       facebookId: this.state.user.facebook_id,
     };
 
@@ -358,6 +355,12 @@ class Main extends React.Component {
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
     this.setState({waypointCreate: true});
+    $('.mapDiv').dimBackground();
+  }
+
+  cancelWaypoint(){
+    this.setState({waypointCreate: false});
+    $('.mapDiv').undim();
   }
 
   newWaypoint(lat, lng) {
@@ -369,8 +372,8 @@ class Main extends React.Component {
     var defaultWaypoint = {
         quest_id: this.state.currentQuest,
         index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
-        title: 'Untitled Waypoint',
-        description: 'Add a description here',
+        title: 'Untitled waypoint',
+        description: '',
         latitude: lat,
         longitude: lng
     };
@@ -384,6 +387,8 @@ class Main extends React.Component {
         waypointCreate: false
       });
     });
+    this.setState({waypointCreate: false});
+    $('.mapDiv').undim();
   }
 
   updateCurrentWaypoint(waypoint) {

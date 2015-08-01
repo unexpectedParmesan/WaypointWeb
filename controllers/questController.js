@@ -38,8 +38,8 @@ module.exports = {
         index_in_quest: 0,
         latitude: 37.7852134705,
         longitude: -122.4028015137,
-        title: 'Untitled Waypoint',
-        description: 'Add a description here!',
+        title: '',
+        description: '',
       });
       newWaypoint.save().then(function(waypoint) {
         new Quest({ id: waypoint.attributes.quest_id })
