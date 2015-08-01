@@ -8,7 +8,6 @@ homeRouter.get('/', authCheck, function (req, res) {
   res.sendFile(path.resolve(__dirname + '/../public/home.html'));
 });
 
-// AUTH CHECK
 function authCheck(req, res, next){
   if (req.isAuthenticated()) {
     next();
