@@ -206,7 +206,7 @@ class Main extends React.Component {
                     onMouseOver={()=>{
                       this.setState({
                         editQuestLink: {
-                          color: '#3240C5',
+                          color: '#777777',
                         }
                       })
                     }}
