@@ -65,7 +65,7 @@ var styles = {
     margin: 5
   },
   selected: {
-    backgroundColor: '#eeeeee',
+    backgroundColor: '#f6f6f6',
   }
 };
 

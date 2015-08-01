@@ -37,8 +37,10 @@ class Main extends React.Component {
       index: 0,
       sidebarOpen: false,
       questFormOpen: false,
-      waypointCreate: false
-      // editingQuest: false,
+      waypointCreate: false,
+      editQuestLink: {
+        color: '#909090',
+      },
     };
   }
 
@@ -58,6 +60,7 @@ class Main extends React.Component {
   }
 
   openQuestForm() {
+    console.log('in openQuest form')
     this.setState({ questFormOpen: true });
   }
 
@@ -90,7 +93,6 @@ class Main extends React.Component {
         });
       });
     });
-
   }
 
 ///////////////////////////////
@@ -123,8 +125,7 @@ class Main extends React.Component {
               currentQuest={this.state.currentQuest}
               onSetSidebarOpen={this.onSetSidebarOpen.bind(this)}
               closeQuestList={this.closeQuestList.bind(this)}
-              newQuest={this.newQuest.bind(this)}
-            />
+              newQuest={this.newQuest.bind(this)} />
           </div>
         );
       }
@@ -146,14 +147,13 @@ class Main extends React.Component {
              currentWaypoint={this.state.currentWaypoint}
              waypointWillBeCreated={this.waypointWillBeCreated.bind(this)} />
         );
+
         waypointForm = (
           <WaypointForm
             waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
             updateWaypoint={this.updateCurrentWaypoint.bind(this)}
             deleteWaypoint={this.deleteCurrentWaypoint.bind(this)} />
         );
-
-        console.log('in render checking state: ',this.state);
 
         if (this.state.currentWaypoint !== null) {
           console.log('setting the map variable!')
@@ -186,69 +186,7 @@ class Main extends React.Component {
           deleteQuest={this.deleteCurrentQuest.bind(this)}
           closeQuestForm={this.closeQuestForm.bind(this)} />
       );
-    } else {
-      questForm = (
-        <div>
-          <button
-            className="ui button"
-            onClick={this.openQuestForm.bind(this)}
-            style={styles.centered} >
-            edit
-          </button>
-          <button
-            className="ui button"
-            onClick={this.deleteCurrentQuest.bind(this)}
-            style={styles.centered} >
-            delete
-          </button>
-        </div>
-      );
     }
-
-    // if (this.state.editingQuest) {
-    //   questForm = (
-    //     <QuestForm
-    //       userId={this.state.user.facebook_id}
-    //       quest={this.state.quests[this.indexOfCurrentQuest()]}
-    //       updateQuest={this.updateCurrentQuest.bind(this)}
-    //       deleteQuest={this.deleteCurrentQuest.bind(this)} />
-    //   );
-    //   var currentWaypoints = this.state.quests[this.indexOfCurrentQuest()].waypoints;
-    //
-    //   if (currentWaypoints && currentWaypoints.length) {
-    //     waypointForm = (
-    //       <WaypointForm
-    //         waypoint={this.state.quests[this.indexOfCurrentQuest()].waypoints[this.indexOfCurrentWaypoint() || 0]}
-    //         updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-    //         deleteWaypoint={this.deleteCurrentWaypoint.bind(this)}
-    //       />
-    //     );
-    //
-    //     if (this.state.currentWaypoint !== null) {
-    //       map = (
-    //         <Map
-    //           waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
-    //           newWaypoint={this.newWaypoint.bind(this)}
-    //           hideSearchInput={this.state.hideSearchInput}
-    //           setCurrentWaypoint={this.setCurrentWaypoint.bind(this)}
-    //           currentWaypoint={this.state.currentWaypoint}
-    //           updateWaypoint={this.updateCurrentWaypoint.bind(this)}
-    //           key={this.state.currentQuest}
-    //         />
-    //       );
-    //     } else {
-    //       map = <div />;
-    //     }
-    //   } else {
-    //     waypointForm = (
-    //       <div />
-    //     );
-    //     map = (
-    //       <div />
-    //     );
-    //   }
-    //
-    // }
 
     var sidebarContent = (
       {questList}
@@ -273,6 +211,28 @@ class Main extends React.Component {
               style={styles.contentPadding}>
               <div className="sixteen wide column" style={styles.title}>
                 {this.state.currentQuestTitle}
+                 <div 
+                  style={styles.questOptions} >
+                   <a
+                    onMouseOver={()=>{
+                      this.setState({
+                        editQuestLink: {
+                          color: '#3240C5',
+                        }
+                      })
+                    }}
+                    onMouseOut={()=>{
+                      this.setState({
+                        editQuestLink: {
+                          color: '#909090',
+                        }
+                      })
+                    }}
+                    onClick={this.openQuestForm.bind(this)}
+                    style={this.state.editQuestLink} >
+                    Edit Quest
+                   </a>
+                 </div>
               </div>
 
               <div className="waypointAlert">
@@ -283,13 +243,13 @@ class Main extends React.Component {
                 {questForm}
               </div>
 
-              <div className="four wide column" style={styles}>
+              <div className="five wide column" style={styles}>
                 {waypointList}
               </div>
-              <div className="eight wide column" style={styles}>
+              <div className="six wide column" style={styles}>
                 {map}
               </div>
-              <div className="four wide column" style={styles}>
+              <div className="five wide column" style={styles}>
                 {waypointForm}
               </div>
             </div>
@@ -299,12 +259,6 @@ class Main extends React.Component {
 
     );
   }
-
-  // createQuest(){
-  //   console.log('create a quest!');
-  //   this.onSetSidebarOpen(false);
-  //   this.newQuest();
-  // }
 
   setCurrentQuest(id) {
     this.setState({
@@ -350,6 +304,8 @@ class Main extends React.Component {
   }
 
   updateCurrentQuest(quest) {
+    console.log('in updateCurrentQuest!');
+    console.log(quest);
     api.saveQuest(quest, 'PUT').then((quest) => {
       var quests = this.state.quests.map((item, index) => {
         if (index === this.indexOfCurrentQuest()) {
@@ -358,6 +314,7 @@ class Main extends React.Component {
           return item;
         }
       });
+      console.log(quest);
       this.setState({
         quests,
         currentQuestTitle: quest.title,
@@ -401,6 +358,7 @@ class Main extends React.Component {
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
     this.setState({waypointCreate: true});
+    this.setState({waypointFormOpen: true});
 
   }
 
@@ -424,6 +382,7 @@ class Main extends React.Component {
       this.setState({
         quests,
         currentWaypoint: waypoint.id,
+        waypointFormOpen: false,
         hideSearchInput: true,
         waypointCreate: false
       });
@@ -448,7 +407,7 @@ class Main extends React.Component {
           }
         });
       }
-      this.setState({ quests });
+      this.setState({ quests, waypointFormOpen: false, });
     });
   }
 
@@ -464,7 +423,7 @@ class Main extends React.Component {
       var questIndex = context.indexOfCurrentQuest();
       var waypointIndex = indexOfProperty(quests[questIndex].waypoints, 'id', context.state.currentWaypoint);
       quests[questIndex].waypoints.splice(waypointIndex, 1);
-      context.setState({ quests }, () => {
+      context.setState({ quests, waypointFormOpen: false }, () => {
         if (quests[questIndex].waypoints && quests[questIndex].waypoints.length) {
           context.setCurrentWaypoint(context.state.quests[questIndex].waypoints[0].id);
         } else {
@@ -496,11 +455,18 @@ class Main extends React.Component {
 
 var styles = {
   contentPadding: {
-    padding: 50,
+    paddingLeft: 50,
+    paddingRight: 50,
+    paddingTop: 20,
+    paddingBottom: 50,
   },
   sidebarContent: {
     padding: 20,
     color: '#2A2A2A',
+  },
+  questOptions: {
+    fontSize: 13,
+    marginTop: 10,
   },
   title: {
     textAlign: 'left',

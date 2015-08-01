@@ -24,14 +24,13 @@ class QuestForm extends React.Component {
 
   constructor(props) {
     super(props);
-    console.log(props.quest.title)
 		this.state = {
 			quest: {
 				title: props.quest.title,
 				description: props.quest.description,
 				length: props.quest.length,
 				estimatedTime: props.quest.estimated_time,
-			}
+			},
 		};
   }
 
@@ -71,26 +70,42 @@ class QuestForm extends React.Component {
 
   render() {
     return (
-    	<div className="ui segment">
+      <div className="ui segment" style={styles.questForm}>
         <form className="ui form">
-	    	<FormView
-	    	  ref="questForm"
-	    	  type={Quest}
+        <FormView
+          ref="questForm"
+          type={Quest}
           options={options}
-	        value={this.state.quest}
+          value={this.state.quest}
           style={styles.form}/>
         </form>
-        <button className="ui tiny green button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-        <a onClick={this.props.closeQuestForm}>Cancel</a>
-    	</div>
-  	);
+        <button className="ui tiny green button" onClick={this.save.bind(this)} style={styles.saveButton}>Save</button>
+        <a onClick={this.props.closeQuestForm} style={styles.cancelLink}>Cancel</a>
+        <button className="ui tiny red button" onClick={this.destroy.bind(this)} style={styles.deleteButton}>Delete</button>
+      </div>
+    );
   }
 
 }
 
 var styles = {
-  button: {
-    margin: 5
+  questForm: {
+    marginBottom: 30,
+  },
+  saveButton: {
+    marginTop: 15,
+    marginRight: 10,
+  }, 
+  deleteButton: {
+    marginTop: 15,
+    float: 'right',
+  },
+  cancelLink: {
+    position: 'relative',
+    marginLeft: '10',
+    fontSize: '14',
+    top: 3,
+    color: '#909090',
   }
 };
 
