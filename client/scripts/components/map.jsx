@@ -10,7 +10,6 @@ class WaypointMap extends React.Component {
       map: null,
       markers: [],
       currentWaypointId: props.currentWaypoint,
-      // currentWaypointIndex: _.findWhere(props.waypoints, {id: props.currentWaypoint}).index_in_quest,
     };
   }
 
@@ -39,7 +38,6 @@ class WaypointMap extends React.Component {
   componentWillReceiveProps(nextProps) {
     this.setState({
       currentWaypointId: nextProps.currentWaypoint,
-      // currentWaypointIndex: _.findWhere(nextProps.waypoints, {id: nextProps.currentWaypoint}).index_in_quest,
     }, () => {
 
       var markers = _.clone(this.state.markers);
@@ -214,13 +212,15 @@ var styles = {
     fontFamily: 'Roboto',
     fontSize: 15,
     fontWeight: 300,
-    marginTop: 10,
+    marginTop: 30,
     marginLeft: 12,
     paddingTop: 0,
     paddingRight: 11,
     paddingBottom: 0,
     paddingLeft: 13,
-    width: 400,
+    width: 250,
+    border: '1px solid #EEEEEE',
+    borderRadius: 3,
   },
   hidden: {
     display: 'none',

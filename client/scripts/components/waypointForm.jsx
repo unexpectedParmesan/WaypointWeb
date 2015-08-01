@@ -72,7 +72,7 @@ class WaypointForm extends React.Component {
 	render() {
     return (
 			<div>
-				<h3 style={styles.title}>{this.state.waypoint.title}</h3>
+				<p style={styles.title}>Editing waypoint: {this.state.waypoint.title}</p>
 	    	<div className="ui segment">
 	    	  <form className="ui form">
 			    	<FormView
@@ -81,8 +81,8 @@ class WaypointForm extends React.Component {
 			    	  options={options}
 			        value={this.state.waypoint}/>
 			    </form>
-				<button className="ui black button" onClick={this.save.bind(this)} style={styles.button}>Save</button>
-				<button className="ui black button" onClick={this.destroy.bind(this)} style={styles.button}>Delete</button>
+				<button className="ui tiny green button" onClick={this.save.bind(this)} style={styles.saveButton}>Save</button>
+				<button className="ui tiny red button" onClick={this.destroy.bind(this)} style={styles.deleteButton} >Delete</button>
 	      </div>
 			</div>
     );
@@ -92,12 +92,16 @@ class WaypointForm extends React.Component {
 
 var styles = {
 	title: {
-		textAlign: 'center',
-		fontSize: 30
+		textAlign: 'left',
+		fontSize: 16,
 	},
-	button: {
-		margin: 5
-	}
+	saveButton: {
+		marginTop: 15,
+	},
+	deleteButton: {
+		marginTop: 15,
+		float: 'right',
+	},
 }
 
 module.exports = WaypointForm;

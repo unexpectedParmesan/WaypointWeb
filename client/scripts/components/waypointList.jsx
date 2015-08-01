@@ -8,6 +8,9 @@ class WaypointList extends React.Component {
     super(props);
     this.state = {
       waypoints: [],
+      newWaypointLink: {
+        color: '#48B04A',
+      }
     };
   }
 
@@ -25,14 +28,16 @@ class WaypointList extends React.Component {
         }
 
         return (
-          <tr style={selectionStyle}>
-            <td>
+          <div className="ui selection list">
+            <div 
+              className="item" 
+              style={selectionStyle}>
               <WaypointListItem
                 key={index}
                 waypoint={waypoint}
-                setCurrentWaypoint={this.props.setCurrentWaypoint}/>
-            </td>
-          </tr>
+                setCurrentWaypoint={this.props.setCurrentWaypoint} />
+            </div>
+          </div>
         );
       });
     }
@@ -40,13 +45,27 @@ class WaypointList extends React.Component {
 
     return (
       <div>
-        <h3 style={styles.title}> Waypoints </h3>
-        <table className="ui table segment">
-          <tbody>
-            {waypointList}
-          </tbody>
-        </table>
-        <button className="ui black button" onClick={this.props.waypointWillBeCreated} style={styles.button}>New waypoint</button>
+        <p style={styles.title}>Waypoints for {this.props.quest.title}</p>
+          <a
+           onMouseOver={()=>{
+             this.setState({
+               newWaypointLink: {
+                 color: '#2F9032',
+               }
+             })
+           }}
+           onMouseOut={()=>{
+             this.setState({
+               newWaypointLink: {
+                 color: '#48B04A',
+               }
+             })
+           }}
+           onClick={this.props.waypointWillBeCreated}
+           style={this.state.newWaypointLink} >
+           Add New Waypoint
+          </a>
+          {waypointList}
       </div>
     );
   }
@@ -54,15 +73,15 @@ class WaypointList extends React.Component {
 
 var styles = {
   title: {
-    textAlign: 'center',
-    fontSize: 30
+    textAlign: 'left',
+    fontSize: 18,
   },
   button: {
     margin: 5
   },
   selected: {
-    backgroundColor: '#606060',
-    color: 'white',
+    backgroundColor: '#f6f6f6',
+    color: '#2A2A2A',
   }
 };
 
