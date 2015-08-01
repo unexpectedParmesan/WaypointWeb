@@ -1,5 +1,4 @@
 var React = require('react');
-// var $ = require('jquery');
 var _ = require('underscore');
 var GoogleMaps = window.google.maps;
 

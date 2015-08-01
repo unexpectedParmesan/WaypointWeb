@@ -7,7 +7,6 @@ class QuestList extends React.Component {
     super(props);
   }
 
-
   render() {
 
     var questList;

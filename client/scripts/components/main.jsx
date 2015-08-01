@@ -1,5 +1,3 @@
-'use strict';
-
 var React = require('react');
 var Nav = require('./navbar.jsx');
 var Sidebar = require('react-sidebar');
@@ -10,8 +8,6 @@ var WaypointList = require('./waypointList.jsx');
 var WaypointForm = require('./waypointForm.jsx');
 var api = require('../helpers/api.helper');
 var _ = require('underscore');
-
-
 
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
@@ -60,7 +56,6 @@ class Main extends React.Component {
   }
 
   openQuestForm() {
-    console.log('in openQuest form')
     this.setState({ questFormOpen: true });
   }
 
@@ -79,8 +74,7 @@ class Main extends React.Component {
             }
           });
           this.setState({ quests }, () => {
-            if (quests.length) {
-              console.log('the user has quests!');
+            if (quests.length) { 
               this.setState({
                 currentQuest: quests[0].id,
                 currentQuestTitle: quests[0].title,
@@ -94,9 +88,6 @@ class Main extends React.Component {
       });
     });
   }
-///////////////////////////////
-// RENDER
-//////////////////////////////
 
   render() {
     var questList;
@@ -155,7 +146,6 @@ class Main extends React.Component {
         );
 
         if (this.state.currentWaypoint !== null) {
-          console.log('setting the map variable!')
           map = (
             <Map
               waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
@@ -311,7 +301,6 @@ class Main extends React.Component {
           return item;
         }
       });
-      console.log(quest);
       this.setState({
         quests,
         currentQuestTitle: quest.title,
@@ -322,7 +311,6 @@ class Main extends React.Component {
 
   deleteCurrentQuest() {
     if (this.state.quests.length === 1) {
-      // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but you can\'t delete your only quest!');
     }
 
@@ -364,7 +352,6 @@ class Main extends React.Component {
   }
 
   newWaypoint(lat, lng) {
-    console.log(lat, lng);
 
     var quests = _.clone(this.state.quests);
     var targetQuest = quests[this.indexOfCurrentQuest()];
@@ -415,7 +402,6 @@ class Main extends React.Component {
 
   deleteCurrentWaypoint() {
     if (this.state.quests[this.indexOfCurrentQuest()].waypoints.length === 1) {
-      // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but quests must have at least one waypoint!');
     }
 

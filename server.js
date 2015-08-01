@@ -1,20 +1,20 @@
-var express             = require('express');
-var bodyParser          = require('body-parser');
-var cookieParser        = require('cookie-parser');
-var session             = require('express-session');
-var passport            = require('passport');
-var FacebookStrategy    = require('passport-facebook').Strategy;
+var express = require('express');
+var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var passport = require('passport');
+var FacebookStrategy = require('passport-facebook').Strategy;
 
 // ROUTERS
-var indexRouter         = require('./routes/index.route');
-var authRouter          = require('./routes/auth.route');
-var homeRouter          = require('./routes/home.route');
-var logoutRouter        = require('./routes/logout.route');
-var usersRouter         = require('./routes/users.route');
-var questsRouter        = require('./routes/quests.route');
+var indexRouter = require('./routes/index.route');
+var authRouter = require('./routes/auth.route');
+var homeRouter = require('./routes/home.route');
+var logoutRouter = require('./routes/logout.route');
+var usersRouter = require('./routes/users.route');
+var questsRouter = require('./routes/quests.route');
 
-var db                  = require('./db/config.js');
-var app                 = express();
+var db = require('./db/config.js');
+var app = express();
 
 // MIDDLEWARE
 app.use(express.static(__dirname + '/public'));
