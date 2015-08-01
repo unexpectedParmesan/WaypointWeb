@@ -11,8 +11,6 @@ var WaypointForm = require('./waypointForm.jsx');
 var api = require('../helpers/api.helper');
 var _ = require('underscore');
 
-
-
 // helper for getting the index of current quest or waypoint
 function indexOfProperty(array, key, targetVal) {
   for (var i = 0; i < array.length; i++) {
@@ -94,9 +92,6 @@ class Main extends React.Component {
       });
     });
   }
-///////////////////////////////
-// RENDER
-//////////////////////////////
 
   render() {
     var questList;
@@ -322,7 +317,6 @@ class Main extends React.Component {
 
   deleteCurrentQuest() {
     if (this.state.quests.length === 1) {
-      // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but you can\'t delete your only quest!');
     }
 
@@ -415,7 +409,6 @@ class Main extends React.Component {
 
   deleteCurrentWaypoint() {
     if (this.state.quests[this.indexOfCurrentQuest()].waypoints.length === 1) {
-      // TODO: fancy ui thing instead of a console.log
       return console.log('sorry, but quests must have at least one waypoint!');
     }
 
