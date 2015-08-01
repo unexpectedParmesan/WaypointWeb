@@ -56,7 +56,6 @@ class Main extends React.Component {
   }
 
   openQuestForm() {
-    console.log('in openQuest form')
     this.setState({ questFormOpen: true });
   }
 
@@ -75,8 +74,7 @@ class Main extends React.Component {
             }
           });
           this.setState({ quests }, () => {
-            if (quests.length) {
-              console.log('the user has quests!');
+            if (quests.length) { 
               this.setState({
                 currentQuest: quests[0].id,
                 currentQuestTitle: quests[0].title,
@@ -148,7 +146,6 @@ class Main extends React.Component {
         );
 
         if (this.state.currentWaypoint !== null) {
-          console.log('setting the map variable!')
           map = (
             <Map
               waypoints={this.state.quests[this.indexOfCurrentQuest()].waypoints || []}
@@ -304,7 +301,6 @@ class Main extends React.Component {
           return item;
         }
       });
-      console.log(quest);
       this.setState({
         quests,
         currentQuestTitle: quest.title,
@@ -356,7 +352,6 @@ class Main extends React.Component {
   }
 
   newWaypoint(lat, lng) {
-    console.log(lat, lng);
 
     var quests = _.clone(this.state.quests);
     var targetQuest = quests[this.indexOfCurrentQuest()];
