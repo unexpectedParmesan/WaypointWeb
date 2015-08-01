@@ -358,8 +358,6 @@ class Main extends React.Component {
   waypointWillBeCreated() {
     this.setState({hideSearchInput: false});
     this.setState({waypointCreate: true});
-    this.setState({waypointFormOpen: true});
-
   }
 
   newWaypoint(lat, lng) {
@@ -382,7 +380,6 @@ class Main extends React.Component {
       this.setState({
         quests,
         currentWaypoint: waypoint.id,
-        waypointFormOpen: false,
         hideSearchInput: true,
         waypointCreate: false
       });
@@ -407,7 +404,7 @@ class Main extends React.Component {
           }
         });
       }
-      this.setState({ quests, waypointFormOpen: false, });
+      this.setState({ quests });
     });
   }
 
@@ -423,7 +420,7 @@ class Main extends React.Component {
       var questIndex = context.indexOfCurrentQuest();
       var waypointIndex = indexOfProperty(quests[questIndex].waypoints, 'id', context.state.currentWaypoint);
       quests[questIndex].waypoints.splice(waypointIndex, 1);
-      context.setState({ quests, waypointFormOpen: false }, () => {
+      context.setState({ quests }, () => {
         if (quests[questIndex].waypoints && quests[questIndex].waypoints.length) {
           context.setCurrentWaypoint(context.state.quests[questIndex].waypoints[0].id);
         } else {
