@@ -148,25 +148,21 @@ class WaypointMap extends React.Component {
     // add the map to the page
     var newMap = new GoogleMaps.Map(this.refs.mapCanvas.getDOMNode(), mapOptions);
 
-    // search input should only expect addresses
-    var searchOptions = {
-      types: ['address']
-    };
     // create the places searchBox
-    var searchBox = new GoogleMaps.places.Autocomplete(this.refs.search.getDOMNode(), searchOptions);
+    var searchBox = new GoogleMaps.places.SearchBox(this.refs.search.getDOMNode());
 
     // put the search box in the top left-hand corner
     newMap.controls[GoogleMaps.ControlPosition.TOP_LEFT].push(this.refs.search.getDOMNode());
 
     // add listener to search box
-    GoogleMaps.event.addListener(searchBox, 'place_changed', function () {
+    GoogleMaps.event.addListener(searchBox, 'places_changed', function () {
       // get the objects for the places returned by the user's search
-      var place = searchBox.getPlace();
-      console.log(place);
+      var places = searchBox.getPlaces();
       // if no places found, return
       // TODO: tell user that their query returned no results
-      if (place.length === 0) { return; }
-
+      if (places.length === 0) { return; }
+      var place = places[0];
+      console.log(place);
       // create a marker for the place
       context.props.newWaypoint(place.geometry.location.G, place.geometry.location.K);
     });
