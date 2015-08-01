@@ -7,8 +7,12 @@ The native mobile version of the app was made using React Native and the Google 
 The Waypoint Team
 
 Colin Parsons - Team Lead/Full-stack engineer
+
 Tamara Woodson - Mobile App Lead/Full-stack Engineer
+
 Danielle Knudson - Full-stack Engineer
+
 Josh Turner - Back-end Architect/Full-stack Engineer
+
 
 You can check out the app at: http://waypointbeta.herokuapp.com
