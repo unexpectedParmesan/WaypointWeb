@@ -1,14 +1,10 @@
-'use strict';
-
 var React = require('react');
-
 
 class WaypointListItem extends React.Component {
 
   constructor(props) {
     super(props);
   }
-
 
   render() {
 
