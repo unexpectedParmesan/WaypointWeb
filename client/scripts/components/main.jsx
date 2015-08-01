@@ -74,7 +74,7 @@ class Main extends React.Component {
             }
           });
           this.setState({ quests }, () => {
-            if (quests.length) { 
+            if (quests.length) {
               this.setState({
                 currentQuest: quests[0].id,
                 currentQuestTitle: quests[0].title,
@@ -198,36 +198,38 @@ class Main extends React.Component {
             <div
               className="row"
               style={styles.contentPadding}>
-              <div className="sixteen wide column" style={styles.title}>
+              <div className="four wide column"></div>
+              <div className="eight wide column" style={styles.title}>
                 {this.state.currentQuestTitle}
-                 <div 
+                 <div
                   style={styles.questOptions} >
                    <a
                     onMouseOver={()=>{
                       this.setState({
                         editQuestLink: {
                           color: '#777777',
+                          cursor: 'pointer',
                         }
-                      })
+                      });
                     }}
                     onMouseOut={()=>{
                       this.setState({
                         editQuestLink: {
                           color: '#909090',
                         }
-                      })
+                      });
                     }}
                     onClick={this.openQuestForm.bind(this)}
                     style={this.state.editQuestLink} >
                     Edit Quest
                    </a>
                  </div>
+                {questForm}
               </div>
               <div>
                 { this.state.waypointCreate ? <p>Click below to add waypoint</p> : null}
               </div>
               <div className="sixteen wide column">
-                {questForm}
               </div>
               <div className="four wide column" style={styles}>
                 {waypointList}
@@ -262,7 +264,7 @@ class Main extends React.Component {
 
     // default values
     var newQuest = {
-      title: '',
+      title: 'Untitled Quest',
       description: '',
       estimatedTime: '',
       facebookId: this.state.user.facebook_id,
@@ -359,7 +361,7 @@ class Main extends React.Component {
     var defaultWaypoint = {
         quest_id: this.state.currentQuest,
         index_in_quest: targetQuest.waypoints[targetQuest.waypoints.length - 1].index_in_quest + 1,
-        title: 'Untitled waypoint',
+        title: 'Untitled Waypoint',
         description: '',
         latitude: lat,
         longitude: lng
@@ -453,7 +455,7 @@ var styles = {
   contentPadding: {
     paddingLeft: 50,
     paddingRight: 50,
-    paddingTop: 20,
+    // paddingTop: 20,
     paddingBottom: 50,
   },
   sidebarContent: {
