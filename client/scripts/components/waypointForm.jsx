@@ -12,7 +12,7 @@ var Waypoint = tform.struct({
 var options = {
   fields: {
     description: {
-    type: 'textarea'
+    	type: 'textarea'
     }
   }
 };
@@ -94,6 +94,7 @@ var styles = {
 	title: {
 		textAlign: 'left',
 		fontSize: 16,
+		color: '#555555',
 	},
 	saveButton: {
 		marginTop: 15,

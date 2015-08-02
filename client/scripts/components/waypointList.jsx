@@ -76,7 +76,7 @@ var styles = {
   title: {
     textAlign: 'left',
     fontSize: 18,
-    color: '#2A2A2A',
+    color: '#555555',
   },
   button: {
     margin: 5

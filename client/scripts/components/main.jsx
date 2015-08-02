@@ -470,6 +470,7 @@ var styles = {
     textAlign: 'left',
     fontSize: 26,
     marginBottom: 20,
+    color: '#555555',
   },
   centered: {
     textAlign: 'center',
