@@ -42,8 +42,29 @@ passport.use(new FacebookStrategy({
           profile_pic: profile.photos[0].value
         });
 
-        newUser.save().then(function (user) {
-          return done(null, user);
+        newUser.save().then(function(user) {
+          console.log('-------------------->', user.name);
+        // all new users get a template quest free of charge :)
+          var newQuest = new Quest({
+            creator_facebook_id: user.attributes.facebook_id,
+            title: user.attributes.name.split(' ')[0] + '\'s First Quest',
+            description: 'Edit this quest\'s title and description by clicking \"Edit Quest\". Add waypoints by clicking \"New Waypoint\" and clicking the map or entering a search query. You can change the coordinates for a selected waypoint by dragging its marker or entering a new query. Players can see a waypoint\'s title and description as they approach, but the \"Media URL\" only appears once they arrive',
+            estimated_time: '2 hrs',
+          });
+          // all new quests get a template waypoint free of charge :)
+          newQuest.save().then(function(quest) {
+            var newWaypoint = new Waypoint({
+              quest_id: quest.attributes.id,
+              index_in_quest: 0,
+              latitude: 37.7852134705,
+              longitude: -122.4028015137,
+              title: 'Untitled Waypoint',
+              description: '',
+            });
+            newWaypoint.save().then(function(waypoint) {
+              return done(null, user);
+            });
+          });
         });
       } else {
         return done(null, user);

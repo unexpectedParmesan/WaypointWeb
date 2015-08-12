@@ -31,7 +31,7 @@ class Main extends React.Component {
       currentQuestTitle: null,
       currentWaypoint: null,
       index: 0,
-      sidebarOpen: false,
+      sidebarOpen: true,
       questFormOpen: false,
       waypointCreate: false,
       editQuestLink: {
