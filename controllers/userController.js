@@ -64,6 +64,7 @@ module.exports = {
       }
     });
   },
+
   getActiveQuests: function (req, res) {
     new userActiveQuest().query({
       where: {

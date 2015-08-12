@@ -60,7 +60,7 @@ gulp.task('browserify', function() {
         watcher.bundle() // Create new bundle that uses the cache for high performance
         .pipe(source('app.js'))
     // This is where you add uglifying etc.
-        .pipe(gulp.dest('./public/scripts/'));
+        .pipe(gulp.dest('./public/scripts/app.js'));
         console.log('Updated!', (Date.now() - updateStart) + 'ms');
     })
     .bundle() // Create the initial bundle when starting the task
@@ -72,4 +72,4 @@ gulp.task('test', shell.task([
     'mocha tests/*.js',
   ]));
 
-gulp.task('default', ['browserify']);
+gulp.task('default', ['browserify', 'serve']);

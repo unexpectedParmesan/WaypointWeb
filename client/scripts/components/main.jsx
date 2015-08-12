@@ -101,7 +101,7 @@ class Main extends React.Component {
         questList = (
           <div style={styles.sidebarContent}>
             <p>You have not created any quests. Create a quest to get started.</p>
-            <button className="ui green button" onClick={this.createQuest.bind(this)}>Create New Quest</button>
+            <button className="ui green button" onClick={this.newQuest.bind(this)}>Create New Quest</button>
           </div>
         );
       } else {
